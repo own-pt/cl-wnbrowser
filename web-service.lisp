@@ -17,6 +17,9 @@
 (defun process-results (result)
   (cl-wnbrowser.templates:result result))
 
+(defun process-error (result)
+  (cl-wnbrowser.templates:error result))
+
 (hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn") ()
   (hunchentoot:redirect "/wn/"))
 
@@ -39,20 +42,17 @@
 
 (hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search") (term fq start debug)
   (setf (hunchentoot:content-type*) "text/html")
-  (multiple-value-bind (num-found documents facets) (search-solr term fq start)
-    (let ((start/i (if start (parse-integer start) 0)))
-      (process-results
-       (list
-	:fq fq
-	:debug debug
-	:term term
-	:previous (get-previous start/i)
-	:next (get-next start/i num-found)
-	:start start/i
-	:numfound num-found
-	:facets facets
-	:documents documents)))))
-
+  (multiple-value-bind (num-found documents facets error) (search-solr term fq start)
+    (if error
+	(process-error (list :error error :term term))
+	(let ((start/i (if start (parse-integer start) 0)))
+	  (process-results
+	   (list :fq fq :debug debug :term term
+		 :previous (get-previous start/i)
+		 :next (get-next start/i num-found)
+		 :start start/i :numfound num-found
+		 :facets facets :documents documents))))))
+  
 (hunchentoot:define-easy-handler (get-synset-handler :uri "/wn/synset") (id debug term)
   (setf (hunchentoot:content-type*) "text/html")
   (let ((synset (search-solr-by-id id)))

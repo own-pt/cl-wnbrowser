@@ -1,0 +1,19 @@
+{namespace cl-wnbrowser.Templates}
+
+{template error}
+
+{call header}
+   {param extratitle: $term /}
+   {param term: $term /}
+{/call}
+
+<h2>Error</h2>
+
+<p>The search for '{$term}' resulted in the following error:
+<ul>
+<li><b>{$error}</b></li>
+</ul>
+</p>
+
+{call footer /}
+{/template}

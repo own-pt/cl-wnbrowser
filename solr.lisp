@@ -11,17 +11,19 @@
 	  *facets*))
 
 (defun get-solr-query-plist (term df fq start rows)
-  (append
-   (list (when start (cons "start" start))
-	 (when rows (cons "rows" rows))
-	 (cons "q" term)
-	 (when df (cons "df" df))
-	 (when fq (cons "fq" fq))
-	 (cons "wt" "json")
-	 (cons "facet" "true")
-	 (cons "facet.mincount" "1")
-	 (cons "indent" "false"))
-   (get-facets-for-solr-query)))
+  (remove
+   nil 
+   (append
+    (list (when start (cons "start" start))
+	  (when rows (cons "rows" rows))
+	  (cons "q" term)
+	  (when df (cons "df" df))
+	  (when fq (cons "fq" fq))
+	  (cons "wt" "json")
+	  (cons "facet" "true")
+	  (cons "facet.mincount" "1")
+	  (cons "indent" "false"))
+    (get-facets-for-solr-query))))
 
 (defun execute-solr-query (term &optional &key df fq start rows)
   "Calls the SELECT web service at the predefined SOLR URI, 
@@ -72,13 +74,20 @@ with TERM as the search term and DF as the default field."
 (defun get-num-found (response)
   (getf response :|numFound|))
 
+(defun get-msg (result)
+  (getf (getf result :|error|) :|msg|))
+
 (defun search-solr (term &optional fq start rows)
   (let* ((result (search-solr-internal term fq start rows))
 	 (response (get-response result)))
-    (values
-     (get-num-found response)
-     (get-docs response)
-     (get-facets-count result))))
+    (if response
+	(values
+	 (get-num-found response)
+	 (get-docs response)
+	 (get-facets-count result)
+	 nil)
+	(values
+	 nil nil nil (get-msg result)))))
 
 (defun search-solr-by-id (id)
   (let ((response (get-response (search-solr-by-id-internal id))))
