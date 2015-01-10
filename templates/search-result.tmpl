@@ -43,7 +43,9 @@
    {param term: $term /}
 {/call}
 
-<h2>{$numfound} results found for '{$term}'</h2>
+<h2>{$numfound}
+result{if $numfound == 0 or $numfound > 1}s{/if}
+found for '{$term}'</h2>
 
 <ol start="{$start+1}">
   {foreach $document in $documents}
