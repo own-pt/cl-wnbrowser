@@ -19,11 +19,11 @@
 
     <b>
 
-    {if isNonnull($document.word_br)}
+    {if isNonnull($document.word_pt)}
     |
     {/if}
     
-    {foreach $w in $document.word_br}
+    {foreach $w in $document.word_pt}
       {if not isFirst($w)}, {/if}
       {$w}
     {/foreach}

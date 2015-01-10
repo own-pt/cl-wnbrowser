@@ -5,7 +5,7 @@
 [
 {foreach $s in $synsets}
   {if not isFirst($s)}, {/if}
-  <a href="synset?id={$s.id}">{$s.word_br}</a>
+  <a href="synset?id={$s.id}">{$s.word_pt}</a>
   {ifempty}(none)
 {/foreach}
 ]

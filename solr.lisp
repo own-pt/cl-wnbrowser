@@ -51,8 +51,8 @@ with TERM as the search term and DF as the default field."
 (defun search-solr-internal (term fq start rows)
   (execute-solr-query term :df "text" :fq fq :start start :rows rows))
 
-(defun search-solr-word-br (term start rows)
-  (execute-solr-query (format nil "word_br:~a" term) :start start :rows rows))
+(defun search-solr-word-pt (term start rows)
+  (execute-solr-query (format nil "word_pt:~a" term) :start start :rows rows))
 
 (defun search-solr-by-id-internal (id)
   (execute-solr-query (format nil "\"~a\"" id) :df "id"))
@@ -101,7 +101,7 @@ with TERM as the search term and DF as the default field."
     (car (get-docs response))))
 
 (defun get-related-synsets (term)
-  (let ((response (get-response (search-solr-word-br term "0" "1000"))))
+  (let ((response (get-response (search-solr-word-pt term "0" "1000"))))
     (get-docs response)))
 
 (defun is-synset (doc)
