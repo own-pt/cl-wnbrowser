@@ -37,15 +37,15 @@
     (stats-count-classes-plist)
     (stats-percent-complete-plist))))
 
-(hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search") (term oterm start debug)
+(hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search") (term fq start debug)
   (setf (hunchentoot:content-type*) "text/html")
-  (multiple-value-bind (num-found documents facets) (search-solr term start)
+  (multiple-value-bind (num-found documents facets) (search-solr term fq start)
     (let ((start/i (if start (parse-integer start) 0)))
       (process-results
        (list
+	:fq fq
 	:debug debug
 	:term term
-	:oterm (if oterm oterm term)
 	:previous (get-previous start/i)
 	:next (get-next start/i num-found)
 	:start start/i

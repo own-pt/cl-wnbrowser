@@ -39,8 +39,8 @@
 {template result}
 
 {call header}
-   {param extratitle: $oterm /}
-   {param term: $oterm /}
+   {param extratitle: $term /}
+   {param term: $term /}
 {/call}
 
 <h2>{$numfound} results found for '{$term}'</h2>
@@ -51,12 +51,12 @@
     {if issynset($document.rdf_type)}
       {call synset-entry}
         {param document: $document /}
-	{param term: $oterm /}
+	{param term: $term /}
       {/call}
     {else}
       {call nomlex-entry}
         {param document: $document /}
-	{param term: $oterm /}
+	{param term: $term /}
       {/call}
     {/if}
     
@@ -85,7 +85,7 @@
 <p>RDF Type:</p>
 <ul>
   {foreach $f in $facets.rdf_type}
-  <li><a href="search?term={$oterm}%20AND%20rdf_type:%22{$f.name}%22&oterm={$oterm}">{$f.name}</a> ({$f.count})</li>
+  <li><a href="search?term={$term}&fq=rdf_type:%22{$f.name}%22">{$f.name}</a> ({$f.count})</li>
   {/foreach}
 </ul>
 {/if}
@@ -94,7 +94,7 @@
 <p>Lexicographer file:</p>
 <ul>
   {foreach $f in $facets.wn30_lexicographerfile}
-  <li><a href="search?term={$oterm}%20AND%20wn30_lexicographerFile:%22{$f.name}%22&oterm={$oterm}">{$f.name}</a> ({$f.count})</li>
+  <li><a href="search?term={$term}&fq=wn30_lexicographerFile:%22{$f.name}%22">{$f.name}</a> ({$f.count})</li>
   {/foreach}
 </ul>
 {/if}

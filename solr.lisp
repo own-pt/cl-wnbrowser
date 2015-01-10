@@ -10,26 +10,27 @@
 	    (cons "facet.field" (string f)))
 	  *facets*))
 
-(defun get-solr-query-plist (term df start rows)
+(defun get-solr-query-plist (term df fq start rows)
   (append
    (list (when start (cons "start" start))
 	 (when rows (cons "rows" rows))
 	 (cons "q" term)
 	 (when df (cons "df" df))
+	 (when fq (cons "fq" fq))
 	 (cons "wt" "json")
 	 (cons "facet" "true")
 	 (cons "facet.mincount" "1")
 	 (cons "indent" "false"))
    (get-facets-for-solr-query)))
 
-(defun execute-solr-query (term df &optional start rows)
+(defun execute-solr-query (term &optional &key df fq start rows)
   "Calls the SELECT web service at the predefined SOLR URI, 
 with TERM as the search term and DF as the default field."
   (let ((stream (nth-value 0 (drakma:http-request
 		 (make-solr-query-uri)
 		 :method :post
 		 :external-format-out :utf-8
-		 :parameters (get-solr-query-plist term df start rows)
+		 :parameters (get-solr-query-plist term df fq start rows)
 		 :want-stream t))))
     (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
     (let ((obj (yason:parse stream
@@ -38,14 +39,14 @@ with TERM as the search term and DF as the default field."
       (close stream)
       obj)))
 
-(defun search-solr-internal (term start rows)
-  (execute-solr-query term "text" start rows))
+(defun search-solr-internal (term fq start rows)
+  (execute-solr-query term :df "text" :fq fq :start start :rows rows))
 
 (defun search-solr-word-br (term start rows)
-  (execute-solr-query (format nil "word_br:~a" term) nil start rows))
+  (execute-solr-query (format nil "word_br:~a" term) :start start :rows rows))
 
 (defun search-solr-by-id-internal (id)
-  (execute-solr-query (format nil "\"~a\"" id) "id"))
+  (execute-solr-query (format nil "\"~a\"" id) :df "id"))
 
 (defun get-response (solr-result)
   (getf solr-result :|response|))
@@ -71,8 +72,8 @@ with TERM as the search term and DF as the default field."
 (defun get-num-found (response)
   (getf response :|numFound|))
 
-(defun search-solr (term &optional start rows)
-  (let* ((result (search-solr-internal term start rows))
+(defun search-solr (term &optional fq start rows)
+  (let* ((result (search-solr-internal term fq start rows))
 	 (response (get-response result)))
     (values
      (get-num-found response)
