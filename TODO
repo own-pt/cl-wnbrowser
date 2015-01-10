@@ -8,4 +8,4 @@
 
 - Add search-friendly things: keywords, description, etc.
 
-- Better facet search (use fq field, for example)
+- Allow multiple filters based on facets.
