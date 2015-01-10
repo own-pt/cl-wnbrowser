@@ -6,4 +6,6 @@
 
 - Nomlexes search synsets, but not the other way around.
 
-- Add search-friendly things: <TITLE>, keywords, description, etc.
+- Add search-friendly things: keywords, description, etc.
+
+- Better facet search (use fq field, for example)
