@@ -1,10 +1,13 @@
 prefix wn30: <http://arademaker.github.com/wn30/schema/>
 
-select ?type (count(?c) as ?total)
-where
+select ?type (count(?ss) as ?total)
 {
-  ?ss wn30:containsWordSense/wn30:word ?c .
-  ?ss a ?type .
-  filter( regex(str(?ss),"/wn30-br/") )
+ select distinct ?ss ?type 
+ where  
+  {
+   ?ss wn30:containsWordSense/wn30:word ?c .
+   ?ss a ?type .
+   filter( regex(str(?ss),"/wn30-br/") )
+  }
 }
-group by ?type
+group by ?type 
