@@ -1,3 +1,10 @@
+;; -*- mode: common-lisp -*-
+
+;; copyright (c) 2015 Fabricio Rosario (f@cp300.org)
+;; This program and the accompanying materials are made available
+;; under the terms of the MIT License which accompanies this
+;; distribution (see LICENSE)
+
 (asdf:defsystem #:cl-wnbrowser
     :serial t
     :depends-on (:drakma :flexi-streams :hunchentoot :yason :closure-template
