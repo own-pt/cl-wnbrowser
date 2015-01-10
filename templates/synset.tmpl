@@ -1,0 +1,217 @@
+{namespace cl-wnbrowser.Templates}
+
+{template synset-ref}
+
+     {literal}
+       <!-- showcases the use of user defined functions in templates.
+            in this case, synsetworden is a function that returns
+            word_en from a synset id
+         -->
+     {/literal}
+
+     {foreach $s in $synsets}
+       {if not isFirst($s)}, {/if}
+       <a href="synset?id={$s}">{synsetworden($s)}</a>
+     {/foreach}
+
+{/template}
+
+{template describe-relation}
+
+     {if isNonnull($synsets)}
+         <li>{$description}: 
+         [ {call synset-ref}{param synsets: $synsets /}{/call} ]
+         </li>
+     {/if}
+
+{/template}
+
+
+{template synset}
+{call header}
+  {param term: $term /}
+{/call}
+
+<div class="synsetprops">
+
+  <h2>{$id}</h2>
+
+  <h3>English</h3>
+
+  <p><i>{$gloss_en}</i></p>
+
+  <p>
+    {foreach $w in $word_en}
+      {if not isFirst($w)}, {/if}
+      {$w}
+    {/foreach}
+  </p>
+
+  <h3>Portuguese</h3>
+
+  <p><i>{$gloss_br}</i></p>
+  <p>
+    {foreach $w in $word_br}
+      {if not isFirst($w)}, {/if}
+      {$w}
+      {ifempty}<i>[empty]</i>
+    {/foreach}
+  </p>
+
+  <h3>Relations</h3>
+
+  <ul>
+    <li>Lexicographer file: {$wn30_lexicographerfile}</li>
+
+    {if isNonnull($wn30_frame)}
+    <li>Frame: {$wn30_frame}</li>
+    {/if}
+
+    <li>RDF Type: {$rdf_type}</li>
+
+    <!-- some sample relations -->
+
+    {call describe-relation}
+      {param description: 'Classified by usage' /}
+      {param synsets: $wn30_classifiedbyusage /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Hypernym of' /}
+      {param synsets: $wn30_hypernymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Hyponym of' /}
+      {param synsets: $wn30_hyponymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Part holonym of' /}
+      {param synsets: $wn30_partholonymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Part meronym of' /}
+      {param synsets: $wn30_partmeronymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Member holonym of' /}
+      {param synsets: $wn30_memberholonymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Member meronym of' /}
+      {param synsets: $wn30_membermeronymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Substance holonym of' /}
+      {param synsets: $wn30_substanceholonymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Substance meronym of' /}
+      {param synsets: $wn30_substancemeronymof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Similar to' /}
+      {param synsets: $wn30_similarto /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'See also' /}
+      {param synsets: $wn30_seealso /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Instance of' /}
+      {param synsets: $wn30_instanceof /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Has instance' /}
+      {param synsets: $wn30_hasinstance /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Attribute' /}
+      {param synsets: $wn30_attribute /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Causes' /}
+      {param synsets: $wn30_causes /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Same verb group as' /}
+      {param synsets: $wn30_sameverbgroupas /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Entails' /}
+      {param synsets: $wn30_entails /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classified by region' /}
+      {param synsets: $wn30_classifiedbyregion /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classified by topic' /}
+      {param synsets: $wn30_classifiedbytopic /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classified by usage' /}
+      {param synsets: $wn30_classifiedbyusage /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classifies by region' /}
+      {param synsets: $wn30_classifiesbyregion /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classifies by topic' /}
+      {param synsets: $wn30_classifiesbytopic /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classifies by usage' /}
+      {param synsets: $wn30_classifiesbyusage /}
+    {/call}
+
+  </ul>
+
+  <!-- lexfile, links, noun, pos, rdf_type, status, text, verb -->
+
+  {if isNonnull($debug)}
+  <hr/>
+  <p><tt>{$synset}</tt></p>
+  {/if}
+
+  {literal}
+  <hr/>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+   var disqus_shortname = 'openwn-pt';
+   (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+   })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  {/literal}
+
+</div>
+
+
+{call footer /}
+{/template}

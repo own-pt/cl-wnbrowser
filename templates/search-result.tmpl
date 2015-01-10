@@ -1,0 +1,109 @@
+{namespace cl-wnbrowser.Templates}
+
+{template nomlex-entry}
+  <li class="synset">
+    <a href="nomlex?id={$document.id}&term={$term}">{$document.id}</a>
+  </li>
+{/template}
+
+{template synset-entry}
+
+  <li class="synset">
+
+    <a href="synset?id={$document.id}&term={$term}">{$document.id}</a>
+    
+    {foreach $w in $document.word_en}
+      {if not isFirst($w)}, {/if}
+      {$w}
+    {/foreach}
+
+    <b>
+
+    {if isNonnull($document.word_br)}
+    |
+    {/if}
+    
+    {foreach $w in $document.word_br}
+      {if not isFirst($w)}, {/if}
+      {$w}
+    {/foreach}
+    </b>
+
+    <ul>
+      <li><i>{$document.gloss_en}</i></li>
+    </ul>
+   </li>
+
+{/template}
+
+{template result}
+
+{call header}
+   {param term: $oterm /}
+{/call}
+
+<h2>{$numfound} results found for '{$term}'</h2>
+
+<ol start="{$start+1}">
+  {foreach $document in $documents}
+
+    {if issynset($document.rdf_type)}
+      {call synset-entry}
+        {param document: $document /}
+	{param term: $oterm /}
+      {/call}
+    {else}
+      {call nomlex-entry}
+        {param document: $document /}
+	{param term: $oterm /}
+      {/call}
+    {/if}
+    
+{/foreach}
+</ol>
+
+<p>
+
+{if $previous >= 0}
+<span class="txtPrev">
+  <a href="search?term={$term}&start={$previous}">&laquo; Previous</a>
+</span>
+{/if}
+
+{if $next < $numfound}
+<span class="txtNext">
+<a href="search?term={$term}&start={$next}">Next &raquo;</a>
+</span>
+{/if}
+
+</p>
+
+<h3>Facets</h3>
+
+{if isNonnull($facets.rdf_type)}
+<p>RDF Type:</p>
+<ul>
+  {foreach $f in $facets.rdf_type}
+  <li><a href="search?term={$oterm}%20AND%20rdf_type:%22{$f.name}%22&oterm={$oterm}">{$f.name}</a> ({$f.count})</li>
+  {/foreach}
+</ul>
+{/if}
+
+{if isNonnull($facets.wn30_lexicographerfile)}
+<p>Lexicographer file:</p>
+<ul>
+  {foreach $f in $facets.wn30_lexicographerfile}
+  <li><a href="search?term={$oterm}%20AND%20wn30_lexicographerFile:%22{$f.name}%22&oterm={$oterm}">{$f.name}</a> ({$f.count})</li>
+  {/foreach}
+</ul>
+{/if}
+
+{if isNonnull($debug)}
+<hr />
+<p><tt>{$documents}</tt></p>
+<hr />
+<p><tt>{$facets}</tt></p>
+{/if}
+
+{call footer /}
+{/template}

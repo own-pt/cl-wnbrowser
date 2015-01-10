@@ -1,0 +1,9 @@
+- Breadcrumbs
+
+- Use AGRAPH named queries
+
+- Proper error handling
+
+- Nomlexes search synsets, but not the other way around.
+
+- Add search-friendly things: <TITLE>, keywords, description, etc.

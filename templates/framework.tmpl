@@ -1,0 +1,22 @@
+{namespace cl-wnbrowser.Templates}
+
+{template header}
+
+<html>
+  
+  <head>
+    <link rel="stylesheet" type="text/css" href="/wn/st/theme.css">
+  </head>
+   
+  <body>
+    <h1><a href="/wn/">OpenWordnet-PT</a></h1>
+    <form action="search" method="get">
+      <input type="text" name="term" value="{$term}" />
+      <input type="submit" value="Search" />
+    </form>
+{/template}
+
+{template footer}
+  </body>
+</html>
+{/template}

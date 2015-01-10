@@ -1,0 +1,70 @@
+{namespace cl-wnbrowser.Templates}
+
+{template related-synsets}
+
+[
+{foreach $s in $synsets}
+  {if not isFirst($s)}, {/if}
+  <a href="synset?id={$s.id}">{$s.word_br}</a>
+  {ifempty}(none)
+{/foreach}
+]
+
+{/template}
+
+{template nomlex}
+
+{call header}
+  {param term: $term /}
+{/call}
+
+<div class="nomlexprops">
+
+  <h2>{$id}</h2>
+
+  <h3>Details</h3>
+
+  <ul><li>Noun: {$nomlex_noun}</li>
+      <li>Verb: {$nomlex_verb}</li>
+      <li>RDF Type: {$rdf_type}</li>
+  </ul>
+
+  <h3>Related synsets</h3>
+
+  <ul>
+  <li>Noun:
+      {call related-synsets}
+         {param synsets: getrelatedsynsets($nomlex_noun) /}
+      {/call}
+  </li>
+  <li>Verb:
+      {call related-synsets}
+         {param synsets: getrelatedsynsets($nomlex_verb) /}
+      {/call}
+  </li>
+  </ul>
+
+  {if isNonnull($debug)}
+  <hr/>
+  <p><tt>{$nomlex}</tt></p>
+  {/if}
+
+  {literal}
+  <hr/>
+
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+   var disqus_shortname = 'openwn-pt';
+   (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+   })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  {/literal}
+
+</div>
+
+{call footer /}
+{/template}

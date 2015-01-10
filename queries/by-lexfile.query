@@ -1,0 +1,23 @@
+prefix wn30: <http://arademaker.github.com/wn30/schema/>
+
+select (?f as ?lexFile) ?total_pt ?total_Pr (round(?total_pt*100/?total_Pr) as ?percent)
+where {
+{
+ select ?f (count(?ssbr) as ?total_pt) 
+ {
+  ?ssen owl:sameAs ?ssbr .
+  ?ssen wn30:lexicographerFile ?f .
+  FILTER exists { ?ssbr wn30:containsWordSense ?sense . }
+ }
+ group by ?f 
+}
+{
+ select ?f (count(?ssbr) as ?total_Pr) 
+ {
+  ?ssen owl:sameAs ?ssbr .
+  ?ssen wn30:lexicographerFile ?f .
+ }
+ group by ?f 
+}
+}
+order by ?percent

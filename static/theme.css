@@ -1,0 +1,16 @@
+body, h1, h2, h3, p, ul, li, i { font-family: Segoe UI, Verdana, sans-serif; }
+
+h1 { font-size: 1.5em; }
+h2 { font-size: 1.2em; }
+h3 { font-size: 1.1em; }
+
+li.synset { margin-top: 10px; }
+div.synsetprops { width: 61.8%; }
+li.nomlex { margin-top: 10px; }
+div.nomlexprops { width: 61.8%; }
+
+input.search
+{
+    padding: 10px;
+    margin: 3px;
+}

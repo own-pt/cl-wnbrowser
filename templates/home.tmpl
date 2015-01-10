@@ -1,0 +1,29 @@
+{namespace cl-wnbrowser.Templates}
+
+{template home}
+
+<html>
+
+  <head>
+     <link rel="stylesheet" type="text/css" href="/wn/st/theme.css">
+  </head>
+
+  <body>
+
+    <h1>OpenWordnet-PT</h1>
+    
+    <p>Welcome to openWordnet-PT, an open Brazilian Wordnet.</p>
+
+    <p>You can find more details about openWordnet-PT <a href="https://github.com/arademaker/openWordnet-PT">here</a>.</p>
+
+    <form action="search" method="get">
+      <input class="search" type="text" name="term" placeholder="Search ..."/>
+      <input class="search" type="submit" value="Search" />
+    </form>
+
+    <p>[ <a href="stats">Stats</a> ]</p>
+    
+  </body>
+
+</html>
+{/template}
