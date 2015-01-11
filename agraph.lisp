@@ -33,7 +33,7 @@
      '(("unknown" "0" "0" "0")))
     (setf
      (gethash :count-classes *query-cache*)
-     '(("http://arademaker.github.com/wn30/schema/unknown" "0")))))
+     '(("http://arademaker.github.com/wn30/schema/unknown" "0" "0" "0")))))
 
 (initialize-stat-cache)
 
@@ -59,7 +59,9 @@
   (list :rowscount (mapcar
 	       (lambda (row)
 		 (list :type (remove-schema-uri (first row))
-		       :count (parse-integer (second row))))
+		       :totalpt (parse-integer (second row))
+		       :totalpr (parse-integer (third row))
+		       :percent (parse-number (fourth row))))
 	       (gethash :count-classes *query-cache*))))
 
 (defun stats-percent-complete-plist ()
