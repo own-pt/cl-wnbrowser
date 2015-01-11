@@ -12,6 +12,9 @@
 	   *solr-endpoint-uri*
 	   *solr-collection-id*))
 
+(defun make-solr-admin-query-uri ()
+  (format nil "~a/admin/luke?wt=json" *solr-endpoint-uri*))
+
 (defun get-facets-for-solr-query ()
   (mapcar (lambda (f)
 	    (cons "facet.field" (string f)))
@@ -32,15 +35,27 @@
 	  (cons "indent" "false"))
     (get-facets-for-solr-query))))
 
+(defun execute-solr-admin-query ()
+  (let ((stream (drakma:http-request
+		 (make-solr-admin-query-uri)
+		 :method :get
+		 :want-stream t)))
+    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
+    (let ((obj (yason:parse stream
+			    :object-as :plist
+			    :object-key-fn #'make-keyword)))
+      (close stream)
+      obj)))
+
 (defun execute-solr-query (term &optional &key df fq start rows)
   "Calls the SELECT web service at the predefined SOLR URI, 
 with TERM as the search term and DF as the default field."
-  (let ((stream (nth-value 0 (drakma:http-request
+  (let ((stream (drakma:http-request
 		 (make-solr-query-uri)
 		 :method :post
 		 :external-format-out :utf-8
 		 :parameters (get-solr-query-plist term df fq start rows)
-		 :want-stream t))))
+		 :want-stream t)))
     (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
     (let ((obj (yason:parse stream
 			    :object-as :plist
@@ -112,3 +127,6 @@ with TERM as the search term and DF as the default field."
   (let* ((response (get-response (search-solr-by-id-internal synset-id)))
 	 (symset-response (car (get-docs response))))
     (car (getf symset-response :|word_en|))))
+
+(defun get-solr-statistics ()
+  (execute-solr-admin-query))

@@ -47,6 +47,10 @@
     (stats-count-classes-plist)
     (stats-percent-complete-plist))))
 
+(hunchentoot:define-easy-handler (get-solr-stats-handler :uri "/wn/solr-stats") ()
+  (cl-wnbrowser.templates:solrstats
+   (get-solr-statistics)))
+
 (hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search") (term fq start debug)
   (setf (hunchentoot:content-type*) "text/html")
   (multiple-value-bind (num-found documents facets error) (search-solr term fq start)
