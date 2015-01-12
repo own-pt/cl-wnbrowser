@@ -7,5 +7,3 @@
 - Nomlexes search synsets, but not the other way around.
 
 - Add search-friendly things: keywords, description, etc.
-
-- Allow multiple filters based on facets.
