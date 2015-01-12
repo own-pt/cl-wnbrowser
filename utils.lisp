@@ -18,3 +18,7 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
    (destructuring-bind (a b . rest) list
      (cons (funcall function a b)
 	   (when rest (process-pairs function rest))))))
+
+(defun is-synset-id (term)
+  "Check if TERM matches the expected behavior of a synset ID."
+  (not (null (cl-ppcre:scan "^(\\d+)-[nvar]$" term))))
