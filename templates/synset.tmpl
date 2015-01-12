@@ -35,6 +35,16 @@
 
 <div class="synsetprops">
 
+  {if isNonnull($ids)}
+  <div class"breadcrumb">
+    <ul class="breadcrumb">
+      {foreach $id in $ids}
+      <li class="breadcrumb"><a href="synset?id={$id}">{synsetworden($id)}</a></li>
+      {/foreach}
+    </ul>
+  </div>
+  {/if}
+  
   <h2>{$id}</h2>
 
   <h3>English</h3>

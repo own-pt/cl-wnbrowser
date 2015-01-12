@@ -43,63 +43,67 @@
    {param term: $term /}
 {/call}
 
-<h2>{$numfound}
-result{if $numfound == 0 or $numfound > 1}s{/if}
-found for '{$term}'</h2>
+<div class="searchresults">
 
-<ol start="{$start+1}">
-  {foreach $document in $documents}
+  <h2>{$numfound}
+    result{if $numfound == 0 or $numfound > 1}s{/if}
+    found for '{$term}'</h2>
 
-    {if issynset($document.rdf_type)}
-      {call synset-entry}
-        {param document: $document /}
-	{param term: $term /}
-      {/call}
-    {else}
-      {call nomlex-entry}
-        {param document: $document /}
-	{param term: $term /}
-      {/call}
-    {/if}
+  <ol start="{$start+1}">
+    {foreach $document in $documents}
     
-{/foreach}
-</ol>
-
-<p>
-
-{if $previous >= 0}
-<span class="txtPrev">
-  <a href="search?term={$term}&start={$previous}">&laquo; Previous</a>
-</span>
-{/if}
-
-{if $next < $numfound}
-<span class="txtNext">
-<a href="search?term={$term}&start={$next}">Next &raquo;</a>
-</span>
-{/if}
-
-</p>
-
-<h3>Facets</h3>
-
-{if isNonnull($facets.rdf_type)}
-<p>RDF Type:</p>
-<ul>
-  {foreach $f in $facets.rdf_type}
-  <li><a href="search?term={$term}&fq=rdf_type:%22{$f.name}%22">{$f.name}</a> ({$f.count})</li>
+      {if issynset($document.rdf_type)}
+        {call synset-entry}
+          {param document: $document /}
+	  {param term: $term /}
+        {/call}
+      {else}
+        {call nomlex-entry}
+          {param document: $document /}
+	  {param term: $term /}
+        {/call}
+      {/if}
   {/foreach}
-</ul>
-{/if}
+  </ol>
 
-{if isNonnull($facets.wn30_lexicographerfile)}
-<p>Lexicographer file:</p>
-<ul>
-  {foreach $f in $facets.wn30_lexicographerfile}
-  <li><a href="search?term={$term}&fq=wn30_lexicographerFile:%22{$f.name}%22">{$f.name}</a> ({$f.count})</li>
-  {/foreach}
-</ul>
-{/if}
+  <p>
+    
+    {if $previous >= 0}
+    <span class="txtPrev">
+      <a href="search?term={$term}&start={$previous}">&laquo; Previous</a>
+    </span>
+    {/if}
+
+    {if $next < $numfound}
+    <span class="txtNext">
+      <a href="search?term={$term}&start={$next}">Next &raquo;</a>
+    </span>
+    {/if}
+
+  </p>
+
+  <h3>Facets</h3>
+
+  {if isNonnull($facets.rdf_type)}
+  <p>RDF Type:</p>
+  <ul>
+    {foreach $f in $facets.rdf_type}
+    <li><a href="search?term={$term}&fq=rdf_type:%22{$f.name}%22">{$f.name}</a>
+        ({$f.count})</li>
+    {/foreach}
+  </ul>
+  {/if}
+
+  {if isNonnull($facets.wn30_lexicographerfile)}
+  <p>Lexicographer file:</p>
+  <ul>
+    {foreach $f in $facets.wn30_lexicographerfile}
+    <li><a href="search?term={$term}&fq=wn30_lexicographerFile:%22{$f.name}%22">{$f.name}</a> ({$f.count})</li>
+    {/foreach}
+  </ul>
+  {/if}
+
+</div>
 
 {if isNonnull($debug)}
 <hr />

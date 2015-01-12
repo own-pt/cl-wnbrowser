@@ -5,12 +5,33 @@ h2 { font-size: 1.2em; }
 h3 { font-size: 1.1em; }
 
 li.synset { margin-top: 10px; }
-div.synsetprops { width: 61.8%; }
+div.synsetprops { width: 71.8%; }
 li.nomlex { margin-top: 10px; }
-div.nomlexprops { width: 61.8%; }
+div.nomlexprops { width: 71.8%; }
+div.searchresults { width: 61.8%; }
 
 input.search
 {
     padding: 10px;
     margin: 3px;
 }
+
+.breadcrumb { margin-left: 30px;
+	      font: 12px Segoe UI, Verdana, Sans-Serif; }
+
+.breadcrumb
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li.breadcrumb
+{
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+li.breadcrumb::before { content: " \bb  "; }
+li.breadcrumb:first-child::before { content: ""; }

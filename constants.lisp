@@ -7,6 +7,8 @@
 
 (in-package :cl-wnbrowser)
 
+(defparameter *breadcrumb-size* 10)
+
 (defparameter *basedir*
   (make-pathname :directory
 		 (pathname-directory
