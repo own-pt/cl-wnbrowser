@@ -12,7 +12,7 @@
 (defun get-previous (n &optional (step 10))
   (- n step))
 
-(defun get-next (n max &optional (step 10))
+(defun get-next (n &optional (step 10))
   (+ n step))
 
 (defun process-synset (synset)
@@ -25,7 +25,7 @@
   (cl-wnbrowser.templates:result result))
 
 (defun process-error (result)
-  (cl-wnbrowser.templates:error result))
+  (cl-wnbrowser.templates:searcherror result))
 
 (hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn") ()
   (hunchentoot:redirect "/wn/"))
@@ -61,14 +61,13 @@
 	  (process-results
 	   (list :fq fq :debug debug :term term
 		 :previous (get-previous start/i)
-		 :next (get-next start/i num-found)
+		 :next (get-next start/i)
 		 :start start/i :numfound num-found
 		 :facets facets :documents documents))))))
   
 (hunchentoot:define-easy-handler (get-synset-handler :uri "/wn/synset") (id debug term)
   (setf (hunchentoot:content-type*) "text/html")
   (let* ((synset (search-solr-by-id id))
-	 (session (hunchentoot:start-session))
 	 (ids (hunchentoot:session-value :ids)))
     (when (not (string-equal (lastcar ids) id))
       (setf (hunchentoot:session-value :ids) (append ids (list id))))
