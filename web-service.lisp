@@ -71,7 +71,7 @@
   (let* ((synset (search-solr-by-id id))
 	 (session (hunchentoot:start-session))
 	 (ids (hunchentoot:session-value :ids)))
-    (when (not (string-equal (car (last ids)) id))
+    (when (not (string-equal (lastcar ids) id))
       (setf (hunchentoot:session-value :ids) (append ids (list id))))
     (process-synset
      (append
