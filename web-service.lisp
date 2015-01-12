@@ -56,8 +56,7 @@
   (multiple-value-bind (num-found documents facets error) (search-solr term fq start)
     (if error
 	(process-error (list :error error :term term))
-	(let* ((start/i (if start (parse-integer start) 0))
-	       (session (hunchentoot:start-session)))
+	(let* ((start/i (if start (parse-integer start) 0)))
 	  (hunchentoot:delete-session-value :ids)
 	  (process-results
 	   (list :fq fq :debug debug :term term
