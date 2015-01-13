@@ -73,13 +73,13 @@ with TERM as the search term and DF as the default field."
   (execute-solr-query (format nil "\"~a\"" id) :df "id"))
 
 (defun get-response (solr-result)
-  (getf solr-result :|response|))
+  (getjso "response" solr-result))
 
 (defun get-docs (response)
-  (getf response :|docs|))
+  (getjso "docs" response))
 
 (defun get-facet-fields (response)
-  (getf (getf response :|facet_counts|) :|facet_fields|))
+  (getjso* "facet_counts.facet_fields" response))
 
 (defun get-facet-count (facet response)
   (let ((facets (getf (get-facet-fields response) facet)))
@@ -89,23 +89,23 @@ with TERM as the search term and DF as the default field."
 
 (defun get-facets-count (response)
   (mapcar #'(lambda (facet-field)
-	    (let ((facet (get-facet-count facet-field response)))
-	      (cons facet-field facet)))
+	      (let ((facet (get-facet-count facet-field response)))
+		(cons facet-field facet)))
 	  *facets*))
 
 (defun get-num-found (response)
-  (getf response :|numFound|))
+  (getjso "numFound" response))
 
 (defun get-msg (result)
-  (getf (getf result :|error|) :|msg|))
+  (getjso* "error.msg" result))
 
 (defun search-solr (term &optional fq start rows)
   (let* ((result (search-solr-internal term fq start rows))
 	 (response (get-response result)))
     (if response
 	(values
-	 (get-num-found response)
 	 (get-docs response)
+	 (get-num-found response)
 	 (get-facets-count result)
 	 nil)
 	(values

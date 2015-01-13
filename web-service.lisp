@@ -55,7 +55,7 @@
   (setf (hunchentoot:content-type*) "text/html")
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
-      (multiple-value-bind (num-found documents facets error) (search-solr term fq start)
+      (multiple-value-bind (documents num-found facets error) (search-solr term fq start)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))

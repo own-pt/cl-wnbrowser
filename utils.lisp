@@ -22,3 +22,19 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
 (defun is-synset-id (term)
   "Check if TERM matches the expected behavior of a synset ID."
   (not (null (cl-ppcre:scan "^(\\d+)-[nvar]$" term))))
+
+;;; these functions are from ST-JSON, with modifications
+;;; Copyright (c) Streamtech & Marijn Haverbeke (marijnh@gmail.com)
+;;; from https://github.com/marijnh/ST-JSON/blob/master/st-json.lisp
+;;; BEGIN ST-JSON code
+(defun getjso (key map)
+  (format t "... search for [~a]~%" key)
+  (getf map (make-keyword key)))
+
+(defmacro getjso* (keys jso)
+  (let ((last (position #\. keys :from-end t)))
+    (if last
+	`(getjso ,(subseq keys (1+ last))
+		 (getjso* ,(subseq keys 0 last) ,jso))
+	`(getjso ,keys ,jso))))
+;;; END ST-JSON code
