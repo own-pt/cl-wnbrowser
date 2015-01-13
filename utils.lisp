@@ -37,7 +37,6 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
 ;;; from https://github.com/marijnh/ST-JSON/blob/master/st-json.lisp
 ;;; BEGIN ST-JSON code
 (defun getjso (key map)
-  (format t "... search for [~a]~%" key)
   (getf map (make-keyword key)))
 
 (defmacro getjso* (keys jso)
