@@ -10,6 +10,7 @@
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
+       ("solrencode" #'solr-encode)
        ("getrelatedsynsets" #'get-related-synsets)
        ("synsetworden" #'get-synset-word-en))
     (walk-directory

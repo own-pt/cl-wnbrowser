@@ -23,6 +23,15 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
   "Check if TERM matches the expected behavior of a synset ID."
   (not (null (cl-ppcre:scan "^(\\d+)-[nvar]$" term))))
 
+;;http://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
+
+;; + - && || ! ( ) { } [ ] ^ " ~ * ? : \
+(defparameter *lucene-special-chars* "([\\!\\^\\~\\\"\\*\\?\\\\\\+\\:\\(\\)\\{\\}\\[\\]])")
+
+(defun solr-encode (string)
+  "Encode SOLR/Lucene special characters"
+  (cl-ppcre:regex-replace-all *lucene-special-chars* string '("\\" :match)))
+
 ;;; these functions are from ST-JSON, with modifications
 ;;; Copyright (c) Streamtech & Marijn Haverbeke (marijnh@gmail.com)
 ;;; from https://github.com/marijnh/ST-JSON/blob/master/st-json.lisp

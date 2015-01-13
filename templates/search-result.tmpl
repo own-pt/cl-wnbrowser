@@ -88,7 +88,7 @@
   <p>RDF Type:</p>
   <ul>
     {foreach $f in $facets.rdf_type}
-    <li><a href="search?term={$term}&fq=rdf_type:%22{$f.name}%22">{$f.name}</a>
+    <li><a href="search?term={$term}&fq=rdf_type:{solrencode($f.name)}">{$f.name}</a>
         ({$f.count})</li>
     {/foreach}
   </ul>
@@ -98,7 +98,7 @@
   <p>Lexicographer file:</p>
   <ul>
     {foreach $f in $facets.wn30_lexicographerfile}
-    <li><a href="search?term={$term}&fq=wn30_lexicographerFile:%22{$f.name}%22">{$f.name}</a> ({$f.count})</li>
+    <li><a href="search?term={$term}&fq=wn30_lexicographerFile:{solrencode($f.name)}">{$f.name}</a> ({$f.count})</li>
     {/foreach}
   </ul>
   {/if}
