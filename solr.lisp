@@ -66,6 +66,9 @@ with TERM as the search term and DF as the default field."
 (defun search-solr-internal (term fq start rows)
   (execute-solr-query term :df "text" :fq fq :start start :rows rows))
 
+(defun search-nomlexes (term)
+  (execute-solr-query (format nil "nomlex_noun:\"~a\" nomlex_verb:\"~a\" nomlex_plural:\"~a\"" term term term)))
+
 (defun search-solr-word-pt (term start rows)
   (execute-solr-query (format nil "word_pt:~a" term) :start start :rows rows))
 
@@ -118,6 +121,20 @@ with TERM as the search term and DF as the default field."
 (defun get-related-synsets (term)
   (let ((response (get-response (search-solr-word-pt term "0" "1000"))))
     (get-docs response)))
+
+(defun get-related-nomlexes-for-single-term (term)
+  (remove-duplicates
+   (mapcar #'(lambda (n)
+	       (getjso "id" n))
+	   (get-docs (get-response (search-nomlexes term))))
+   :test #'equal))
+
+(defun get-related-nomlexes (terms)
+  (remove-duplicates
+   (mapcan #'(lambda (term)
+	       (get-related-nomlexes-for-single-term term))
+	   terms)
+   :test #'equal))
 
 (defun is-synset (doc)
   (= 0 (count "Nominalization" doc :test #'string-equal)))

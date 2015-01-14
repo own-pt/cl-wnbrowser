@@ -80,6 +80,15 @@
 
     <li>RDF Type: {$rdf_type}</li>
 
+    {if isNonnull(getrelatednomlexes($word_pt))}
+    <li>Nomlexes: 
+      {foreach $nl in getrelatednomlexes($word_pt)}
+      {if not isFirst($nl)}, {/if}
+      <a href="nomlex?id={$nl}">{$nl}</a>
+      {/foreach}
+    </li>
+    {/if}
+
     <!-- some sample relations -->
 
     {call describe-relation}
@@ -206,7 +215,6 @@
   </ul>
 
   <!-- lexfile, links, noun, pos, rdf_type, status, text, verb -->
-
   {if isNonnull($debug)}
   <hr/>
   <p><tt>{$synset}</tt></p>

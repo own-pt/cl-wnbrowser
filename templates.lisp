@@ -11,6 +11,7 @@
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
        ("solrencode" #'solr-encode)
+       ("getrelatednomlexes" #'get-related-nomlexes)
        ("getrelatedsynsets" #'get-related-synsets)
        ("synsetworden" #'get-synset-word-en))
     (walk-directory
