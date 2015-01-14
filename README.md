@@ -24,8 +24,8 @@ the file LICENSE for details.
 
 ### Starting up the web server ###
 
-* This package uses [Hunchentoot](weitz.de/hunchentoot/).  To start
-  the server, switch to the CL-WNBROWSER package and execute
-  (START-SERVER <port>).  See that function for more details.
+* This package uses [Hunchentoot](http://weitz.de/hunchentoot/).  To
+  start the server, switch to the CL-WNBROWSER package and execute
+  (START-SERVER *port*).  See that function for more details.
 
 * It is recommended that you run Hunchentoot under a proxy.
