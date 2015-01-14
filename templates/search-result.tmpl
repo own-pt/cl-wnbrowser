@@ -47,7 +47,8 @@
 
   <h2>{$numfound}
     result{if $numfound == 0 or $numfound > 1}s{/if}
-    found for '{$term}'</h2>
+    found for '{$term}' {if isNonnull($fq)} / {$fq}{/if}
+  </h2>
 
   <ol start="{$start+1}">
     {foreach $document in $documents}
@@ -70,13 +71,13 @@
     
     {if $previous >= 0}
     <span class="txtPrev">
-      <a href="search?term={$term}&start={$previous}">&laquo; Previous</a>
+      <a href="search?term={$term}&start={$previous}&fq={$fq}">&laquo; Previous</a>
     </span>
     {/if}
 
     {if $next < $numfound}
     <span class="txtNext">
-      <a href="search?term={$term}&start={$next}">Next &raquo;</a>
+      <a href="search?term={$term}&start={$next}&fq={$fq}">Next &raquo;</a>
     </span>
     {/if}
 
