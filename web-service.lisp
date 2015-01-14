@@ -60,6 +60,7 @@
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
 	      (hunchentoot:delete-session-value :ids)
+	      (setf (hunchentoot:session-value :term) term)
 	      (process-results
 	       (list :fq fq :debug debug :term term
 		     :previous (get-previous start/i)
@@ -67,9 +68,10 @@
 		     :start start/i :numfound num-found
 		     :facets facets :documents documents)))))))
   
-(hunchentoot:define-easy-handler (get-synset-handler :uri "/wn/synset") (id debug term)
+(hunchentoot:define-easy-handler (get-synset-handler :uri "/wn/synset") (id debug)
   (setf (hunchentoot:content-type*) "text/html")
   (let* ((synset (search-solr-by-id id))
+	 (term (hunchentoot:session-value :term))
 	 (ids (hunchentoot:session-value :ids)))
     (when (not (string-equal (lastcar ids) id))
       (setf (hunchentoot:session-value :ids) (append ids (list id))))
@@ -84,7 +86,8 @@
 
 (hunchentoot:define-easy-handler (get-nomlex-handler :uri "/wn/nomlex") (id debug term)
   (setf (hunchentoot:content-type*) "text/html")
-  (let ((nomlex (search-solr-by-id id)))
+  (let ((nomlex (search-solr-by-id id))
+	(term (hunchentoot:session-value :term)))
     (process-nomlex
      (append
       (list :term term
