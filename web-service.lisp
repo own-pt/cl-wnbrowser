@@ -41,18 +41,26 @@
 	(with-output-to-string (s) (yason:encode-plist (list :result "Done") s)))
       (hunchentoot:redirect "/wn/stats")))
 
+(defun disable-caching ()
+  (setf (hunchentoot:header-out :cache-control) "no-cache, no-store, must-revalidate")
+  (setf (hunchentoot:header-out :pragma) "no-cache")
+  (setf (hunchentoot:header-out :expires) 0))
+
 (hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
+  (disable-caching)
   (cl-wnbrowser.templates:stats
    (append
     (stats-count-classes-plist)
     (stats-percent-complete-plist))))
 
 (hunchentoot:define-easy-handler (get-solr-stats-handler :uri "/wn/solr-stats") ()
+  (disable-caching)
   (cl-wnbrowser.templates:solrstats
    (get-solr-statistics)))
 
 (hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search") (term fq start debug)
   (setf (hunchentoot:content-type*) "text/html")
+  (disable-caching)
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind (documents num-found facets error) (search-solr term fq start)
@@ -70,6 +78,7 @@
   
 (hunchentoot:define-easy-handler (get-synset-handler :uri "/wn/synset") (id debug)
   (setf (hunchentoot:content-type*) "text/html")
+  (disable-caching)
   (let* ((synset (search-solr-by-id id))
 	 (term (hunchentoot:session-value :term))
 	 (ids (hunchentoot:session-value :ids)))
@@ -86,6 +95,7 @@
 
 (hunchentoot:define-easy-handler (get-nomlex-handler :uri "/wn/nomlex") (id debug term)
   (setf (hunchentoot:content-type*) "text/html")
+  (disable-caching)
   (let ((nomlex (search-solr-by-id id))
 	(term (hunchentoot:session-value :term)))
     (process-nomlex
