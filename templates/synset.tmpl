@@ -2,13 +2,6 @@
 
 {template synset-ref}
 
-     {literal}
-       <!-- showcases the use of user defined functions in templates.
-            in this case, synsetworden is a function that returns
-            word_en from a synset id
-         -->
-     {/literal}
-
      {foreach $s in $synsets}
        {if not isFirst($s)}, {/if}
        <a href="synset?id={$s}">{synsetworden($s)}</a>
