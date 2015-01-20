@@ -18,6 +18,7 @@
   <div class="facets">
     <form id="formfacet" action="search" method="POST">
       <input type="hidden" name="term" value="{$term}"/>
+      <input type="hidden" name="start" value="{$start}"/>
       {if isNonnull($facets.rdf_type)}
       <div class="facettype">RDF Type:</div>
     
@@ -54,16 +55,32 @@
     {/foreach}
     </ol>
 
+    {literal}
+    <script>
+      function next(s)
+      {
+        document.forms.formfacet['start'].value=s;
+        document.forms.formfacet.submit();
+      }
+
+      function previous(s)
+      {
+        document.forms.formfacet['start'].value=s;
+        document.forms.formfacet.submit();
+      }
+    </script>
+    {/literal}
+    
     <div class="navigation">
 	{if $previous >= 0}
 	<span class="txtPrev">
-	  <a href="search?term={$term}&start={$previous}&fq={$fq}">&laquo; Previous</a>
+	  <a href="#" onclick="javascript:previous({$previous}); return false;">&laquo; Previous</a>
 	</span>
 	{/if}
 
 	{if $next < $numfound}
         <span class="txtNext">
-	  <a href="search?term={$term}&start={$next}&fq={$fq}">Next &raquo;</a>
+	  <a href="#" onclick="javascript:next({$next}); return false;">Next &raquo;</a>
 	</span>
 	{/if}
     </div>
