@@ -57,13 +57,7 @@
 
     {literal}
     <script>
-      function next(s)
-      {
-        document.forms.formfacet['start'].value=s;
-        document.forms.formfacet.submit();
-      }
-
-      function previous(s)
+      function jumpto(s)
       {
         document.forms.formfacet['start'].value=s;
         document.forms.formfacet.submit();
@@ -74,13 +68,13 @@
     <div class="navigation">
 	{if $previous >= 0}
 	<span class="txtPrev">
-	  <a href="#" onclick="javascript:previous({$previous}); return false;">&laquo; Previous</a>
+	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo; Previous</a>
 	</span>
 	{/if}
 
 	{if $next < $numfound}
         <span class="txtNext">
-	  <a href="#" onclick="javascript:next({$next}); return false;">Next &raquo;</a>
+	  <a href="#" onclick="javascript:jumpto({$next}); return false;">Next &raquo;</a>
 	</span>
 	{/if}
     </div>
