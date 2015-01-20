@@ -35,8 +35,9 @@ LEX-FILE."
 	   lex-file)))
 
 (defun get-solr-query-plist (term df fq start rows)
-  "Creates the PLIST that combines all the parameters.  Some
-parameters are optional and should be specified as NIL."
+  "Creates the PLIST that combines all the parameters (TERM DF FQ
+START ROWS -- see the SOLR documentation for an explanation of those).
+Some parameters are optional and should be specified as NIL."
   (remove
    nil 
    (append

@@ -8,10 +8,12 @@
 (in-package :cl-wnbrowser)
 
 (defun checked (term list)
+  "Helper function to be called from the TEMPLATE code.  It returns
+CHECKED in case TERM belongs to LISP; nil otherwise.  This is useful
+in dealing with checkboxes."
   (if (find term list :test #'string=)
       "checked"
       nil))
-
 
 (defun setup-templates ()
   (closure-template:with-user-functions
