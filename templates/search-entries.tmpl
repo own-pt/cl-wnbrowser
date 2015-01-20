@@ -1,0 +1,40 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+{template nomlex-entry}
+  <li class="synset">
+    <a href="nomlex?id={$document.id}">{$document.id}</a>
+  </li>
+{/template}
+
+{template synset-entry}
+
+  <li class="synset">
+
+    <a href="synset?id={$document.id}">{$document.id}</a>
+    
+    {foreach $w in $document.word_en}
+      {if not isFirst($w)}, {/if}
+      {$w}
+    {/foreach}
+
+    <b>
+
+    {if isNonnull($document.word_pt)}
+    |
+    {/if}
+    
+    {foreach $w in $document.word_pt}
+      {if not isFirst($w)}, {/if}
+      {$w}
+    {/foreach}
+    </b>
+
+    <ul>
+      <li><i>{$document.gloss_en}</i></li>
+    </ul>
+   </li>
+
+{/template}
+

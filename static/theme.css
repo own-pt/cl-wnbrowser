@@ -1,37 +1,84 @@
-body, h1, h2, h3, p, ul, li, i { font-family: Segoe UI, Verdana, sans-serif; }
-
-h1 { font-size: 1.5em; }
-h2 { font-size: 1.2em; }
-h3 { font-size: 1.1em; }
-
-li.synset { margin-top: 10px; }
-div.synsetprops { width: 71.8%; }
-li.nomlex { margin-top: 10px; }
-div.nomlexprops { width: 71.8%; }
-div.searchresults { width: 61.8%; }
-
-input.search
-{
-    padding: 10px;
-    margin: 3px;
+body, h1, h2, h3, p, ul, li, i { 
+    font-family: Segoe UI, Verdana, sans-serif; 
 }
 
-.breadcrumb { margin-left: 30px;
-	      font: 12px Segoe UI, Verdana, Sans-Serif; }
-
-.breadcrumb
-{
-    list-style: none;
-    padding: 0;
-    margin: 0;
+h1 { 
+    font-size: 1.5em; 
 }
 
-li.breadcrumb
-{
-    display: inline;
-    padding: 0;
-    margin: 0;
+h2 { 
+    font-size: 1.2em; 
 }
 
-li.breadcrumb::before { content: " \bb  "; }
-li.breadcrumb:first-child::before { content: ""; }
+h3 { 
+    font-size: 1.1em; 
+}
+
+li.synset { 
+    margin-top: 10px; 
+}
+
+div.synsetprops { 
+    width: 71.8%; 
+}
+
+li.nomlex { 
+    margin-top: 10px; 
+}
+
+div.nomlexprops { 
+    width: 71.8%; 
+}
+
+div.facettype {
+    font-weight: bold;
+    padding-bottom: 4px; 
+}
+
+div.searchresults {
+    padding: 5px 10px;
+    border-left: 1px solid gray;
+    overflow: hidden;
+}
+
+div.facets {
+    overflow: hidden;
+    width: 250px;
+    font-size: 0.8em;
+    float: left;
+    vertical-align: top;
+}
+
+div.navigation { 
+    clear:both; 
+}
+
+input.search { 
+    padding: 10px; 
+    margin: 3px; 
+}
+
+.breadcrumb { 
+    margin-left: 30px;
+    font: 12px Segoe UI, Verdana, Sans-Serif; 
+}
+
+.breadcrumb { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+li.breadcrumb { 
+    display: inline; 
+    padding: 0; 
+    margin: 0; 
+}
+
+li.breadcrumb::before { 
+    content: " \bb  "; 
+}
+
+li.breadcrumb:first-child::before { 
+    content: ""; 
+}

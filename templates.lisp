@@ -7,10 +7,17 @@
 
 (in-package :cl-wnbrowser)
 
+(defun checked (term list)
+  (if (find term list :test #'string=)
+      "checked"
+      nil))
+
+
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
        ("solrencode" #'solr-encode)
+       ("checked" #'checked)
        ("getrelatednomlexes" #'get-related-nomlexes)
        ("getrelatedsynsets" #'get-related-synsets)
        ("synsetworden" #'get-synset-word-en))

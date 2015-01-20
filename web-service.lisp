@@ -33,16 +33,19 @@
 (hunchentoot:define-easy-handler (get-root-handler :uri "/wn/") ()
   (cl-wnbrowser.templates:home))
 
-(hunchentoot:define-easy-handler (get-update-stats-handler :uri "/wn/update-stats") ()
+(hunchentoot:define-easy-handler (get-update-stats-handler
+				  :uri "/wn/update-stats") ()
   (update-stat-cache)
   (if (string-equal "application/json" (hunchentoot:header-in* :accept))
       (progn
 	(setf (hunchentoot:content-type*) "application/json")
-	(with-output-to-string (s) (yason:encode-plist (list :result "Done") s)))
+	(with-output-to-string (s)
+	  (yason:encode-plist (list :result "Done") s)))
       (hunchentoot:redirect "/wn/stats")))
 
 (defun disable-caching ()
-  (setf (hunchentoot:header-out :cache-control) "no-cache, no-store, must-revalidate")
+  (setf (hunchentoot:header-out :cache-control)
+	"no-cache, no-store, must-revalidate")
   (setf (hunchentoot:header-out :pragma) "no-cache")
   (setf (hunchentoot:header-out :expires) 0))
 
@@ -53,30 +56,40 @@
     (stats-count-classes-plist)
     (stats-percent-complete-plist))))
 
-(hunchentoot:define-easy-handler (get-solr-stats-handler :uri "/wn/solr-stats") ()
+(hunchentoot:define-easy-handler (get-solr-stats-handler
+				  :uri "/wn/solr-stats") ()
   (disable-caching)
   (cl-wnbrowser.templates:solrstats
    (get-solr-statistics)))
 
-(hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search") (term fq start debug)
+(hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search")
+    (term start debug
+	  (fq_rdftype :parameter-type 'list)
+	  (fq_lexfile :parameter-type 'list))
   (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
-      (multiple-value-bind (documents num-found facets error) (search-solr term fq start)
+      (multiple-value-bind
+	    (documents num-found facets error)
+	  (search-solr term (make-fq :rdf-type fq_rdftype
+				     :lex-file fq_lexfile) start)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
 	      (hunchentoot:delete-session-value :ids)
 	      (setf (hunchentoot:session-value :term) term)
 	      (process-results
-	       (list :fq fq :debug debug :term term
+	       (list :debug debug :term term
+		     :fq_rdftype fq_rdftype
+		     :fq_lexfile fq_lexfile
 		     :previous (get-previous start/i)
 		     :next (get-next start/i)
 		     :start start/i :numfound num-found
 		     :facets facets :documents documents)))))))
   
-(hunchentoot:define-easy-handler (get-synset-handler :uri "/wn/synset") (id debug)
+(hunchentoot:define-easy-handler (get-synset-handler
+				  :uri "/wn/synset") (id debug)
   (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (let* ((synset (search-solr-by-id id))
@@ -93,7 +106,8 @@
        :synset synset)
       synset))))
 
-(hunchentoot:define-easy-handler (get-nomlex-handler :uri "/wn/nomlex") (id debug term)
+(hunchentoot:define-easy-handler (get-nomlex-handler
+				  :uri "/wn/nomlex") (id debug term)
   (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (let ((nomlex (search-solr-by-id id))

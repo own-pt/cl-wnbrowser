@@ -16,11 +16,27 @@
   (format nil "~a/admin/luke?wt=json" *solr-endpoint-uri*))
 
 (defun get-facets-for-solr-query ()
+  "Create the PLIST that specifies which fields should be using by
+SOLR to construct the faceted search."
   (mapcar (lambda (f)
 	    (cons "facet.field" (string f)))
 	  *facets*))
 
+(defun make-fq (&key rdf-type lex-file)
+"Creates the appropriate PLIST that should be fed to SOLR out of the
+list of facet filters specified in the parameters RDF-TYPE and
+LEX-FILE."
+  (append 
+   (mapcar #'(lambda (entry)
+	       (cons "fq" (format nil "rdf_type:~a" entry)))
+	   rdf-type)
+   (mapcar #'(lambda (entry)
+	       (cons "fq" (format nil "wn30_lexicographerFile:~a" entry)))
+	   lex-file)))
+
 (defun get-solr-query-plist (term df fq start rows)
+  "Creates the PLIST that combines all the parameters.  Some
+parameters are optional and should be specified as NIL."
   (remove
    nil 
    (append
@@ -28,12 +44,18 @@
 	  (when rows (cons "rows" rows))
 	  (cons "q" term)
 	  (when df (cons "df" df))
-	  (when fq (cons "fq" fq))
 	  (cons "wt" "json")
 	  (cons "facet" "true")
 	  (cons "facet.mincount" "1")
 	  (cons "indent" "false"))
+    (when fq fq)
     (get-facets-for-solr-query))))
+
+(defun %test-get-solr-query-plist ()
+  (get-solr-query-plist
+   "term" "df"
+   (make-fq :rdf-type '("type1" "type2") :lex-file '("lex1" "lex2"))
+   nil nil))
 
 (defun execute-solr-admin-query ()
   (let ((stream (drakma:http-request
@@ -119,6 +141,8 @@ with TERM as the search term and DF as the default field."
     (car (get-docs response))))
 
 (defun get-related-synsets (term)
+  "Search all synsets related to the given TERM.  Basically it
+searches SOLR for documents whose 'word_pt' field matches TERM."
   (let ((response (get-response (search-solr-word-pt term "0" "1000"))))
     (get-docs response)))
 

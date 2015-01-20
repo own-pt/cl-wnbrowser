@@ -16,5 +16,5 @@
 		 (:file "solr"          :depends-on ("utils" "constants"))
 		 (:file "templates"     :depends-on ("constants"))
 		 (:file "agraph"        :depends-on ("constants"))
-		 (:file "web-service"   :depends-on ("templates"))
+		 (:file "web-service"   :depends-on ("templates" "solr"))
 ))
