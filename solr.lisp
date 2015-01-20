@@ -16,14 +16,14 @@
   (format nil "~a/admin/luke?wt=json" *solr-endpoint-uri*))
 
 (defun get-facets-for-solr-query ()
-  "Create the PLIST that specifies which fields should be using by
-SOLR to construct the faceted search."
+  "Create the PLIST that specifies which fields should be used by SOLR
+to construct the faceted search."
   (mapcar (lambda (f)
 	    (cons "facet.field" (string f)))
 	  *facets*))
 
 (defun make-fq (&key rdf-type lex-file)
-"Creates the appropriate PLIST that should be fed to SOLR out of the
+  "Creates the appropriate PLIST that should be fed to SOLR out of the
 list of facet filters specified in the parameters RDF-TYPE and
 LEX-FILE."
   (append 
