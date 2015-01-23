@@ -28,5 +28,5 @@
 (defparameter *query/by-lexfile* (merge-pathnames-as-file *queries-directory* #p"by-lexfile.query"))
 (defparameter *query/by-pos-pt* (merge-pathnames-as-file *queries-directory* #p"by-pos-pt.query"))
 
-(defparameter *facets* '(:|wn30_lexicographerFile| :|rdf_type|))
+(defparameter *facets* '(:|wn30_lexicographerFile| :|rdf_type| :|word_count_pt| :|word_count_en|))
 

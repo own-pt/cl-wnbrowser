@@ -22,11 +22,17 @@ to construct the faceted search."
 	    (cons "facet.field" (string f)))
 	  *facets*))
 
-(defun make-fq (&key rdf-type lex-file)
+(defun make-fq (&key rdf-type lex-file word-count-pt word-count-en)
   "Creates the appropriate PLIST that should be fed to SOLR out of the
 list of facet filters specified in the parameters RDF-TYPE and
 LEX-FILE."
   (append 
+   (mapcar #'(lambda (entry)
+	       (cons "fq" (format nil "word_count_pt:~a" entry)))
+	   word-count-pt)
+   (mapcar #'(lambda (entry)
+	       (cons "fq" (format nil "word_count_en:~a" entry)))
+	   word-count-en)
    (mapcar #'(lambda (entry)
 	       (cons "fq" (format nil "rdf_type:~a" entry)))
 	   rdf-type)

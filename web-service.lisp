@@ -64,6 +64,8 @@
 
 (hunchentoot:define-easy-handler (search-solr-handler :uri "/wn/search")
     (term start debug
+	  (fq_word_count_pt :parameter-type 'list)
+	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
 	  (fq_lexfile :parameter-type 'list))
   (setf (hunchentoot:content-type*) "text/html")
@@ -73,7 +75,9 @@
       (multiple-value-bind
 	    (documents num-found facets error)
 	  (search-solr term (make-fq :rdf-type fq_rdftype
-				     :lex-file fq_lexfile) start)
+				     :lex-file fq_lexfile
+				     :word-count-pt fq_word_count_pt
+				     :word-count-en fq_word_count_en) start)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
@@ -83,6 +87,8 @@
 	       (list :debug debug :term term
 		     :fq_rdftype fq_rdftype
 		     :fq_lexfile fq_lexfile
+		     :fq_word_count_pt fq_word_count_pt
+		     :fq_word_count_en fq_word_count_en
 		     :previous (get-previous start/i)
 		     :next (get-next start/i)
 		     :start start/i :numfound num-found

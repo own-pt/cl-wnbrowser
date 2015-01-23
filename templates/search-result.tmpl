@@ -33,6 +33,21 @@
       <input type="checkbox" name="fq_lexfile" {checked($f.name, $fq_lexfile)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
+
+      {if isNonnull($facets.word_count_pt)}
+      <div class="facettype"># words (pt_BR):</div>
+      {foreach $f in $facets.word_count_pt}
+      <input type="checkbox" name="fq_word_count_pt" {checked($f.name, $fq_word_count_pt)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      {/foreach}
+      {/if}
+
+      {if isNonnull($facets.word_count_en)}
+      <div class="facettype"># words (en):</div>
+      {foreach $f in $facets.word_count_en}
+      <input type="checkbox" name="fq_word_count_en" {checked($f.name, $fq_word_count_en)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      {/foreach}
+      {/if}
+
     </form>
   </div>
   
