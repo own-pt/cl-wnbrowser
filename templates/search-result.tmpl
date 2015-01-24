@@ -16,7 +16,7 @@
 <div class="container">
 
   <div class="facets">
-    <form id="formfacet" action="search" method="POST">
+    <form id="formfacet" action="search" method="GET">
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
       {if isNonnull($facets.rdf_type)}
