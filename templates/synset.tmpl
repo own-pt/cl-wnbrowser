@@ -48,8 +48,7 @@
 
   <p>
     {foreach $w in $word_en}
-      {if not isFirst($w)}, {/if}
-      {$w}
+      {if not isFirst($w)}&nbsp;&bull;&nbsp;{/if}{$w}
     {/foreach}
   </p>
 
@@ -58,9 +57,8 @@
   <p><i>{$gloss_pt}</i></p>
   <p>
     {foreach $w in $word_pt}
-      {if not isFirst($w)}, {/if}
-      {$w}
-      {ifempty}<i>[empty]</i>
+    {if not isFirst($w)}&nbsp;&bull;&nbsp;{/if}{$w}
+    {ifempty}<i>[empty]</i>
     {/foreach}
   </p>
 
