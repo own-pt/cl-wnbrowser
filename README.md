@@ -47,5 +47,5 @@ the file LICENSE for details.
   The server will perform the update and redirect to the statistics
   page.
 
-* Optionally you can pass a header *Accept: application/json* and the
+* Optionally you can pass the header **`Accept: application/json`** and the
   server will reply with a status code in JSON.
