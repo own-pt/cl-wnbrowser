@@ -1,6 +1,8 @@
 # README #
 
-This is CL-WNBROWSER pre-alpha, version 0.
+This is CL-WNBROWSER pre-alpha, version 0.  It is currently running at http://logics.emap.fgv.br/wn/
+
+See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT/
 
 ### How do I get set up? ###
 
@@ -42,10 +44,8 @@ the file LICENSE for details.
 
 ### Updating the statistics ###
 
-* Got to
-  [http://logics.emap.fgv.br/wn/update-stats](http://logics.emap.fgv.br/wn/update-stats).
-  The server will perform the update and redirect to the statistics
-  page.
+* Got to http://logics.emap.fgv.br/wn/update-stats .  The server will
+  perform the update and redirect to the statistics page.
 
 * Optionally you can pass the header **`Accept: application/json`** and the
   server will reply with a status code in JSON.
