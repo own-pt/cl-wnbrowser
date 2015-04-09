@@ -7,7 +7,7 @@
 
 (in-package :cl-wnbrowser)
 
-;;;(setq hunchentoot:*show-lisp-errors-p* t)
+(setq hunchentoot:*show-lisp-errors-p* t)
 
 (defun get-previous (n &optional (step 10))
   (- n step))
@@ -67,7 +67,8 @@
 	  (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
-	  (fq_lexfile :parameter-type 'list))
+	  (fq_lexfile :parameter-type 'list)
+          limit)
   (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (if (is-synset-id term)
@@ -77,7 +78,7 @@
 	  (search-solr term (make-fq :rdf-type fq_rdftype
 				     :lex-file fq_lexfile
 				     :word-count-pt fq_word_count_pt
-				     :word-count-en fq_word_count_en) start)
+				     :word-count-en fq_word_count_en) start limit)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
