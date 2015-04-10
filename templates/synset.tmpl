@@ -4,10 +4,12 @@
 
 {template synset-ref}
 
+     {if isarray($synsets)}
      {foreach $s in $synsets}
        {if not isFirst($s)}, {/if}
-       <a href="synset?id={$s}">{synsetworden($s)}</a>
+       <a href="synset?id={$s.id}">{$s.name}</a>
      {/foreach}
+     {/if}  
 
 {/template}
 
@@ -55,13 +57,81 @@
 
   <h3>Portuguese</h3>
 
-  <p><i>{$gloss_pt}</i></p>
+  <p>
+    Gloss: <i>
+      {if isNonnull($gloss_pt)}
+      {foreach $g in $gloss_pt}
+      {if not isFirst($g)}{sp}&bull;{sp}{/if}
+      {$g}
+      {if isNonnull($login)}
+      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&param={$g}">x</a>]
+      {/if}
+      {/foreach}
+      {else}
+      empty gloss
+      {/if}
+    </i>
+
+    {if isNonnull($login)}
+    <form action="/wn/process-suggestion">
+      <input type="hidden" name="type" value="add-gloss-pt">
+      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="doc_type" value="synset">
+      <input type="text" name="param">
+      <input type="submit" value="Suggest new gloss">
+    </form>
+    {/if}
+
+  </p>
+
+  <p>
+    Ex.: <i>
+      {if isNonnull($example_pt)}
+      {foreach $e in $example_pt}
+      {if not isFirst($e)}{sp}&bull;{sp}{/if}
+      {$e}
+      {if isNonnull($login)}
+      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&param={$e}">x</a>]
+      {/if}
+      {/foreach}
+      {else}
+      empty example
+      {/if}
+    </i>
+
+    {if isNonnull($login)}
+    <form action="/wn/process-suggestion">
+      <input type="hidden" name="type" value="add-example-pt">
+      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="doc_type" value="synset">
+      <input type="text" name="param">
+      <input type="submit" value="Suggest new example">
+    </form>
+    {/if}
+
+  </p>
+
+
   <p>
     {foreach $w in $word_pt}
     {if not isFirst($w)}{sp}&bull;{sp}{/if}
-    <span class="ptbrword">{$w}</span>
-    {ifempty}<i>[empty]</i>
+    <span class="ptbrword">{$w}
+      {if isNonnull($login)}
+      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&param={$w}">x</a>]
+      {/if}
+    </span>
+    {ifempty}<i>[ empty word list ]</i>
     {/foreach}
+
+    {if isNonnull($login)}
+    <form action="/wn/process-suggestion">
+      <input type="hidden" name="type" value="add-word-pt">
+      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="doc_type" value="synset">
+      <input type="text" name="param">
+      <input type="submit" value="Suggest new word">
+    </form>
+    {/if}
   </p>
 
   <h3>Relations</h3>
@@ -75,9 +145,9 @@
 
     <li>RDF Type: {$rdf_type}</li>
 
-    {if isNonnull(getrelatednomlexes($word_pt))}
+    {if isNonnull($relatednomlexes)}
     <li>Nomlexes: 
-      {foreach $nl in getrelatednomlexes($word_pt)}
+      {foreach $nl in $relatednomlexes}
       {if not isFirst($nl)}, {/if}
       <a href="nomlex?id={$nl}">{$nl}</a>
       {/foreach}
@@ -88,117 +158,117 @@
 
     {call describe-relation}
       {param description: 'Classified by usage' /}
-      {param synsets: $wn30_classifiedbyusage /}
+      {param synsets: $wn30_classifiedbyusageexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Hypernym of' /}
-      {param synsets: $wn30_hypernymof /}
+      {param synsets: $wn30_hypernymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Hyponym of' /}
-      {param synsets: $wn30_hyponymof /}
+      {param synsets: $wn30_hyponymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Part holonym of' /}
-      {param synsets: $wn30_partholonymof /}
+      {param synsets: $wn30_partholonymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Part meronym of' /}
-      {param synsets: $wn30_partmeronymof /}
+      {param synsets: $wn30_partmeronymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Member holonym of' /}
-      {param synsets: $wn30_memberholonymof /}
+      {param synsets: $wn30_memberholonymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Member meronym of' /}
-      {param synsets: $wn30_membermeronymof /}
+      {param synsets: $wn30_membermeronymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Substance holonym of' /}
-      {param synsets: $wn30_substanceholonymof /}
+      {param synsets: $wn30_substanceholonymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Substance meronym of' /}
-      {param synsets: $wn30_substancemeronymof /}
+      {param synsets: $wn30_substancemeronymofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Similar to' /}
-      {param synsets: $wn30_similarto /}
+      {param synsets: $wn30_similartoexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'See also' /}
-      {param synsets: $wn30_seealso /}
+      {param synsets: $wn30_seealsoexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Instance of' /}
-      {param synsets: $wn30_instanceof /}
+      {param synsets: $wn30_instanceofexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Has instance' /}
-      {param synsets: $wn30_hasinstance /}
+      {param synsets: $wn30_hasinstanceexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Attribute' /}
-      {param synsets: $wn30_attribute /}
+      {param synsets: $wn30_attributeexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Causes' /}
-      {param synsets: $wn30_causes /}
+      {param synsets: $wn30_causesexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Same verb group as' /}
-      {param synsets: $wn30_sameverbgroupas /}
+      {param synsets: $wn30_sameverbgroupasexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Entails' /}
-      {param synsets: $wn30_entails /}
+      {param synsets: $wn30_entailsexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by region' /}
-      {param synsets: $wn30_classifiedbyregion /}
+      {param synsets: $wn30_classifiedbyregionexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by topic' /}
-      {param synsets: $wn30_classifiedbytopic /}
+      {param synsets: $wn30_classifiedbytopicexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by usage' /}
-      {param synsets: $wn30_classifiedbyusage /}
+      {param synsets: $wn30_classifiedbyusageexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by region' /}
-      {param synsets: $wn30_classifiesbyregion /}
+      {param synsets: $wn30_classifiesbyregionexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by topic' /}
-      {param synsets: $wn30_classifiesbytopic /}
+      {param synsets: $wn30_classifiesbytopicexpanded /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by usage' /}
-      {param synsets: $wn30_classifiesbyusage /}
+      {param synsets: $wn30_classifiesbyusageexpanded /}
     {/call}
 
   </ul>
@@ -207,6 +277,7 @@
   <ul>
     <li><a href="http://compling.hss.ntu.edu.sg/omw/cgi-bin/wn-gridx.cgi?synset={$id}" target="_blank">OMW</a>
     </li>
+    <li><a href="http://sigma-01.cim3.net:8080/sigma/WordNet.jsp?synset={synsetidtosumo($id)}&kb=SUMO&flang=SUO-KIF&lang=EnglishLanguage&kb=SUMO">SUMO</a></li>
   </ul>
 
   <!-- lexfile, links, noun, pos, rdf_type, status, text, verb -->
@@ -215,23 +286,63 @@
   <p><tt>{$synset}</tt></p>
   {/if}
 
-  {literal}
-  <hr/>
+  {if isNonnull($suggestions)}
+  <h3>Suggestions</h3>
 
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
-   var disqus_shortname = 'openwn-pt';
-   (function() {
-   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-   dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-   })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  {/literal}
+  <table>
+    <tr><th>Action</th><th>Content</th><th>User</th><th>Status</th><th>Action</th></tr>
+    
+    {foreach $s in $suggestions}
+    <tr>
+      <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user}</td><td>{$s.status}</td>
+      <td>
+        {if validstatus($s.status) and (isself($login, $s.user) or isauthorized($login))}
+        <a href="/wn/delete-suggestion?id={getdocid($s)}" title="Delete suggestion">del</a> |
+        <a href="/wn/accept-suggestion?id={getdocid($s)}" title="Accept suggestion">acc</a> |
+        <a href="/wn/reject-suggestion?id={getdocid($s)}" title="Reject suggestion">rej</a>
+        {else}
+        n/a
+        {/if}
+      </td>
+    </tr>
+    {/foreach}
+  </table>
+  {/if}
+
+  {if isNonnull($comments) or isNonnull($login)}
+  <h3>Comments</h3>
+  
+  {foreach $c in $comments}
+  <p><b>{$c.user}</b>: {$c.params} ({prettydate($c.date)})
+    {if isself($login, $c.user) or isauthorized($login)}
+    [<a href="/wn/delete-comment?id={getdocid($c)}">del</a>]
+    {/if}
+  </p>
+  {/foreach}
+  
+    {if isNonnull($login)}
+    <form action="/wn/process-comment">
+      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="doc_type" value="synset">
+      <textarea rows="4" cols="80" name="text"></textarea>
+      <br>
+      <input type="submit" value="Add comment">
+    </form>
+    {/if}
+
+  {/if}
+  
 
 </div>
 
+<hr>
+[
+      {if isNonnull($login)}
+      <b>{$login}</b>
+      {else}
+      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}">login</a>
+      {/if}
+]
 
 {call footer /}
 {/template}

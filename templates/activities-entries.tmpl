@@ -1,0 +1,38 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+{template create-link}
+
+{if ($document.doc_type == 'synset')}
+<a href="/wn/synset?id={$document.doc_id}">{$document.doc_id}</a>
+{else}
+<a href="/wn/nomlex?id={$document.doc_id}">{$document.doc_id}</a>
+{/if}
+
+{/template}
+
+{template comment}
+
+<li class="comment">
+  (<i>comment</i>
+    {call create-link}
+    {param document: $document /}
+    {/call}) <b>{$document.user}</b>: {trimcomment($document.params)} ({prettydate($document.date)})
+</li>
+
+{/template}
+
+{template suggestion}
+
+  <li class="suggestion">
+    
+    (<i>suggestion</i>
+    {call create-link}
+    {param document: $document /}
+    {/call}) <b>{$document.user}</b>: {$document.action}({$document.params}) <i>{$document.status}</i>
+    
+   </li>
+
+{/template}
+

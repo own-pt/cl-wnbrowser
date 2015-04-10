@@ -82,3 +82,29 @@ li.breadcrumb::before {
 li.breadcrumb:first-child::before { 
     content: ""; 
 }
+
+table {
+width: 95%;
+border-collapse: collapse;
+}
+
+td, th {
+font-size: 1em;
+border: 1px solid DarkSlateBlue;
+padding: 3px 7px 2px 7px;
+}
+
+td.center { text-align: center; }
+
+th {
+text-align: center;
+padding-top: 5px;
+padding-bottom: 4px;
+background-color: DarkSlateBlue;
+color: #ffffff;
+}
+
+tr.alt td {
+color: #000000;
+background-color: #EAF2D3;
+}

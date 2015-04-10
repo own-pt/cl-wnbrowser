@@ -1,11 +1,47 @@
 ;; -*- mode: common-lisp -*-
 
-;; copyright (c) 2015 Fabricio Rosario (f@cp300.org)
+;; Copyright (c) 2015 The OpenWordNet-PT project
 ;; This program and the accompanying materials are made available
 ;; under the terms of the MIT License which accompanies this
 ;; distribution (see LICENSE)
 
 (in-package :cl-wnbrowser)
+
+(defun pretty-print-iso-date (ms-since-epoch)
+  (smart-date
+   (local-time:timestamp-to-universal
+    (local-time:unix-to-timestamp (floor ms-since-epoch 1000)))))
+
+;;; from https://github.com/smanek/common-lisp-utils/blob/master/date.lisp
+(defun smart-date (date)
+  (let ((diff (- (get-universal-time) date)))
+    (cond ((< diff -604800) (format nil "~A week~:p from now" (floor (/ diff -604800))))
+          ((< diff -86400) (format nil "~A day~:p from now" (floor (/ diff -86400))))
+          ((< diff -3600) (format nil "~A hour~:p from now" (floor (/ diff -3600))))
+          ((< diff -60) (format nil "~A minute~:p from now" (floor (/ diff -60))))
+          ((< diff 0) (format nil "~A second~:p from now" (- 0 diff)))
+          ((< diff 60) (format nil "~A second~:p ago" diff))
+          ((< diff 3600) (format nil "~A minute~:p ago" (floor (/ diff 60))))
+          ((< diff 86400) (format nil "~A hour~:p ago" (floor (/ diff 3600))))
+          (t (format nil "~A day~:p ago" (floor (/ diff 86400)))))))
+
+(defun trim-comment(s)
+  (subseq s 0
+          (if (< (length s) 73) (length s) 73)))
+
+(defun is-self (logged user)
+  (if (and logged user)
+      (string-equal logged user)
+      nil))
+
+(defun is-authorized (user)
+  (find user *authorized-accounts* :test #'string-equal))
+
+(defun valid-status (status)
+  (not (string-equal status "committed")))
+
+(defun get-doc-id (doc)
+  (getf doc :|_id|))
 
 (defun checked (term list)
   "Helper function to be called from the TEMPLATE code.  It returns
@@ -15,20 +51,45 @@ in dealing with checkboxes."
       "checked"
       nil))
 
+(defun is-array (obj)
+  (listp obj))
+
+;;; 1 is for nouns, 2 for verbs, 3 for adjectives and 4 for adverbs.
+;;; 00449295-n
+;;; 0123456789
+(defun synset-id-to-sumo (synset-id)
+  (let ((id (subseq synset-id 0 8))
+        (type (subseq synset-id 9 10))
+        (sumo-type "?"))
+    (cond ((equal "n" type) (setq sumo-type "1"))
+          ((equal "v" type) (setq sumo-type "2"))
+          ((equal "a" type) (setq sumo-type "3"))
+          ((equal "r" type) (setq sumo-type "4")))
+    (format nil "~a~a" sumo-type id)))
+
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
+       ("synsetidtosumo" #'synset-id-to-sumo)
+       ("trimcomment" #'trim-comment)
+       ("getdocid" #'get-doc-id)
+       ("validstatus" #'valid-status)
+       ("isauthorized" #'is-authorized)
+       ("isself" #'is-self)
+       ("prettydate" #'pretty-print-iso-date)
        ("solrencode" #'solr-encode)
        ("checked" #'checked)
-       ("getrelatednomlexes" #'get-related-nomlexes)
-       ("getrelatedsynsets" #'get-related-synsets)
+       ("isarray" #'is-array)
        ("synsetworden" #'get-synset-word-en))
     (walk-directory
      (merge-pathnames *templates-directory* *basedir*)
      (lambda (f)
        (closure-template:compile-template
 	:common-lisp-backend
-	(read-file-into-string f))))))
+	(read-file-into-string f)))
+     :test (lambda (f)
+             (alexandria:ends-with-subseq ".tmpl" (namestring f))))))
+
 
 (setup-templates)
 

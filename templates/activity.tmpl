@@ -1,0 +1,26 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+{template activity}
+<html>
+    <head>
+     <title>OpenWordnet-PT Browser</title>
+     <link rel="stylesheet" type="text/css" href="/wn/st/theme.css">
+     <link rel="shortcut icon" href="/wn/st/favicon.ico" type="image/x-icon" />
+  </head>
+
+<body>
+<h1>Current activity</h1>
+
+<ul>
+{foreach $a in $activities.rows}
+<li>
+{$a.key}: {$a.value}
+</li>
+{/foreach}
+</ul>
+
+</body>
+</html>
+{/template}

@@ -1,6 +1,6 @@
 ;; -*- mode: common-lisp -*-
 
-;; copyright (c) 2015 Fabricio Rosario (f@cp300.org)
+;; Copyright (c) 2015 The OpenWordNet-PT project
 ;; This program and the accompanying materials are made available
 ;; under the terms of the MIT License which accompanies this
 ;; distribution (see LICENSE)
@@ -19,6 +19,11 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
      (cons (funcall function a b)
 	   (when rest (process-pairs function rest))))))
 
+(defun is-synset (doc)
+  (if (listp doc)
+      (= 0 (count "Nominalization" doc :test #'string-equal))
+      (not (string-equal doc "Nominalization"))))
+  
 (defun is-synset-id (term)
   "Check if TERM matches the expected behavior of a synset ID."
   (not (null (cl-ppcre:scan "^(\\d+)-[nvar]$" term))))

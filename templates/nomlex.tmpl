@@ -7,7 +7,7 @@
 [
 {foreach $s in $synsets}
   {if not isFirst($s)}, {/if}
-  <a href="synset?id={$s.id}">{$s.word_pt}</a>
+  <a href="synset?id={$s.id}">{$s.words}</a>
   {ifempty}(none)
 {/foreach}
 ]
@@ -37,12 +37,12 @@
   <ul>
   <li>Noun:
       {call related-synsets}
-         {param synsets: getrelatedsynsets($nomlex_noun) /}
+         {param synsets: $relatedsynsets_nomlex_noun /}
       {/call}
   </li>
   <li>Verb:
       {call related-synsets}
-         {param synsets: getrelatedsynsets($nomlex_verb) /}
+         {param synsets: $relatedsynsets_nomlex_verb /}
       {/call}
   </li>
   </ul>
@@ -52,21 +52,7 @@
   <p><tt>{$nomlex}</tt></p>
   {/if}
 
-  {literal}
   <hr/>
-
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
-   var disqus_shortname = 'openwn-pt';
-   (function() {
-   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-   dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-   })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  {/literal}
-
 </div>
 
 {call footer /}
