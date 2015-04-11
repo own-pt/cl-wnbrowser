@@ -297,11 +297,15 @@
       <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td><td>{$s.status}</td>
       <td>
         {if validstatus($s.status) and (isself($login, $s.user) or isauthorized($login))}
-        <a href="/wn/delete-suggestion?id={getdocid($s)}" title="Delete suggestion">del</a> |
+        <a href="/wn/delete-suggestion?id={getdocid($s)}" title="Delete suggestion">del</a>
+	{else}
+	del
+	{/if}
+	{if validstatus($s.status) and isauthorized($login)} |
         <a href="/wn/accept-suggestion?id={getdocid($s)}" title="Accept suggestion">acc</a> |
         <a href="/wn/reject-suggestion?id={getdocid($s)}" title="Reject suggestion">rej</a>
         {else}
-        n/a
+        | acc | rej
         {/if}
       </td>
     </tr>
