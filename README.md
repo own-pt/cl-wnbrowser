@@ -1,12 +1,12 @@
 # README #
 
-This is CL-WNBROWSER pre-alpha, version 0.  It is currently running at http://logics.emap.fgv.br/wn/
+This is CL-WNBROWSER version 2.0.  It is currently running at http://logics.emap.fgv.br/wn/
 
 See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT/
 
 ### How do I get set up? ###
 
-* Cloudant (see CONSTANTS.LISP for configuration options);
+* This version is based on the OpenWordnet API at Bluemix (ownpt2.mybluemix.net/)
 * SBCL (tested with 1.2.2 and 1.1.14) or CCL (tested with 1.10);
 * For easier/faster setup, quicklisp is highly recommended.
 
@@ -14,13 +14,6 @@ See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT
 
 The CL-WNBROWSER distribution is available under the MIT License.  See
 the file LICENSE for details.
-
-### Cloudant setup ###
-
-* You need to convert your triples to Cloudant documents.  This
-  transformation isn't formally documented yet, but you can see the
-  code at
-  https://github.com/arademaker/wordnet-editor/blob/master/couchdb.lisp
 
 ### Starting up the web server ###
 
