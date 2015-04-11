@@ -290,11 +290,11 @@
   <h3>Suggestions</h3>
 
   <table>
-    <tr><th>Action</th><th>Content</th><th>User</th><th>Status</th><th>Action</th></tr>
+    <tr><th>Action</th><th>Content</th><th>User (prov.)</th><th>Status</th><th>Action</th></tr>
     
     {foreach $s in $suggestions}
     <tr>
-      <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user}</td><td>{$s.status}</td>
+      <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td><td>{$s.status}</td>
       <td>
         {if validstatus($s.status) and (isself($login, $s.user) or isauthorized($login))}
         <a href="/wn/delete-suggestion?id={getdocid($s)}" title="Delete suggestion">del</a> |
