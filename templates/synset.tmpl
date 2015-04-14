@@ -340,13 +340,15 @@
 </div>
 
 <hr>
-[
+
+    <p>[ <a href="https://github.com/arademaker/openWordnet-PT/wiki">Doc</a> | <a href="search-activities">Activity</a> | <a href="stats">Stats</a> | <a href="https://github.com/fcbr/cl-wnbrowser" target="_blank">Source</a> |
+
       {if isNonnull($login)}
       <b>{$login}</b>
       {else}
-      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}">login</a>
+      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}">Login</a>
       {/if}
-]
+      ]</p>
 
 {call footer /}
 {/template}
