@@ -159,11 +159,23 @@ LEX-FILE."
 		 (cons "drilldown"
                        (format nil "[\"word_count_en\",\"~a\"]" entry)))
 	     word-count-en))
+   ;;; this deserves a better explanation.  As it stands, Cloudant
+   ;;; does not seem to support multivalued fields.  We managed to work
+   ;;; around the issue by issuing multiple "rdf_type" indexes when we
+   ;;; encounter a document that contains an array of values.  This works
+   ;;; fine until we attempt to drilldown into more than one of these values
+   ;;; Cloudant complains that the dimension has already been added.
+   ;;; Yet another workaround is to create multiple filter fields rdf_type1,
+   ;;; rdf_type2, etc. so we can filter down on more than one value of the
+   ;;; same field at the same time.
    (when rdf-type
-     (mapcar #'(lambda (entry)
-		 (cons "drilldown"
-                       (format nil "[\"rdf_type\",\"~a\"]" entry)))
-	     rdf-type))
+     (let ((c 1))
+       (mapcar #'(lambda (entry)
+                   (progn
+                     (setq c (1+ c))
+                     (cons "drilldown"
+                           (format nil "[\"rdf_type~a\",\"~a\"]" c entry))))
+	     rdf-type)))
    (when lex-file
      (mapcar #'(lambda (entry)
 		 (cons "drilldown"
