@@ -184,14 +184,11 @@
 
 (hunchentoot:define-easy-handler (process-suggestion-handler
 				  :uri "/wn/process-suggestion") (id doc_type type param)
-  (let ((login (hunchentoot:session-value :login))
-        (request-uri (hunchentoot:session-value :request-uri)))
+  (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (add-suggestion id doc_type type param login)
-          (if request-uri
-              (hunchentoot:redirect request-uri)
-              (hunchentoot:redirect "/wn/")))
+          (hunchentoot:redirect (format nil "/wn/~a?id=~a" doc_type id)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
