@@ -1,0 +1,14 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+
+{template sense-details}
+<p><b>Word form</b>: {$wordform}</p>
+<p><b>Lemma</b>: {$lemma}</p>
+<p><b>Senses</b>:
+{foreach $s in $senses}
+{if not isFirst($s)}, {/if}
+<a target="synset" href="/wn/synset?id={$s}">{$s}</a>
+{/foreach}
+{/template}

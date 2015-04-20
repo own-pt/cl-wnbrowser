@@ -25,9 +25,18 @@
           ((< diff 86400) (format nil "~A hour~:p ago" (floor (/ diff 3600))))
           (t (format nil "~A day~:p ago" (floor (/ diff 86400)))))))
 
-(defun trim-comment(s)
-  (subseq s 0
-          (if (< (length s) 73) (length s) 73)))
+(defun trim-comment(s &optional (max-length 68))
+  (if (< (length s) max-length)
+      s
+      (format nil "~a (...)" (subseq s 0 max-length))))
+
+(defun get-vote-id (user votes)
+  (getf (car (member user votes :test #'(lambda (a b)
+                                          (equal (getf b :|user|) a)))) :|id|))
+
+(defun already-voted (user votes)
+  (member user votes :test #'(lambda (a b)
+                               (equal (getf b :|user|) a))))
 
 (defun is-self (logged user)
   (if (and logged user)
@@ -70,6 +79,8 @@ in dealing with checkboxes."
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
+       ("alreadyvoted" #'already-voted)
+       ("getvoteid" #'get-vote-id)
        ("synsetidtosumo" #'synset-id-to-sumo)
        ("trimcomment" #'trim-comment)
        ("getdocid" #'get-doc-id)

@@ -44,8 +44,9 @@
   (cl-wnbrowser.templates:home
    (append
     (get-login)
-    (list :githubid *github-client-id*))))
-
+    (list
+     :info (get-root)
+     :githubid *github-client-id*))))
 
 (hunchentoot:define-easy-handler (get-update-stats-handler
 				  :uri "/wn/update-stats") ()
@@ -58,10 +59,7 @@
       (hunchentoot:redirect "/wn/stats")))
 
 (defun disable-caching ()
-  (setf (hunchentoot:header-out :cache-control)
-	"no-cache, no-store, must-revalidate")
-  (setf (hunchentoot:header-out :pragma) "no-cache")
-  (setf (hunchentoot:header-out :expires) 0))
+  (hunchentoot:no-cache))
 
 (hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
   (disable-caching)
@@ -263,13 +261,34 @@
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
-(hunchentoot:define-easy-handler (pending-suggestions-handler
-				  :uri "/wn/activity") ()
-  (let ((activity (get-activity)))
-    (setf (hunchentoot:content-type*) "text/html")
-    (disable-caching)
-    (cl-wnbrowser.templates:activity
-     (list :activities activity))))
+(hunchentoot:define-easy-handler (vote-up-handler
+				  :uri "/wn/vote-up") (id)
+  (let ((login (hunchentoot:session-value :login)))
+    (setf (hunchentoot:content-type*) "application/json")
+    (if login
+        (with-output-to-string (s)
+          (yason:encode-plist (add-vote id login 1) s))
+        (with-output-to-string (s)
+          (yason:encode-plist (list :result "not-authorized") s)))))
+
+(hunchentoot:define-easy-handler (vote-down-handler
+				  :uri "/wn/vote-down") (id)
+  (let ((login (hunchentoot:session-value :login)))
+    (setf (hunchentoot:content-type*) "application/json")
+    (if login
+        (with-output-to-string (s)
+          (yason:encode-plist (add-vote id login -1) s))
+        (with-output-to-string (s)
+          (yason:encode-plist (list :result "not-authorized") s)))))
+
+(hunchentoot:define-easy-handler (delete-vote-handler
+				  :uri "/wn/delete-vote") (id)
+  (let ((login (hunchentoot:session-value :login)))
+    (when login
+      (delete-vote id))
+    (setf (hunchentoot:content-type*) "application/json")
+    (with-output-to-string (s)
+      (yason:encode-plist (list :result "Done") s))))
 
 (hunchentoot:define-easy-handler (github-callback-handler
 				  :uri "/wn/callback") (code)
@@ -280,6 +299,22 @@
         (hunchentoot:redirect request-uri)
         (hunchentoot:redirect "/wn/"))))
 
+(hunchentoot:define-easy-handler (sense-tagging-handler
+				  :uri "/wn/sense-tagging") ()
+  (let ((sense (get-sense-tagging)))
+    (setf (hunchentoot:content-type*) "text/html")
+    (cl-wnbrowser.templates:sense
+       (list :document sense))))
+
+(hunchentoot:define-easy-handler (sense-tagging-details-handler
+				  :uri "/wn/sense-tagging-details") (wordform lemma (sense :parameter-type 'list))
+  (let ((in (open "/tmp/bosque.json")))
+    (setf (hunchentoot:content-type*) "text/html")
+    (cl-wnbrowser.templates:sense-details
+     (list :wordform wordform
+           :lemma lemma
+           :senses sense))))
+    
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"

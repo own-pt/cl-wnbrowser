@@ -25,49 +25,33 @@
     (when drilldown drilldown))))
 
 (defun execute-cloudant-query (term &key drilldown bookmark (api "search-documents"))
-  (let ((stream (drakma:http-request
-                 (format nil "~a/~a" *ownpt-api-uri* api)
-		 :method :get
-		 :external-format-out :utf-8
-		 :parameters (get-cloudant-query-plist term drilldown bookmark)
-		 :want-stream t)))
-    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
-    (let ((obj (yason:parse stream
-			    :object-as :plist
-			    :object-key-fn #'make-keyword)))
-      (close stream)
-      obj)))
+  (call-rest-method
+   api
+   :parameters (get-cloudant-query-plist term drilldown bookmark)))
 
 (defun delete-suggestion (id)
-  (drakma:http-request
-   (format nil "~a/delete-suggestion/~a"
-           *ownpt-api-uri* (drakma:url-encode id :utf-8))
+  (call-rest-method
+   (format nil "delete-suggestion/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
 
 (defun accept-suggestion (id)
-  (drakma:http-request
-   (format nil "~a/accept-suggestion/~a"
-           *ownpt-api-uri* (drakma:url-encode id :utf-8))
+  (call-rest-method
+   (format nil "accept-suggestion/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
 
 (defun reject-suggestion (id)
-  (drakma:http-request
-   (format nil "~a/reject-suggestion/~a"
-           *ownpt-api-uri* (drakma:url-encode id :utf-8))
+  (call-rest-method
+   (format nil "reject-suggestion/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
 
 (defun delete-comment (id)
-  (drakma:http-request
-   (format nil "~a/delete-comment/~a"
-           *ownpt-api-uri* (drakma:url-encode id :utf-8))
+  (call-rest-method
+   (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
 
 (defun add-suggestion (id doc-type type param login)
-  (drakma:http-request
-   (format nil "~a/add-suggestion/~a"
-           *ownpt-api-uri* (drakma:url-encode id :utf-8))
-   :method :get
-   :external-format-out :utf-8
+  (call-rest-method 
+   (format nil "add-suggestion/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "doc_type" doc-type)
                      (cons "suggestion_type" type)
                      (cons "params" param)
@@ -75,55 +59,32 @@
                      (cons "user" login))))
 
 (defun add-comment (id doc-type text login)
-  (drakma:http-request
-   (format nil "~a/add-comment/~a"
-           *ownpt-api-uri* (drakma:url-encode id :utf-8))
-   :method :get
-   :external-format-out :utf-8
+  (call-rest-method 
+   (format nil "add-comment/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "doc_type" doc-type)
                      (cons "text" text)
                      (cons "key" *ownpt-api-key*)
                      (cons "user" login))))
 
 (defun get-suggestions (id)
-  (let ((stream (drakma:http-request
-		 (format nil "~a/get-suggestions/~a" *ownpt-api-uri* id)
-		 :method :get
-		 :external-format-out :utf-8
-		 :want-stream t)))
-    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
-    (let ((obj (yason:parse stream
-			    :object-as :plist
-			    :object-key-fn #'make-keyword)))
-      (close stream)
-      (get-docs obj))))
+  (get-docs (call-rest-method (format nil "get-suggestions/~a" id))))
 
 (defun get-comments (id)
-  (let ((stream (drakma:http-request
-		 (format nil "~a/get-comments/~a" *ownpt-api-uri* id)
-		 :method :get
-		 :external-format-out :utf-8
-		 :want-stream t)))
-    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
-    (let ((obj (yason:parse stream
-			    :object-as :plist
-			    :object-key-fn #'make-keyword)))
-      (close stream)
-      (get-docs obj))))
+  (get-docs (call-rest-method (format nil "get-comments/~a" id))))
 
+(defun delete-vote (id)
+  (call-rest-method (format nil "delete-vote/~a" id)
+                    :parameters (list (cons "key" *ownpt-api-key*))))
+
+(defun add-vote (id user value)
+  (call-rest-method (format nil "add-vote/~a" id)
+                    :parameters (list
+                                 (cons "user" user)
+                                 (cons "value" (format nil "~a" value))
+                                 (cons "key" *ownpt-api-key*))))
+    
 (defun get-document-by-id (doctype id)
-  (let ((stream (drakma:http-request
-		 (format nil "~a/~a/~a" *ownpt-api-uri* doctype
-                         (drakma:url-encode id :utf-8))
-		 :method :get
-		 :external-format-out :utf-8
-		 :want-stream t)))
-    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
-    (let ((obj (yason:parse stream
-			    :object-as :plist
-			    :object-key-fn #'make-keyword)))
-      (close stream)
-      obj)))
+  (call-rest-method (format nil "~a/~a" doctype (drakma:url-encode id :utf-8))))
 
 (defun request-successful? (result)
   (null (getjso "error" result)))
@@ -238,15 +199,22 @@ LEX-FILE."
 (defun get-nomlex (id)
   (get-document-by-id "nomlex" id))
 
-(defun get-activity ()
-  (let ((stream (drakma:http-request
-		 (format nil "~a/get-activity" *ownpt-api-uri*)
-		 :method :get
-                 :parameters (list (cons "key" *ownpt-api-key*))
-		 :want-stream t)))
+(defun get-sense-tagging ()
+  (call-rest-method "sense-tagging"))
+
+(defun get-root ()
+  (call-rest-method ""))
+
+(defun call-rest-method (method &key parameters)
+    (let* ((stream (drakma:http-request
+                   (format nil "~a/~a" *ownpt-api-uri* method)
+                   :parameters parameters
+                   :method :get
+                   :want-stream t)))
     (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
     (let ((obj (yason:parse stream
 			    :object-as :plist
 			    :object-key-fn #'make-keyword)))
       (close stream)
       obj)))
+  

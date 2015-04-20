@@ -83,6 +83,11 @@ li.breadcrumb:first-child::before {
     content: ""; 
 }
 
+.suggestions
+{
+    font-size: 0.9em;
+}
+
 table {
 width: 95%;
 border-collapse: collapse;
@@ -107,4 +112,39 @@ color: #ffffff;
 tr.alt td {
 color: #000000;
 background-color: #EAF2D3;
+}
+
+.arrow {
+    margin: 2px 0px 0px 0px;
+    width: 100%;
+    height: 14px;
+    display: block;
+    cursor: pointer;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none;
+}
+
+.arrow.upmod { 
+    background-image: url(/wn/st/aupmod.png);
+}
+.arrow.downmod { 
+    background-image: url(/wn/st/adownmod.png);
+}
+.arrow.up { 
+    background-image: url(/wn/st/aupgray.png);
+}
+.arrow.down { 
+    background-image: url(/wn/st/adowngray.png);
+}
+
+.midcol {
+    float: left;
+    margin-right: 7px;
+    margin-left: 7px;
+    background: transparent;
+    overflow: hidden;
 }
