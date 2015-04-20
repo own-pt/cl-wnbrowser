@@ -209,6 +209,7 @@ LEX-FILE."
     (let* ((stream (drakma:http-request
                    (format nil "~a/~a" *ownpt-api-uri* method)
                    :parameters parameters
+		   :external-format-out :utf-8
                    :method :get
                    :want-stream t)))
     (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
