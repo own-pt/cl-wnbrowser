@@ -211,6 +211,7 @@ LEX-FILE."
                    :parameters parameters
 		   :external-format-out :utf-8
                    :method :get
+                   :connection-timeout 120
                    :want-stream t)))
     (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
     (let ((obj (yason:parse stream
