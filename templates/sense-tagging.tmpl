@@ -8,10 +8,10 @@
   {foreach $text in $document}
   <li><p>{$text.text}</p>
     <p>
-      {foreach $word in $text.words}
-      {if isNonnull($word.lemma_synsets)}
       
-      <a target="sense-tagging-options" href="sense-tagging-details?wordform={$word.wordform}&lemma={$word.lemma}{foreach $s in $word.lemma_synsets}&sense={$s.id}{/foreach}">{$word.wordform}</a>
+      {foreach $word in $text.words}
+      {if startswith('NC',$word.tag)}
+      <a target="sense-tagging-options" href="sense-tagging-details?file=bosque.json&text={index($text)}&word={index($word)}">{$word.wordform}</a>
       {else}
       {$word.wordform}
       {/if}

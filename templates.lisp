@@ -76,6 +76,9 @@ in dealing with checkboxes."
           ((equal "r" type) (setq sumo-type "4")))
     (format nil "~a~a" sumo-type id)))
 
+(defun local-starts-with (prefix string)
+  (alexandria:starts-with-subseq prefix string :test #'string-equal))
+
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
@@ -90,6 +93,7 @@ in dealing with checkboxes."
        ("prettydate" #'pretty-print-iso-date)
        ("solrencode" #'solr-encode)
        ("checked" #'checked)
+       ("startswith" #'local-starts-with)
        ("isarray" #'is-array)
        ("synsetworden" #'get-synset-word-en))
     (walk-directory

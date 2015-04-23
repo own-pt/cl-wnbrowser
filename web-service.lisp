@@ -301,19 +301,17 @@
 
 (hunchentoot:define-easy-handler (sense-tagging-handler
 				  :uri "/wn/sense-tagging") ()
-  (let ((sense (get-sense-tagging)))
+  (let ((doc (get-sense-tagging)))
     (setf (hunchentoot:content-type*) "text/html")
     (cl-wnbrowser.templates:sense
-       (list :document sense))))
+       (list :document doc))))
 
 (hunchentoot:define-easy-handler (sense-tagging-details-handler
-				  :uri "/wn/sense-tagging-details") (wordform lemma (sense :parameter-type 'list))
-  (let ((in (open "/tmp/bosque.json")))
+				  :uri "/wn/sense-tagging-details") (file text word)
+  (let ((doc (get-sense-tagging-detail file text word)))
     (setf (hunchentoot:content-type*) "text/html")
     (cl-wnbrowser.templates:sense-details
-     (list :wordform wordform
-           :lemma lemma
-           :senses sense))))
+       (list :document doc))))
     
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler

@@ -4,11 +4,12 @@
 
 
 {template sense-details}
-<p><b>Word form</b>: {$wordform}</p>
-<p><b>Lemma</b>: {$lemma}</p>
+<p><b>Word form</b>: {$document.word.wordform}</p>
+<p><b>Lemma</b>: {$document.word.lemma}</p>
 <p><b>Senses</b>:
-{foreach $s in $senses}
-{if not isFirst($s)}, {/if}
-<a target="synset" href="/wn/synset?id={$s}">{$s}</a>
-{/foreach}
+<ul>
+  {foreach $s in $document.lemma_synsets}
+  <li>{$s.gloss}
+  {/foreach}
+</ul>
 {/template}
