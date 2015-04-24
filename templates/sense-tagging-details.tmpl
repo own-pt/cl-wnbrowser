@@ -4,12 +4,38 @@
 
 
 {template sense-details}
-<p><b>Word form</b>: {$document.word.wordform}</p>
+{literal}
+<style type='text/css'>
+  .lista input { width: 20px; }
+</style>
+{/literal}
+<p><b>Usu&aacute;rio</b>: {$userid}</p>
 <p><b>Lemma</b>: {$document.word.lemma}</p>
 <p><b>Senses</b>:
-<ul>
-  {foreach $s in $document.lemma_synsets}
-  <li>{$s.gloss}
-  {/foreach}
-</ul>
+  <form>
+    <div class="lista">
+      <fieldset>
+        {foreach $s in $document.lemma_synsets}
+        <input type="radio" name="selection" value="{$s.id}"><a target="_blank" href="synset?id={$s.id}">{$s.id}</a>
+        
+        {foreach $w in $s.words}
+        {if not isFirst($w)}, {/if}
+        {$w}
+        {/foreach}
+        
+        <ul>
+          <li><i>{$s.gloss}</i></li>
+        </ul>
+        {/foreach}
+        
+        <input type="radio" name="selection" value="l">Lematiza&ccedil;&atilde;o errada
+        <input type="radio" name="selection" value="m">Missing sense
+      </fieldset>
+    </div>
+    <p>
+      Coment&aacute;rio: <input type="text" name="comment">
+    </p>
+    <p><input type="submit"></p>
+  </form>
+</p>
 {/template}

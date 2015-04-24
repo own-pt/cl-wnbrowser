@@ -300,18 +300,25 @@
         (hunchentoot:redirect "/wn/"))))
 
 (hunchentoot:define-easy-handler (sense-tagging-handler
-				  :uri "/wn/sense-tagging") ()
+				  :uri "/wn/sense-tagging") (userid)
   (let ((doc (get-sense-tagging)))
     (setf (hunchentoot:content-type*) "text/html")
     (cl-wnbrowser.templates:sense
-       (list :document doc))))
+       (list :userid userid :document doc))))
+
+(hunchentoot:define-easy-handler (sense-tagging-frame-handler
+				  :uri "/wn/sense-tagging-frame") (userid)
+  (let ((doc (get-sense-tagging)))
+    (setf (hunchentoot:content-type*) "text/html")
+    (cl-wnbrowser.templates:sense-frame
+       (list :userid userid))))
 
 (hunchentoot:define-easy-handler (sense-tagging-details-handler
-				  :uri "/wn/sense-tagging-details") (file text word)
+				  :uri "/wn/sense-tagging-details") (file text word userid)
   (let ((doc (get-sense-tagging-detail file text word)))
     (setf (hunchentoot:content-type*) "text/html")
     (cl-wnbrowser.templates:sense-details
-       (list :document doc))))
+       (list :userid userid :document doc))))
     
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler

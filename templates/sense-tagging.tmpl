@@ -4,6 +4,7 @@
 
 {template sense}
 
+
 <ul>
   {foreach $text in $document}
   <li><p>{$text.text}</p>
@@ -11,7 +12,7 @@
       
       {foreach $word in $text.words}
       {if startswith('NC',$word.tag)}
-      <a target="sense-tagging-options" href="sense-tagging-details?file=bosque.json&text={index($text)}&word={index($word)}">{$word.wordform}</a>
+      <a target="sense-tagging-options" href="sense-tagging-details?file=bosque.json&text={index($text)}&word={index($word)}&userid={$userid}">{$word.wordform}</a>
       {else}
       {$word.wordform}
       {/if}
