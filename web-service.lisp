@@ -37,7 +37,7 @@
 (defun process-error (result)
   (cl-wnbrowser.templates:searcherror result))
 
-(hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn2") ()
+(hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn") ()
   (hunchentoot:redirect "/wn/"))
 
 (hunchentoot:define-easy-handler (get-root-handler :uri "/wn/") ()
@@ -315,11 +315,17 @@
 
 (hunchentoot:define-easy-handler (sense-tagging-details-handler
 				  :uri "/wn/sense-tagging-details") (file text word userid)
-  (let ((doc (get-sense-tagging-detail file text word)))
+  (let ((doc (get-sense-tagging-detail file text word))
+        (sel (get-sense-tagging-suggestion file text word userid)))
     (setf (hunchentoot:content-type*) "text/html")
     (cl-wnbrowser.templates:sense-details
-       (list :userid userid :document doc))))
-    
+       (list :selection sel :file file :text text :word word :userid userid :document doc))))
+
+(hunchentoot:define-easy-handler (sense-tagging-process-suggestion-handler
+				  :uri "/wn/sense-tagging-process-suggestion") (file text word userid selection comment)
+  (add-sense-tagging-suggestion file text word userid selection comment)
+  (hunchentoot:redirect (format nil "/wn/sense-tagging-details?file=~a&text=~a&word=~a&userid=~a" file text word userid)))
+
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"

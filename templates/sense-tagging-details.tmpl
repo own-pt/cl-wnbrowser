@@ -6,36 +6,62 @@
 {template sense-details}
 {literal}
 <style type='text/css'>
-  .lista input { width: 20px; }
+  body, h1, h2, h3, p, ul, li, i
+  { 
+  font-family: Segoe UI, Verdana, sans-serif; 
+  }
+  h1 { 
+    font-size: 1.5em; 
+  }
+  fieldset {
+  border:0 none;
+  }
+  .option { width: 20px; }
 </style>
 {/literal}
-<p><b>Usu&aacute;rio</b>: {$userid}</p>
 <p><b>Lemma</b>: {$document.word.lemma}</p>
+{if isNonnull($selection)}
+<i>Sele&ccedil&atilde;o feita.</i>
+{else}
 <p><b>Senses</b>:
-  <form>
+  <form action="sense-tagging-process-suggestion">
+    <input type="hidden" name="userid" value="{$userid}">
+    <input type="hidden" name="file" value="{$file}">
+    <input type="hidden" name="text" value="{$text}">
+    <input type="hidden" name="word" value="{$word}">
+    
     <div class="lista">
       <fieldset>
         {foreach $s in $document.lemma_synsets}
-        <input type="radio" name="selection" value="{$s.id}"><a target="_blank" href="synset?id={$s.id}">{$s.id}</a>
+        <input class="option" type="radio" name="selection" value="{$s.id}"><a target="_blank" href="synset?id={$s.id}">{$s.id}</a>
         
         {foreach $w in $s.words}
         {if not isFirst($w)}, {/if}
         {$w}
         {/foreach}
-        
         <ul>
           <li><i>{$s.gloss}</i></li>
         </ul>
         {/foreach}
-        
+        <br>
         <input type="radio" name="selection" value="l">Lematiza&ccedil;&atilde;o errada
+        <br>
         <input type="radio" name="selection" value="m">Missing sense
+        <input type="text" name="comment">
       </fieldset>
     </div>
-    <p>
-      Coment&aacute;rio: <input type="text" name="comment">
-    </p>
+    {if isNonnull($userid)}
     <p><input type="submit"></p>
+    {else}
+    <p><i>&Eacute; necess&aacute;rio estar logado para prosseguir...</i></p>
+    {/if}
   </form>
 </p>
+<p>
+  <form target="_blank" action="search" method="get">
+    <input class="search" type="text" name="term" placeholder="Search ..."/>
+    <input class="search" type="submit" value="Search" />
+  </form>
+</p>
+{/if}
 {/template}

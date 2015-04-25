@@ -4,24 +4,22 @@
 
 {template sense}
 
+{literal}
+<style type='text/css'>
+  body, h1, h2, h3, p, ul, li, i
+  { 
+  font-family: Segoe UI, Verdana, sans-serif; 
+  }
+  h1 { 
+    font-size: 1.2em; 
+  }
+  .lista input { width: 20px; }
+</style>
+{/literal}
 
-<ul>
-  {foreach $text in $document}
-  <li><p>{$text.text}</p>
-    <p>
-      
-      {foreach $word in $text.words}
-      {if startswith('NC',$word.tag)}
-      <a target="sense-tagging-options" href="sense-tagging-details?file=bosque.json&text={index($text)}&word={index($word)}&userid={$userid}">{$word.wordform}</a>
-      {else}
-      {$word.wordform}
-      {/if}
-      {sp}
-      {/foreach}
-    </p>
-  </li>
-  {/foreach}
-
-</ul>
+{foreach $text in $document}
+<h1>Texto {index($text)+1}</h1>
+<p>{extractlinks($text, index($text), $userid) | noAutoescape}</p>
+{/foreach}
 
 {/template}
