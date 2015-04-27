@@ -80,11 +80,17 @@
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
 	    (documents num-found facets nbookmark error)
-	  (search-cloudant term (make-drilldown :rdf-type fq_rdftype
-				     :lex-file fq_lexfile
-				     :word-count-pt fq_word_count_pt
-				     :word-count-en fq_word_count_en)
-                           bookmark "search-documents")
+          (flet ((preprocess-term (term)
+                   (cond ((= 0 (length term)) "*:*")
+                         ((string-equal term "*") "*:*")
+                         (t term))))
+            (search-cloudant
+             (preprocess-term term)
+             (make-drilldown :rdf-type fq_rdftype
+                             :lex-file fq_lexfile
+                             :word-count-pt fq_word_count_pt
+                             :word-count-en fq_word_count_en)
+             bookmark "search-documents"))
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
