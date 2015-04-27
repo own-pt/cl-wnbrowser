@@ -107,6 +107,7 @@ in dealing with checkboxes."
        ("alreadyvoted" #'already-voted)
        ("getvoteid" #'get-vote-id)
        ("extractlinks" #'extract-links)
+       ("urlencode" #'hunchentoot:url-encode)
        ("synsetidtosumo" #'synset-id-to-sumo)
        ("trimcomment" #'trim-comment)
        ("getdocid" #'get-doc-id)

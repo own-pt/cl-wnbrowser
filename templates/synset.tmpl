@@ -64,7 +64,7 @@
       {if not isFirst($g)}{sp}&bull;{sp}{/if}
       {$g}
       {if isNonnull($login)}
-      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&param={$g}">x</a>]
+      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&param={$g}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -75,6 +75,7 @@
     {if isNonnull($login)}
     <form action="/wn/process-suggestion">
       <input type="hidden" name="type" value="add-gloss-pt">
+      <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="id" value="{$id}">
       <input type="hidden" name="doc_type" value="synset">
       <input type="text" name="param">
@@ -91,7 +92,7 @@
       {if not isFirst($e)}{sp}&bull;{sp}{/if}
       {$e}
       {if isNonnull($login)}
-      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&param={$e}">x</a>]
+      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&param={$e}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -102,6 +103,7 @@
     {if isNonnull($login)}
     <form action="/wn/process-suggestion">
       <input type="hidden" name="type" value="add-example-pt">
+      <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="id" value="{$id}">
       <input type="hidden" name="doc_type" value="synset">
       <input type="text" name="param">
@@ -117,7 +119,7 @@
     {if not isFirst($w)}{sp}&bull;{sp}{/if}
     <span class="ptbrword">{$w}
       {if isNonnull($login)}
-      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&param={$w}">x</a>]
+      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&param={$w}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
     </span>
     {ifempty}<i>[ empty word list ]</i>
@@ -125,6 +127,7 @@
 
     {if isNonnull($login)}
     <form action="/wn/process-suggestion">
+      <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="type" value="add-word-pt">
       <input type="hidden" name="id" value="{$id}">
       <input type="hidden" name="doc_type" value="synset">
@@ -603,13 +606,13 @@
       <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td><td>{$s.status}</td>
       <td>
         {if validstatus($s.status) and (isself($login, $s.user) or isauthorized($login))}
-        <a href="/wn/delete-suggestion?id={getdocid($s)}" title="Delete suggestion">del</a>
+        <a href="/wn/delete-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Delete suggestion">del</a>
 	{else}
 	del
 	{/if}
 	{if validstatus($s.status) and isauthorized($login)} |
-        <a href="/wn/accept-suggestion?id={getdocid($s)}" title="Accept suggestion">acc</a> |
-        <a href="/wn/reject-suggestion?id={getdocid($s)}" title="Reject suggestion">rej</a>
+        <a href="/wn/accept-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Accept suggestion">acc</a> |
+        <a href="/wn/reject-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Reject suggestion">rej</a>
         {else}
         | acc | rej
         {/if}
@@ -625,7 +628,7 @@
   {foreach $c in $comments}
   <p><b>{$c.user}</b>: {$c.params} ({prettydate($c.date)})
     {if isself($login, $c.user) or isauthorized($login)}
-    [<a href="/wn/delete-comment?id={getdocid($c)}">del</a>]
+    [<a href="/wn/delete-comment?id={getdocid($c)}&return-uri={urlencode($returnuri)}">del</a>]
     {/if}
   </p>
   {/foreach}
@@ -633,6 +636,7 @@
     {if isNonnull($login)}
     <form action="/wn/process-comment">
       <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="doc_type" value="synset">
       <textarea rows="4" cols="80" name="text"></textarea>
       <br>

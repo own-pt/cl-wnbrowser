@@ -159,6 +159,7 @@
       (list
        :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
        :term term
+       :returnuri request-uri
        :debug debug
        :comments comments
        :suggestions suggestions
@@ -175,88 +176,79 @@
     (process-nomlex
      (append
       (list :term term
+            :returnuri (hunchentoot:request-uri*)
 	    :debug debug
             :githubid *github-client-id*
 	    :nomlex nomlex)
       nomlex))))
 
 (hunchentoot:define-easy-handler (process-suggestion-handler
-				  :uri "/wn/process-suggestion") (id doc_type type param)
+				  :uri "/wn/process-suggestion") (id doc_type type param return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (add-suggestion id doc_type type param login)
-          (hunchentoot:redirect (format nil "/wn/~a?id=~a" doc_type id)))
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler (process-comment-handler
-				  :uri "/wn/process-comment") (id doc_type text)
+				  :uri "/wn/process-comment") (id doc_type text return-uri)
   (let ((login (hunchentoot:session-value :login))
         (request-uri (hunchentoot:session-value :request-uri)))
     (if login
         (progn
           (add-comment id doc_type text login)
-          (if request-uri
-              (hunchentoot:redirect request-uri)
-              (hunchentoot:redirect "/wn/")))
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler (delete-suggestion-handler
-				  :uri "/wn/delete-suggestion") (id)
+				  :uri "/wn/delete-suggestion") (id return-uri)
   (let ((login (hunchentoot:session-value :login))
         (request-uri (hunchentoot:session-value :request-uri)))
     (if login
         (progn
           (delete-suggestion id)
-          (if request-uri
-              (hunchentoot:redirect request-uri)
-              (hunchentoot:redirect "/wn/")))
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler (accept-suggestion-handler
-				  :uri "/wn/accept-suggestion") (id)
+				  :uri "/wn/accept-suggestion") (id return-uri)
   (let ((login (hunchentoot:session-value :login))
         (request-uri (hunchentoot:session-value :request-uri)))
     (if login
         (progn
           (accept-suggestion id)
-          (if request-uri
-              (hunchentoot:redirect request-uri)
-              (hunchentoot:redirect "/wn/")))
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler (reject-suggestion-handler
-				  :uri "/wn/reject-suggestion") (id)
+				  :uri "/wn/reject-suggestion") (id return-uri)
   (let ((login (hunchentoot:session-value :login))
         (request-uri (hunchentoot:session-value :request-uri)))
     (if login
         (progn
           (reject-suggestion id)
-          (if request-uri
-              (hunchentoot:redirect request-uri)
-              (hunchentoot:redirect "/wn/")))
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler (delete-comment-handler
-				  :uri "/wn/delete-comment") (id)
+				  :uri "/wn/delete-comment") (id return-uri)
   (let ((login (hunchentoot:session-value :login))
         (request-uri (hunchentoot:session-value :request-uri)))
     (if login
         (progn
           (delete-comment id)
-          (if request-uri
-              (hunchentoot:redirect request-uri)
-              (hunchentoot:redirect "/wn/")))
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
