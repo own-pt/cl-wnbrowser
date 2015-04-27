@@ -43,8 +43,11 @@
       (string-equal logged user)
       nil))
 
-(defun is-authorized (user)
-  (find user *authorized-accounts* :test #'string-equal))
+(defun is-authorized-to-approve/reject (user)
+  (find user *approve-reject-authorized-accounts* :test #'string-equal))
+
+(defun is-authorized-to-vote (user)
+  (find user *vote-authorized-accounts* :test #'string-equal))
 
 (defun valid-status (status)
   (not (string-equal status "committed")))
@@ -112,7 +115,8 @@ in dealing with checkboxes."
        ("trimcomment" #'trim-comment)
        ("getdocid" #'get-doc-id)
        ("validstatus" #'valid-status)
-       ("isauthorized" #'is-authorized)
+       ("isauthorizedapprove" #'is-authorized-to-approve/reject)
+       ("isauthorizedvote" #'is-authorized-to-vote)
        ("isself" #'is-self)
        ("prettydate" #'pretty-print-iso-date)
        ("solrencode" #'solr-encode)

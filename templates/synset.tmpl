@@ -563,7 +563,7 @@
     {/if}
     <tr>
       <td>
-        {if isNonnull($login)}
+        {if isNonnull($login) and isauthorizedvote($login)}
         <div class="midcol">
           
           <div id="vote-up-{getdocid($s)}" role="button" class="arrow {if alreadyvoted($login, $s.votes.positive_votes)}upmod{else}up{/if}" onclick="voteup('{getdocid($s)}')"></div>
@@ -605,12 +605,12 @@
       </td>
       <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td><td>{$s.status}</td>
       <td>
-        {if validstatus($s.status) and (isself($login, $s.user) or isauthorized($login))}
+        {if validstatus($s.status) and (isself($login, $s.user) or isauthorizedapprove($login))}
         <a href="/wn/delete-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Delete suggestion">del</a>
 	{else}
 	del
 	{/if}
-	{if validstatus($s.status) and isauthorized($login)} |
+	{if validstatus($s.status) and isauthorizedapprove($login)} |
         <a href="/wn/accept-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Accept suggestion">acc</a> |
         <a href="/wn/reject-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Reject suggestion">rej</a>
         {else}
@@ -627,7 +627,7 @@
   
   {foreach $c in $comments}
   <p><b>{$c.user}</b>: {$c.params} ({prettydate($c.date)})
-    {if isself($login, $c.user) or isauthorized($login)}
+    {if isself($login, $c.user) or isauthorizedapprove($login)}
     [<a href="/wn/delete-comment?id={getdocid($c)}&return-uri={urlencode($returnuri)}">del</a>]
     {/if}
   </p>
