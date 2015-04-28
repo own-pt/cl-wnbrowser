@@ -32,7 +32,7 @@
   (cl-wnbrowser.templates:result result))
 
 (defun process-activities (activities)
-  (cl-wnbrowser.templates:activities activities))
+  (cl-wnbrowser.templates:activities (append (get-login) activities)))
 
 (defun process-error (result)
   (cl-wnbrowser.templates:searcherror result))
@@ -61,6 +61,12 @@
 (defun disable-caching ()
   (hunchentoot:no-cache))
 
+(defun preprocess-term (term)
+  (cond ((= 0 (length term)) "*:*")
+        ((string-equal term "*") "*:*")
+        (t term)))
+ 
+
 (hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
   (disable-caching)
   (cl-wnbrowser.templates:stats
@@ -80,17 +86,13 @@
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
 	    (documents num-found facets nbookmark error)
-          (flet ((preprocess-term (term)
-                   (cond ((= 0 (length term)) "*:*")
-                         ((string-equal term "*") "*:*")
-                         (t term))))
-            (search-cloudant
-             (preprocess-term term)
-             (make-drilldown :rdf-type fq_rdftype
-                             :lex-file fq_lexfile
-                             :word-count-pt fq_word_count_pt
-                             :word-count-en fq_word_count_en)
-             bookmark "search-documents"))
+          (search-cloudant
+           (preprocess-term term)
+           (make-drilldown :rdf-type fq_rdftype
+                           :lex-file fq_lexfile
+                           :word-count-pt fq_word_count_pt
+                           :word-count-en fq_word_count_en)
+           bookmark "search-documents")
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
@@ -120,14 +122,16 @@
   (disable-caching)
   (multiple-value-bind
         (documents num-found facets nbookmark error)
-      (search-cloudant "*:*" (make-drilldown-activity
-                             :type fq_type
-                             :action fq_action
-                             :status fq_status
-                             :doc_type fq_doc_type
-                             :provenance fq_provenance
-                             :user fq_user)
-                       bookmark "search-activities")
+      (search-cloudant
+       (preprocess-term term)
+       (make-drilldown-activity
+        :type fq_type
+        :action fq_action
+        :status fq_status
+        :doc_type fq_doc_type
+        :provenance fq_provenance
+        :user fq_user)
+       bookmark "search-activities")
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))

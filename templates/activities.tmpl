@@ -14,6 +14,16 @@
   <body>
     <h1><a href="/wn/">OpenWordnet-PT</a></h1>
 
+    <p>
+    <form action="search-activities" method="get">
+      <input type="text" name="term" value="{$term}" />
+      <input type="submit" value="Search" />
+    </form>
+    </p>
+    {if isNonnull($login)}
+    <p>[ <a href="search-activities?term=params:@{$login}">my @mentions</a> ]</p>
+    {/if}
+    
 <h2>{$numfound} result{if $numfound == 0 or $numfound > 1}s{/if}</h2>
 
 {if $numfound > 0}
