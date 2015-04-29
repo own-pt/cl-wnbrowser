@@ -193,11 +193,11 @@
       nomlex))))
 
 (hunchentoot:define-easy-handler (process-suggestion-handler
-				  :uri "/wn/process-suggestion") (id doc_type type param return-uri)
+				  :uri "/wn/process-suggestion") (id doc_type type params return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (add-suggestion id doc_type type param login)
+          (add-suggestion id doc_type type params login)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")

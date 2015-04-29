@@ -57,14 +57,60 @@
 
   <h3>Portuguese</h3>
 
+  <script type="text/javascript">
+    var del_words = [];
+    var add_words = [];
+    var add_gloss = [];
+    var del_gloss = [];
+    var add_ex = [];
+    var del_ex = [];
+    
+  {if isNonnull($suggestions)}
+    {foreach $s in $suggestions}
+    {if $s.action == 'add-word-pt'}
+    add_words.push('{$s.params}'.trim());
+    {/if}
+    {if $s.action == 'remove-word-pt'}
+    del_words.push('{$s.params}'.trim());
+    {/if}
+    {if $s.action == 'add-example-pt'}
+    add_ex.push('{$s.params}'.trim());
+    {/if}
+    {if $s.action == 'remove-example-pt'}
+    del_ex.push('{$s.params}'.trim());
+    {/if}
+    {if $s.action == 'add-gloss-pt'}
+    add_gloss.push('{$s.params}'.trim());
+    {/if}
+    {if $s.action == 'remove-gloss-pt'}
+    del_gloss.push('{$s.params}'.trim());
+    {/if}
+    {/foreach}
+  {/if}
+  </script>
+  {literal}
+  <script>
+    function validate(form, words)
+    {
+    if (words.indexOf(form.elements["params"].value.trim()) >= 0)
+    {
+    alert("Suggestion already made.");
+    return false;
+    }
+    return true;
+    }
+  </script>
+  {/literal}
+  
   <p>
     Gloss: <i>
       {if isNonnull($gloss_pt)}
       {foreach $g in $gloss_pt}
       {if not isFirst($g)}{sp}&bull;{sp}{/if}
-      {$g}
-      {if isNonnull($login)}
-      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&param={$g}&return-uri={urlencode($returnuri)}">x</a>]
+      {if insuggestions($g, $suggestions, 'remove-gloss-pt')}<strike>{/if}{$g}{if insuggestions($g, $suggestions, 'remove-gloss-pt')}</strike>{/if}
+      
+        {if isNonnull($login) and notinsuggestions($g, $suggestions, 'remove-gloss-pt')}
+      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -73,12 +119,12 @@
     </i>
 
     {if isNonnull($login)}
-    <form action="/wn/process-suggestion">
+    <form action="/wn/process-suggestion" onsubmit="return validate(this, add_gloss)">
       <input type="hidden" name="type" value="add-gloss-pt">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="id" value="{$id}">
       <input type="hidden" name="doc_type" value="synset">
-      <input type="text" name="param">
+      <input type="text" name="params">
       <input type="submit" value="Suggest new gloss">
     </form>
     {/if}
@@ -90,9 +136,10 @@
       {if isNonnull($example_pt)}
       {foreach $e in $example_pt}
       {if not isFirst($e)}{sp}&bull;{sp}{/if}
-      {$e}
-      {if isNonnull($login)}
-      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&param={$e}&return-uri={urlencode($returnuri)}">x</a>]
+      {if insuggestions($e, $suggestions, 'remove-example-pt')}<strike>{/if}{$e}{if insuggestions($e, $suggestions, 'remove-example-pt')}</strike>{/if}
+
+      {if isNonnull($login) and notinsuggestions($e, $suggestions, 'remove-example-pt')}
+      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&params={$e}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -101,12 +148,12 @@
     </i>
 
     {if isNonnull($login)}
-    <form action="/wn/process-suggestion">
+    <form action="/wn/process-suggestion" onsubmit="return validate(this, add_ex)">
       <input type="hidden" name="type" value="add-example-pt">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="id" value="{$id}">
       <input type="hidden" name="doc_type" value="synset">
-      <input type="text" name="param">
+      <input type="text" name="params">
       <input type="submit" value="Suggest new example">
     </form>
     {/if}
@@ -117,21 +164,22 @@
   <p>
     {foreach $w in $word_pt}
     {if not isFirst($w)}{sp}&bull;{sp}{/if}
-    <span class="ptbrword">{$w}
-      {if isNonnull($login)}
-      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&param={$w}&return-uri={urlencode($returnuri)}">x</a>]
+    <span class="ptbrword">
+      {if insuggestions($w, $suggestions, 'remove-word-pt')}<strike>{/if}{$w}{if insuggestions($w, $suggestions, 'remove-word-pt')}</strike>{/if}
+      {if isNonnull($login) and notinsuggestions($w, $suggestions, 'remove-word-pt')}
+      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
     </span>
     {ifempty}<i>[ empty word list ]</i>
     {/foreach}
 
     {if isNonnull($login)}
-    <form action="/wn/process-suggestion">
+    <form action="/wn/process-suggestion" onsubmit="return validate(this, add_words)">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="type" value="add-word-pt">
       <input type="hidden" name="id" value="{$id}">
       <input type="hidden" name="doc_type" value="synset">
-      <input type="text" name="param">
+      <input type="text" name="params">
       <input type="submit" value="Suggest new word">
     </form>
     {/if}

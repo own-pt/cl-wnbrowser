@@ -104,11 +104,25 @@ in dealing with checkboxes."
 			      (cons lnk (cons (subseq txt 0 start) out)))))))
       (convert (getf txt :|text|) offsets tags 0 0 nil))))
 
+(defun in-suggestions (entry suggestions action)
+  (let ((trimmed-entry (string-trim '(#\Space) entry))
+        (entries 
+         (mapcan (lambda (s)
+                   (when (string-equal action (getf s :|action|))
+                       (list (string-trim '(#\Space) (getf s :|params|)))))
+                 suggestions)))
+    (find trimmed-entry entries :test #'string-equal)))
+
+(defun not-in-suggestions (entry suggestions action)
+  (not (in-suggestions entry suggestions action)))
+
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
        ("alreadyvoted" #'already-voted)
        ("getvoteid" #'get-vote-id)
+       ("insuggestions" #'in-suggestions)
+       ("notinsuggestions" #'not-in-suggestions)
        ("extractlinks" #'extract-links)
        ("urlencode" #'hunchentoot:url-encode)
        ("synsetidtosumo" #'synset-id-to-sumo)
