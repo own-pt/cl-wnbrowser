@@ -88,16 +88,26 @@
     {/foreach}
   {/if}
   </script>
+  
   {literal}
   <script>
     function validate(form, words)
     {
-    if (words.indexOf(form.elements["params"].value.trim()) >= 0)
-    {
-    alert("Suggestion already made.");
-    return false;
-    }
-    return true;
+      var v = form.elements["params"].value.trim();
+    
+      if (words.indexOf(v) >= 0)
+      {
+        alert("Suggestion already made.");
+        return false;
+      }
+
+      if (v.length < 1)
+      {
+        alert("Invalid suggestion.");
+        return false;
+      }
+                     
+      return true;
     }
   </script>
   {/literal}
@@ -109,7 +119,7 @@
       {if not isFirst($g)}{sp}&bull;{sp}{/if}
       {if insuggestions($g, $suggestions, 'remove-gloss-pt')}<strike>{/if}{$g}{if insuggestions($g, $suggestions, 'remove-gloss-pt')}</strike>{/if}
       
-        {if isNonnull($login) and notinsuggestions($g, $suggestions, 'remove-gloss-pt')}
+      {if isNonnull($login) and notinsuggestions($g, $suggestions, 'remove-gloss-pt')}
       [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
@@ -166,6 +176,7 @@
     {if not isFirst($w)}{sp}&bull;{sp}{/if}
     <span class="ptbrword">
       {if insuggestions($w, $suggestions, 'remove-word-pt')}<strike>{/if}{$w}{if insuggestions($w, $suggestions, 'remove-word-pt')}</strike>{/if}
+
       {if isNonnull($login) and notinsuggestions($w, $suggestions, 'remove-word-pt')}
       [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
