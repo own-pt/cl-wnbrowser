@@ -111,7 +111,7 @@ in dealing with checkboxes."
                    (when (string-equal action (getf s :|action|))
                        (list (string-trim '(#\Space) (getf s :|params|)))))
                  suggestions)))
-    (find trimmed-entry entries :test #'string-equal)))
+    (find trimmed-entry entries :test #'string=)))
 
 (defun setup-templates ()
   (closure-template:with-user-functions
