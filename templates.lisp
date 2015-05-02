@@ -113,16 +113,12 @@ in dealing with checkboxes."
                  suggestions)))
     (find trimmed-entry entries :test #'string-equal)))
 
-(defun not-in-suggestions (entry suggestions action)
-  (not (in-suggestions entry suggestions action)))
-
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
        ("alreadyvoted" #'already-voted)
        ("getvoteid" #'get-vote-id)
        ("insuggestions" #'in-suggestions)
-       ("notinsuggestions" #'not-in-suggestions)
        ("extractlinks" #'extract-links)
        ("urlencode" #'hunchentoot:url-encode)
        ("synsetidtosumo" #'synset-id-to-sumo)

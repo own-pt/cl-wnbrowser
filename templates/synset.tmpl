@@ -119,7 +119,7 @@
       {if not isFirst($g)}{sp}&bull;{sp}{/if}
       {if insuggestions($g, $suggestions, 'remove-gloss-pt')}<strike>{/if}{$g}{if insuggestions($g, $suggestions, 'remove-gloss-pt')}</strike>{/if}
       
-      {if isNonnull($login) and notinsuggestions($g, $suggestions, 'remove-gloss-pt')}
+      {if isNonnull($login) and (not insuggestions($g, $suggestions, 'remove-gloss-pt'))}
       [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
@@ -148,7 +148,7 @@
       {if not isFirst($e)}{sp}&bull;{sp}{/if}
       {if insuggestions($e, $suggestions, 'remove-example-pt')}<strike>{/if}{$e}{if insuggestions($e, $suggestions, 'remove-example-pt')}</strike>{/if}
 
-      {if isNonnull($login) and notinsuggestions($e, $suggestions, 'remove-example-pt')}
+      {if isNonnull($login) and (not insuggestions($e, $suggestions, 'remove-example-pt'))}
       [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&params={$e}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
@@ -177,7 +177,7 @@
     <span class="ptbrword">
       {if insuggestions($w, $suggestions, 'remove-word-pt')}<strike>{/if}{$w}{if insuggestions($w, $suggestions, 'remove-word-pt')}</strike>{/if}
 
-      {if isNonnull($login) and notinsuggestions($w, $suggestions, 'remove-word-pt')}
+      {if isNonnull($login) and (not insuggestions($w, $suggestions, 'remove-word-pt'))}
       [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
     </span>
