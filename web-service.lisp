@@ -133,7 +133,7 @@
         :doc_type fq_doc_type
         :provenance fq_provenance
         :user fq_user)
-       bookmark "search-activities" "10")
+       bookmark "search-activities" "25")
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
@@ -148,7 +148,7 @@
                      :fq_user fq_user
                      :fq_provenance fq_provenance
 		     :previous (get-previous start/i)
-		     :next (get-next start/i)
+		     :next (get-next start/i 25)
 		     :start start/i :numfound num-found
 		     :facets facets :documents documents))))))
 
