@@ -133,7 +133,7 @@
         :doc_type fq_doc_type
         :provenance fq_provenance
         :user fq_user)
-       bookmark "search-activities")
+       bookmark "search-activities" 25)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
