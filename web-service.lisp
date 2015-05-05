@@ -75,7 +75,7 @@
     (stats-percent-complete-plist))))
 
 (hunchentoot:define-easy-handler (search-cloudant-handler :uri "/wn/search")
-    (term start bookmark debug
+    (term start bookmark debug limit
 	  (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
@@ -92,10 +92,11 @@
                            :lex-file fq_lexfile
                            :word-count-pt fq_word_count_pt
                            :word-count-en fq_word_count_en)
-           bookmark "search-documents")
+           bookmark "search-documents" limit)
 	(if error
 	    (process-error (list :error error :term term))
-	    (let* ((start/i (if start (parse-integer start) 0)))
+	    (let* ((start/i (if start (parse-integer start) 0))
+                   (limit/i (if limit (parse-integer limit) 10)))
 	      (hunchentoot:delete-session-value :ids)
 	      (setf (hunchentoot:session-value :term) term)
 	      (process-results
@@ -106,7 +107,8 @@
 		     :fq_word_count_pt fq_word_count_pt
 		     :fq_word_count_en fq_word_count_en
 		     :previous (get-previous start/i)
-		     :next (get-next start/i)
+		     :next (get-next start/i limit/i)
+                     :limit limit/i
 		     :start start/i :numfound num-found
 		     :facets facets :documents documents)))))))
 

@@ -13,21 +13,25 @@
 	 (synset (car (get-docs result))))
     (car (getf synset :|word_en|))))
 
-(defun get-cloudant-query-plist (q drilldown bookmark)
+(defun get-cloudant-query-plist (q drilldown bookmark limit)
   (remove
    nil
    (append 
     (list
      (when q (cons "q" q))
+     (when (and limit (parse-integer limit :junk-allowed t))
+       (if (> (parse-integer limit :junk-allowed t) 200)
+           (cons "limit" "200")
+           (cons "limit" limit)))
      (when (and bookmark
 		(> (length bookmark) 0))
        (cons "bookmark" bookmark)))
     (when drilldown drilldown))))
 
-(defun execute-cloudant-query (term &key drilldown bookmark (api "search-documents"))
+(defun execute-cloudant-query (term &key drilldown bookmark limit (api "search-documents"))
   (call-rest-method
    api
-   :parameters (get-cloudant-query-plist term drilldown bookmark)))
+   :parameters (get-cloudant-query-plist term drilldown bookmark limit)))
 
 (defun delete-suggestion (id)
   (call-rest-method
@@ -178,11 +182,12 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun search-cloudant (term drilldown bookmark api)
+(defun search-cloudant (term drilldown bookmark api limit)
   (let* ((result (execute-cloudant-query term
                                          :drilldown drilldown
                                          :bookmark bookmark
-                                         :api api))
+                                         :api api
+                                         :limit limit))
 	 (success (request-successful? result)))
     (if success
 	(values

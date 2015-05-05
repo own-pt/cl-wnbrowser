@@ -19,6 +19,7 @@
     <form id="formfacet" action="search" method="GET">
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
+      <input type="hidden" name="limit" value="{$limit}"/>
       <input type="hidden" name="bookmark" value="{$bookmark}"/>
       {if isNonnull($facets.rdf_type)}
       <div class="facettype">RDF Type:</div>
