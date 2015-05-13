@@ -26,23 +26,23 @@
 
 {template synset}
 {call header}
-   {param extratitle: $id /}
+   {param extratitle: $doc_id /}
    {param term: $term /}
 {/call}
 
 <div class="synsetprops">
 
-  {if isNonnull($ids)}
+  {if isNonnull($doc_ids)}
   <div class="breadcrumb">
     <ul class="breadcrumb">
-      {foreach $id in $ids}
-      <li class="breadcrumb"><a href="synset?id={$id}">{synsetworden($id)}</a></li>
+      {foreach $doc_id in $doc_ids}
+      <li class="breadcrumb"><a href="synset?id={$doc_id}">{synsetworden($doc_id)}</a></li>
       {/foreach}
     </ul>
   </div>
   {/if}
   
-  <h2>{$id}</h2>
+  <h2>{$doc_id}</h2>
 
   <h3>English</h3>
 
@@ -120,7 +120,7 @@
       {if insuggestions($g, $suggestions, 'remove-gloss-pt')}<strike>{/if}{$g}{if insuggestions($g, $suggestions, 'remove-gloss-pt')}</strike>{/if}
       
       {if isNonnull($login) and (not insuggestions($g, $suggestions, 'remove-gloss-pt'))}
-      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
+      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -132,7 +132,7 @@
     <form action="/wn/process-suggestion" onsubmit="return validate(this, add_gloss)">
       <input type="hidden" name="type" value="add-gloss-pt">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
-      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="id" value="{$doc_id}">
       <input type="hidden" name="doc_type" value="synset">
       <input type="text" name="params">
       <input type="submit" value="Suggest new gloss">
@@ -149,7 +149,7 @@
       {if insuggestions($e, $suggestions, 'remove-example-pt')}<strike>{/if}{$e}{if insuggestions($e, $suggestions, 'remove-example-pt')}</strike>{/if}
 
       {if isNonnull($login) and (not insuggestions($e, $suggestions, 'remove-example-pt'))}
-      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-example-pt&params={$e}&return-uri={urlencode($returnuri)}">x</a>]
+      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-example-pt&params={$e}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -161,7 +161,7 @@
     <form action="/wn/process-suggestion" onsubmit="return validate(this, add_ex)">
       <input type="hidden" name="type" value="add-example-pt">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
-      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="id" value="{$doc_id}">
       <input type="hidden" name="doc_type" value="synset">
       <input type="text" name="params">
       <input type="submit" value="Suggest new example">
@@ -178,7 +178,7 @@
       {if insuggestions($w, $suggestions, 'remove-word-pt')}<strike>{/if}{$w}{if insuggestions($w, $suggestions, 'remove-word-pt')}</strike>{/if}
 
       {if isNonnull($login) and (not insuggestions($w, $suggestions, 'remove-word-pt'))}
-      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
+      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
     </span>
     {ifempty}<i>[ empty word list ]</i>
@@ -188,7 +188,7 @@
     <form action="/wn/process-suggestion" onsubmit="return validate(this, add_words)">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="type" value="add-word-pt">
-      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="id" value="{$doc_id}">
       <input type="hidden" name="doc_type" value="synset">
       <input type="text" name="params">
       <input type="submit" value="Suggest new word">
@@ -337,9 +337,9 @@
 
   <h3>External resources</h3>
   <ul>
-    <li><a href="http://compling.hss.ntu.edu.sg/omw/cgi-bin/wn-gridx.cgi?synset={$id}" target="_blank">OMW</a>
+    <li><a href="http://compling.hss.ntu.edu.sg/omw/cgi-bin/wn-gridx.cgi?synset={$doc_id}" target="_blank">OMW</a>
     </li>
-    <li><a href="http://sigma-01.cim3.net:8080/sigma/WordNet.jsp?synset={synsetidtosumo($id)}&kb=SUMO&flang=SUO-KIF&lang=EnglishLanguage&kb=SUMO">SUMO</a></li>
+    <li><a href="http://sigma-01.cim3.net:8080/sigma/WordNet.jsp?synset={synsetidtosumo($doc_id)}&kb=SUMO&flang=SUO-KIF&lang=EnglishLanguage&kb=SUMO">SUMO</a></li>
   </ul>
 
   {if isNonnull($debug)}
@@ -694,7 +694,7 @@
   
     {if isNonnull($login)}
     <form action="/wn/process-comment">
-      <input type="hidden" name="id" value="{$id}">
+      <input type="hidden" name="id" value="{$doc_id}">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="doc_type" value="synset">
       <textarea rows="4" cols="80" name="text"></textarea>

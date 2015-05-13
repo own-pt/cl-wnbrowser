@@ -53,7 +53,7 @@
   (not (string-equal status "committed")))
 
 (defun get-doc-id (doc)
-  (getf doc :|_id|))
+  (getf doc :|id|))
 
 (defun checked (term list)
   "Helper function to be called from the TEMPLATE code.  It returns

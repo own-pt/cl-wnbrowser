@@ -20,7 +20,6 @@
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
       <input type="hidden" name="limit" value="{$limit}"/>
-      <input type="hidden" name="bookmark" value="{$bookmark}"/>
       {if isNonnull($facets.rdf_type)}
       <div class="facettype">RDF Type:</div>
     
@@ -74,10 +73,9 @@
 
     {literal}
     <script>
-      function jumpto(s,b)
+      function jumpto(s)
       {
       document.forms.formfacet['start'].value=s;
-      document.forms.formfacet['bookmark'].value=b;
       document.forms.formfacet.submit();
       }
     </script>
@@ -86,16 +84,14 @@
     <div class="navigation">
       
       {if $previous >= 0}
-      <!--
 	<span class="txtPrev">
-	  <a href="#" onclick="javascript:jumpto({$previous},'{$bookmark}'); return false;">&laquo; Previous</a>
+	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo; Previous</a>
 	</span>
-       -->
 	{/if}
 
 	{if $next < $numfound}
         <span class="txtNext">
-	  <a href="#" onclick="javascript:jumpto({$next},'{$nbookmark}'); return false;">Next &raquo;</a>
+	  <a href="#" onclick="javascript:jumpto({$next}); return false;">Next &raquo;</a>
 	</span>
 	{/if}
     </div>

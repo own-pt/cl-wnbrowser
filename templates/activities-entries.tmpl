@@ -27,7 +27,7 @@
 
   <li class="suggestion">
     
-    (<i>suggestion</i>
+    ([{$document.sum_votes}|{$document.vote_score}] <i>suggestion</i>
     {call create-link}
     {param document: $document /}
     {/call}) <b>{$document.user}</b>: {$document.action}({$document.params}) <i>{$document.status}</i>

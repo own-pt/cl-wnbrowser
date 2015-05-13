@@ -75,7 +75,7 @@
     (stats-percent-complete-plist))))
 
 (hunchentoot:define-easy-handler (search-cloudant-handler :uri "/wn/search")
-    (term start bookmark debug limit
+    (term start debug limit
 	  (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
@@ -85,14 +85,14 @@
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
-	    (documents num-found facets nbookmark error)
+	    (documents num-found facets error)
           (search-cloudant
            (preprocess-term term)
            (make-drilldown :rdf-type fq_rdftype
                            :lex-file fq_lexfile
                            :word-count-pt fq_word_count_pt
                            :word-count-en fq_word_count_en)
-           bookmark "search-documents" limit)
+           "search-documents" start limit nil nil)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0))
@@ -101,7 +101,6 @@
 	      (setf (hunchentoot:session-value :term) term)
 	      (process-results
 	       (list :debug debug :term term
-		     :nbookmark nbookmark
 		     :fq_rdftype fq_rdftype
 		     :fq_lexfile fq_lexfile
 		     :fq_word_count_pt fq_word_count_pt
@@ -113,7 +112,7 @@
 		     :facets facets :documents documents)))))))
 
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
-    (term start bookmark debug
+    (term start debug sf so
 	  (fq_type :parameter-type 'list)
 	  (fq_action :parameter-type 'list)
 	  (fq_status :parameter-type 'list)
@@ -123,7 +122,7 @@
   (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (multiple-value-bind
-        (documents num-found facets nbookmark error)
+        (documents num-found facets error)
       (search-cloudant
        (preprocess-term term)
        (make-drilldown-activity
@@ -133,14 +132,13 @@
         :doc_type fq_doc_type
         :provenance fq_provenance
         :user fq_user)
-       bookmark "search-activities" "25")
+       "search-activities" start "25" sf so)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
 	      (setf (hunchentoot:session-value :term) term)
 	      (process-activities
 	       (list :debug debug :term term
-		     :nbookmark nbookmark
 		     :fq_type fq_type
 		     :fq_action fq_action
 		     :fq_status fq_status
@@ -149,6 +147,8 @@
                      :fq_provenance fq_provenance
 		     :previous (get-previous start/i)
 		     :next (get-next start/i 25)
+                     :so so
+                     :sf sf
 		     :start start/i :numfound num-found
 		     :facets facets :documents documents))))))
 

@@ -7,7 +7,7 @@
 [
 {foreach $s in $synsets}
   {if not isFirst($s)}, {/if}
-  <a href="synset?id={$s.id}">{$s.words}</a>
+  <a href="synset?id={$s.doc_id}">{$s.words}</a>
   {ifempty}(none)
 {/foreach}
 ]
@@ -17,13 +17,13 @@
 {template nomlex}
 
 {call header}
-   {param extratitle: $id /}
+   {param extratitle: $doc_id /}
    {param term: $term /}
 {/call}
 
 <div class="nomlexprops">
 
-  <h2>{$id}</h2>
+  <h2>{$doc_id}</h2>
 
   <h3>Details</h3>
 

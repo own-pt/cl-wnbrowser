@@ -4,7 +4,7 @@
 
 {template nomlex-entry}
   <li class="synset">
-    <a href="nomlex?id={$document.id}">{$document.id}</a>
+    <a href="nomlex?id={$document.doc_id}">{$document.doc_id}</a>
   </li>
 {/template}
 
@@ -12,7 +12,7 @@
 
   <li class="synset">
 
-    <a href="synset?id={$document.id}">{$document.id}</a>
+    <a href="synset?id={$document.doc_id}">{$document.doc_id}</a>
     
     {foreach $w in $document.word_en}
       {if not isFirst($w)}, {/if}

@@ -13,25 +13,25 @@
 	 (synset (car (get-docs result))))
     (car (getf synset :|word_en|))))
 
-(defun get-cloudant-query-plist (q drilldown bookmark limit)
+(defun get-cloudant-query-plist (q drilldown limit start sort-field sort-order)
   (remove
    nil
    (append 
     (list
      (when q (cons "q" q))
+     (when start (cons "start" start))
+     (when sort-field (cons "sf" sort-field))
+     (when sort-order (cons "so" sort-order))
      (when (and limit (parse-integer limit :junk-allowed t))
        (if (> (parse-integer limit :junk-allowed t) 200)
            (cons "limit" "200")
-           (cons "limit" limit)))
-     (when (and bookmark
-		(> (length bookmark) 0))
-       (cons "bookmark" bookmark)))
+           (cons "limit" limit))))
     (when drilldown drilldown))))
 
-(defun execute-cloudant-query (term &key drilldown bookmark limit (api "search-documents"))
+(defun execute-cloudant-query (term &key drilldown limit sort-field sort-order (start 0) (api "search-documents"))
   (call-rest-method
    api
-   :parameters (get-cloudant-query-plist term drilldown bookmark limit)))
+   :parameters (get-cloudant-query-plist term drilldown limit start sort-field sort-order)))
 
 (defun delete-suggestion (id)
   (call-rest-method
@@ -93,9 +93,6 @@
 (defun request-successful? (result)
   (null (getjso "error" result)))
 
-(defun get-bookmark (result)
-  (getjso "bookmark" result))
-
 (defun get-error-reason (result)
   (getjso "reason" result))
 
@@ -124,23 +121,11 @@ LEX-FILE."
 		 (cons "drilldown"
                        (format nil "[\"word_count_en\",\"~a\"]" entry)))
 	     word-count-en))
-   ;;; this deserves a better explanation.  As it stands, Cloudant
-   ;;; does not seem to support multivalued fields.  We managed to work
-   ;;; around the issue by issuing multiple "rdf_type" indexes when we
-   ;;; encounter a document that contains an array of values.  This works
-   ;;; fine until we attempt to drilldown into more than one of these values
-   ;;; Cloudant complains that the dimension has already been added.
-   ;;; Yet another workaround is to create multiple filter fields rdf_type1,
-   ;;; rdf_type2, etc. so we can filter down on more than one value of the
-   ;;; same field at the same time.
    (when rdf-type
-     (let ((c 1))
        (mapcar #'(lambda (entry)
-                   (progn
-                     (setq c (1+ c))
-                     (cons "drilldown"
-                           (format nil "[\"rdf_type~a\",\"~a\"]" c entry))))
-	     rdf-type)))
+                   (cons "drilldown"
+                         (format nil "[\"rdf_type\",\"~a\"]" entry)))
+	     rdf-type))
    (when lex-file
      (mapcar #'(lambda (entry)
 		 (cons "drilldown"
@@ -182,21 +167,22 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun search-cloudant (term drilldown bookmark api limit)
+(defun search-cloudant (term drilldown api start limit sf so)
   (let* ((result (execute-cloudant-query term
                                          :drilldown drilldown
-                                         :bookmark bookmark
                                          :api api
-                                         :limit limit))
+                                         :start start
+                                         :limit limit
+                                         :sort-field sf
+                                         :sort-order so))
 	 (success (request-successful? result)))
     (if success
 	(values
 	 (get-docs result)
 	 (get-num-found result)
 	 (get-facet-fields result)
-	 (get-bookmark result)
 	 nil)
-	(values nil nil nil nil (get-error-reason result)))))
+	(values nil nil nil (get-error-reason result)))))
 
 (defun get-synset (id)
   (get-document-by-id "synset" id))

@@ -13,16 +13,64 @@
    
   <body>
     <h1><a href="/wn/">OpenWordnet-PT</a></h1>
+    {literal}
+    <script>
+      function mymentions(me)
+      {
+      var form = document.getElementById('form');
+      form.elements["term"].value = 'params:' + me;
+      form.submit();
+      }
 
+      function votes(me)
+      {
+      var form = document.getElementById('form');
+      form.elements["term"].value = 'all_voters:' + me;
+      form.submit();
+      }
+
+      function pending(me)
+      {
+      var form = document.getElementById('form');
+      form.elements["term"].value = '-all_voters:' + me;
+      form.submit();
+      }
+
+      function sort(f)
+      {
+      var form = document.getElementById('form');
+      form.elements["sf"].value = f;
+      form.submit();
+      }
+      
+      function order(o)
+      {
+      var form = document.getElementById('form');
+      form.elements["so"].value = o;
+      form.submit();
+      }
+    </script>
+    {/literal}
     <p>
-    <form action="search-activities" method="get">
+    <form id="form" action="search-activities" method="get">
       <input type="text" name="term" value="{$term}" />
+      <input type="hidden" name="sf" value="{$sf}" />
+      <input type="hidden" name="so" value="{$so}" />
       <input type="submit" value="Search" />
     </form>
     </p>
     {if isNonnull($login)}
-    <p>[ <a href="search-activities?term=params:@{$login}">my @mentions</a> ]</p>
+    <p>[ <a href="#" onclick="mymentions('{$login}'); return false;">my @mentions</a>
+      | <a href="#" onclick="votes('{$login}'); return false;">votes</a>
+      | <a href="#" onclick="pending('{$login}'); return false;">pending</a>
+      ]</p>
     {/if}
+
+    <p>sort [ <a href="#" onclick="sort('date'); return false;">date</a>
+      | <a href="#" onclick="sort('sum_votes'); return false;">votes</a>
+      | <a href="#" onclick="sort('vote_score'); return false;">score</a>
+      ] [ <a href="#" onclick="order('desc'); return false;">desc</a> |
+      <a href="#" onclick="order('asc'); return false;">asc</a> ] (<b>{$sf} {$so}</b>)</p>
     
 <h2>{$numfound} result{if $numfound == 0 or $numfound > 1}s{/if}</h2>
 
@@ -33,7 +81,6 @@
     <form id="formfacet" action="search-activities" method="GET">
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
-      <input type="hidden" name="bookmark" value="{$bookmark}"/>
       {if isNonnull($facets.type)}
       <div class="facettype">Type:</div>
     
@@ -106,10 +153,9 @@
 
     {literal}
     <script>
-      function jumpto(s,b)
+      function jumpto(s)
       {
       document.forms.formfacet['start'].value=s;
-      document.forms.formfacet['bookmark'].value=b;
       document.forms.formfacet.submit();
       }
     </script>
@@ -118,16 +164,14 @@
     <div class="navigation">
       
       {if $previous >= 0}
-      <!--
 	<span class="txtPrev">
-	  <a href="#" onclick="javascript:jumpto({$previous},'{$bookmark}'); return false;">&laquo; Previous</a>
+	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo; Previous</a>
 	</span>
-       -->
 	{/if}
 
 	{if $next < $numfound}
         <span class="txtNext">
-	  <a href="#" onclick="javascript:jumpto({$next},'{$nbookmark}'); return false;">Next &raquo;</a>
+	  <a href="#" onclick="javascript:jumpto({$next}); return false;">Next &raquo;</a>
 	</span>
 	{/if}
     </div>
