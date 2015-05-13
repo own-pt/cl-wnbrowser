@@ -64,7 +64,10 @@
     var del_gloss = [];
     var add_ex = [];
     var del_ex = [];
-    
+
+  {foreach $w in $word_pt}
+    add_words.push('{$w}'.trim());
+  {/foreach}
   {if isNonnull($suggestions)}
     {foreach $s in $suggestions}
     {if $s.action == 'add-word-pt'}
