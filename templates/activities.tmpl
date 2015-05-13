@@ -25,14 +25,14 @@
       function votes(me)
       {
       var form = document.getElementById('form');
-      form.elements["term"].value = 'all_voters:' + me;
+      form.elements["term"].value = 'type:suggestion and all_voters:' + me;
       form.submit();
       }
 
       function pending(me)
       {
       var form = document.getElementById('form');
-      form.elements["term"].value = '-all_voters:' + me;
+      form.elements["term"].value = 'type:suggestion and -all_voters:' + me;
       form.submit();
       }
 
