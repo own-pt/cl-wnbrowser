@@ -65,31 +65,35 @@
     var add_ex = [];
     var del_ex = [];
 
-  {foreach $w in $word_pt}
-    add_words.push('{$w}'.trim());
-  {/foreach}
-  {if isNonnull($suggestions)}
-    {foreach $s in $suggestions}
-    {if $s.action == 'add-word-pt'}
-    add_words.push('{$s.params}'.trim());
-    {/if}
-    {if $s.action == 'remove-word-pt'}
-    del_words.push('{$s.params}'.trim());
-    {/if}
-    {if $s.action == 'add-example-pt'}
-    add_ex.push('{$s.params}'.trim());
-    {/if}
-    {if $s.action == 'remove-example-pt'}
-    del_ex.push('{$s.params}'.trim());
-    {/if}
-    {if $s.action == 'add-gloss-pt'}
-    add_gloss.push('{$s.params}'.trim());
-    {/if}
-    {if $s.action == 'remove-gloss-pt'}
-    del_gloss.push('{$s.params}'.trim());
-    {/if}
+    {foreach $w in $word_pt}
+      add_words.push('{$w}'.trim());
     {/foreach}
-  {/if}
+    
+    {if isNonnull($suggestions)}
+
+      {foreach $s in $suggestions}
+    
+        {if $s.action == 'add-word-pt'}
+          add_words.push('{$s.params}'.trim());
+        {/if}
+        {if $s.action == 'remove-word-pt'}
+          del_words.push('{$s.params}'.trim());
+        {/if}
+        {if $s.action == 'add-example-pt'}
+          add_ex.push('{$s.params}'.trim());
+        {/if}
+        {if $s.action == 'remove-example-pt'}
+          del_ex.push('{$s.params}'.trim());
+        {/if}
+        {if $s.action == 'add-gloss-pt'}
+          add_gloss.push('{$s.params}'.trim());
+        {/if}
+        {if $s.action == 'remove-gloss-pt'}
+          del_gloss.push('{$s.params}'.trim());
+        {/if}
+    
+      {/foreach}
+    {/if}
   </script>
   
   {literal}
@@ -186,7 +190,6 @@
     </span>
     {ifempty}<i>[ empty word list ]</i>
     {/foreach}
-
     {if isNonnull($login)}
     <form action="/wn/process-suggestion" onsubmit="return validate(this, add_words)">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">

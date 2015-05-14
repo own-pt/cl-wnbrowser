@@ -201,6 +201,9 @@ LEX-FILE."
 (defun get-root ()
   (call-rest-method ""))
 
+(defun get-statistics ()
+  (call-rest-method "statistics"))
+
 (defun call-rest-method (method &key parameters)
     (let* ((stream (drakma:http-request
                    (format nil "~a/~a" *ownpt-api-uri* method)

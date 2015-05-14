@@ -46,23 +46,16 @@ background-color: #EAF2D3;
 
 <h1>Statistics</h1>
 
-<h2>Type progress</h2>
-
+{foreach $facet in $stats}
+<h2>{$facet.facet}</h2>
 <table>
-  <tr><th>Type</th><th>Progress</ht></tr>
-  {foreach $row in $rowscount}
-    <tr><td><a href="/wn/search?term=rdf_type:{$row.type}">{$row.type}</a></td><td class="center"><progress value="{$row.percent}" max="100" title="{$row.totalpt} of {$row.totalpr}" /></td></tr>
+  <tr><th>{$facet.facet}</th><th>Progress</ht></tr>
+  {foreach $row in $facet.stats}
+    <tr><td><a href="/wn/search?term={$facet.facet}:{$row.value}">{$row.value}</a></td><td class="center"><progress value="{$row.total_pt}" max="{$row.total}" title="{$row.total_pt} of {$row.total}" /></td></tr>
   {/foreach}
 </table>
 
-<h2>Lexicographer file progress</h2>
-
-<table>
-  <tr><th>Lex. file</th><th>Progress</ht></tr>
-  {foreach $row in $rowspercent}
-    <tr><td><a href="/wn/search?term=wn30_lexicographerFile:{$row.lexfile}">{$row.lexfile}</a></td><td class="center"><progress value="{$row.percent}" max="100" title="{$row.totalpt} of {$row.totalpr}" /></td></tr>
-  {/foreach}
-</table>
+{/foreach}
 
 <p>[ <a href="/wn/">Home</a> ]</p>
 

@@ -48,16 +48,6 @@
      :info (get-root)
      :githubid *github-client-id*))))
 
-(hunchentoot:define-easy-handler (get-update-stats-handler
-				  :uri "/wn/update-stats") ()
-  (update-stat-cache)
-  (if (string-equal "application/json" (hunchentoot:header-in* :accept))
-      (progn
-	(setf (hunchentoot:content-type*) "application/json")
-	(with-output-to-string (s)
-	  (yason:encode-plist (list :result "Done") s)))
-      (hunchentoot:redirect "/wn/stats")))
-
 (defun disable-caching ()
   (hunchentoot:no-cache))
 
@@ -66,13 +56,9 @@
         ((string-equal term "*") "*:*")
         (t term)))
  
-
 (hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
   (disable-caching)
-  (cl-wnbrowser.templates:stats
-   (append
-    (stats-count-classes-plist)
-    (stats-percent-complete-plist))))
+  (cl-wnbrowser.templates:stats (list :stats (get-statistics))))
 
 (hunchentoot:define-easy-handler (search-cloudant-handler :uri "/wn/search")
     (term start debug limit
