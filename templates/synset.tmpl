@@ -625,7 +625,7 @@
     {/if}
     <tr>
       <td>
-        {if isNonnull($login) and isauthorizedvote($login)}
+        {if isNonnull($login) and isauthorizedvote($login) and ($s.status == 'new')}
         <div class="midcol">
           
           <div id="vote-up-{getdocid($s)}" role="button" class="arrow {if alreadyvoted($login, $s.votes.positive_votes)}upmod{else}up{/if}" onclick="voteup('{getdocid($s)}')"></div>
