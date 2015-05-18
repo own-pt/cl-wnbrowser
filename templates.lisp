@@ -108,7 +108,10 @@ in dealing with checkboxes."
   (let ((trimmed-entry (string-trim '(#\Space) entry))
         (entries 
          (mapcan (lambda (s)
-                   (when (string-equal action (getf s :|action|))
+                   (when
+                       (and
+                        (not (string-equal "not-accepted" (getf s :|status|)))
+                        (string-equal action (getf s :|action|)))
                        (list (string-trim '(#\Space) (getf s :|params|)))))
                  suggestions)))
     (find trimmed-entry entries :test #'string=)))
