@@ -41,8 +41,8 @@
 {/literal}
 <p><b>Lemma</b>: {$document.word.lemma}</p>
 {if isNonnull($selection)}
-<i>Sele&ccedil&atilde;o feita.</i>
-{else}
+<i>Sele&ccedil&atilde;o feita: (<tt>{$selection.selection} {$selection.comment}</tt>).  Se quiser, pode atualiz&aacute;-la abaixo.</i>
+{/if}
 <p><b>Senses</b>:
   <form action="sense-tagging-process-suggestion" onsubmit="return validate(this)">
     <input type="hidden" name="userid" value="{$userid}">
@@ -53,7 +53,11 @@
     <div class="lista">
       <fieldset>
         {foreach $s in $document.lemma_synsets}
-        <input class="option" type="radio" name="selection" value="{$s.id}"><a target="_blank" href="synset?id={$s.id}">{$s.id}</a>
+        <input
+           {if isNonnull($selection)}
+           {if $s.doc_id == $selection.selection}checked{/if}
+           {/if}
+           class="option" type="radio" name="selection" value="{$s.doc_id}"><a target="_blank" href="synset?id={$s.doc_id}">{$s.doc_id}</a>
         
         {foreach $w in $s.words}
         {if not isFirst($w)}, {/if}
@@ -64,10 +68,23 @@
         </ul>
         {/foreach}
         <br>
-        <input type="radio" name="selection" value="l">Lematiza&ccedil;&atilde;o errada
+        <input
+           {if isNonnull($selection)}
+           {if $selection.selection == 'l'}checked{/if}
+           {/if}
+           type="radio" name="selection" value="l">Lematiza&ccedil;&atilde;o errada
         <br>
-        <input type="radio" name="selection" value="m">Missing sense
-        <input type="text" name="comment">
+        <input
+           {if isNonnull($selection)}
+           {if $selection.selection == 'm'}checked{/if}
+           {/if}
+           type="radio" name="selection" value="m">Missing sense
+        <input
+           {if isNonnull($selection)}
+           value="{$selection.comment}"
+           {/if}
+           type="text" name="comment">
+
       </fieldset>
     </div>
     {if $userid != ''}
@@ -83,5 +100,5 @@
     <input class="search" type="submit" value="Search" />
   </form>
 </p>
-{/if}
+
 {/template}

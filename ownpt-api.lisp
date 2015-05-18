@@ -191,12 +191,14 @@ LEX-FILE."
   (get-document-by-id "nomlex" id))
 
 (defun get-sense-tagging ()
-  (call-rest-method "sense-tagging" :parameters (list (cons "file" "bosque.json"))))
+  (call-rest-method "sense-tagging"
+                    :parameters (list (cons "file" "bosque.json"))))
 
 (defun get-sense-tagging-detail (file text word)
-  (call-rest-method "sense-tagging-detail" :parameters (list (cons "file" file)
-                                                      (cons "text" text)
-                                                      (cons "word" word))))
+  (call-rest-method "sense-tagging-detail"
+                    :parameters (list (cons "file" file)
+                                      (cons "text" text)
+                                      (cons "word" word))))
 
 (defun get-root ()
   (call-rest-method ""))
