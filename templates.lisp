@@ -44,10 +44,10 @@
       nil))
 
 (defun is-authorized-to-approve/reject (user)
-  (find user *approve-reject-authorized-accounts* :test #'string-equal))
+  (member user *approve-reject-authorized-accounts* :test #'string-equal))
 
 (defun is-authorized-to-vote (user)
-  (find user *vote-authorized-accounts* :test #'string-equal))
+  (member user *vote-authorized-accounts* :test #'string-equal))
 
 (defun valid-status (status)
   (not (string-equal status "committed")))
@@ -59,7 +59,7 @@
   "Helper function to be called from the TEMPLATE code.  It returns
 CHECKED in case TERM belongs to LISP; nil otherwise.  This is useful
 in dealing with checkboxes."
-  (if (find term list :test #'string=)
+  (if (member term list :test #'string=)
       "checked"
       nil))
 
@@ -114,7 +114,7 @@ in dealing with checkboxes."
                         (string-equal action (getf s :|action|)))
                        (list (string-trim '(#\Space) (getf s :|params|)))))
                  suggestions)))
-    (find trimmed-entry entries :test #'string=)))
+    (member trimmed-entry entries :test #'string=)))
 
 (defun setup-templates ()
   (closure-template:with-user-functions
