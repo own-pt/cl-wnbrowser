@@ -6,8 +6,8 @@ See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT
 
 ### How do I get set up? ###
 
-* This version is based on the OpenWordnet API at Bluemix (ownpt2.mybluemix.net/)
-* SBCL (tested with 1.2.2 and 1.1.14) or CCL (tested with 1.10);
+* This version is based on the OpenWordnet API at Bluemix (http://wnpt.brlcloud.com/api/)
+* SBCL (tested with 1.2.11, 1.2.2, and 1.1.14) or CCL (tested with 1.10);
 * For easier/faster setup, quicklisp is highly recommended.
 
 ### License ###
@@ -32,11 +32,3 @@ the file LICENSE for details.
 * If only templates changed, you can safely update the application by
   switching to the **`CL-WNBROWSER`** package and executing the
   **`(SETUP-TEMPLATES)`** method.
-
-### Updating the statistics ###
-
-* Got to http://logics.emap.fgv.br/wn/update-stats .  The server will
-  perform the update and redirect to the statistics page.
-
-* Optionally you can pass the header **`Accept: application/json`** and the
-  server will reply with a status code in JSON.
