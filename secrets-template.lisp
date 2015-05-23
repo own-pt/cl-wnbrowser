@@ -1,6 +1,8 @@
 (in-package :cl-wnbrowser)
 
-(defparameter *ownpt-api-key* "<insert key for ownpt2.mybluemix.net>")
+(defparameter *base-url* "<insert FQDN for website>")
+
+(defparameter *ownpt-api-key* "<insert key for the API web services>")
 
 (defparameter *github-client-id* "<insert github client id>")
 (defparameter *github-client-secret* "<insert github client secret>")

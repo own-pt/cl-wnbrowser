@@ -721,7 +721,7 @@
       {if isNonnull($login)}
       <b>{$login}</b>
       {else}
-      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}">Login</a>
+      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">Login</a>
       {/if}
       ]</p>
 

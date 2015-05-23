@@ -24,6 +24,13 @@
     (get-login)
     synset)))
 
+(defun make-callback-uri (request-uri)
+  (let* ((redirect-uri (format nil "http://~a~a" *base-url* request-uri))
+         (callback-uri (format nil "http://~a/wn/callback?destination=~a"
+                               *base-url*
+                               (hunchentoot:url-encode request-uri))))
+    callback-uri))
+
 (defun process-nomlex (nomlex)
   (cl-wnbrowser.templates:nomlex
    (append (get-login) nomlex)))
@@ -150,13 +157,12 @@
 	 (ids (hunchentoot:session-value :ids)))
     (when (not (string-equal (lastcar ids) id))
       (setf (hunchentoot:session-value :ids) (append ids (list id))))
-    (when request-uri
-      (setf (hunchentoot:session-value :request-uri) request-uri))
     (process-synset
      (append
       (list
        :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
        :term term
+       :callbackuri (make-callback-uri request-uri)
        :returnuri request-uri
        :debug debug
        :comments comments
@@ -193,8 +199,7 @@
 
 (hunchentoot:define-easy-handler (process-comment-handler
 				  :uri "/wn/process-comment") (id doc_type text return-uri)
-  (let ((login (hunchentoot:session-value :login))
-        (request-uri (hunchentoot:session-value :request-uri)))
+  (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (add-comment id doc_type text login)
@@ -205,8 +210,7 @@
 
 (hunchentoot:define-easy-handler (delete-suggestion-handler
 				  :uri "/wn/delete-suggestion") (id return-uri)
-  (let ((login (hunchentoot:session-value :login))
-        (request-uri (hunchentoot:session-value :request-uri)))
+  (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (delete-suggestion id)
@@ -217,8 +221,7 @@
 
 (hunchentoot:define-easy-handler (accept-suggestion-handler
 				  :uri "/wn/accept-suggestion") (id return-uri)
-  (let ((login (hunchentoot:session-value :login))
-        (request-uri (hunchentoot:session-value :request-uri)))
+  (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (accept-suggestion id)
@@ -229,8 +232,7 @@
 
 (hunchentoot:define-easy-handler (reject-suggestion-handler
 				  :uri "/wn/reject-suggestion") (id return-uri)
-  (let ((login (hunchentoot:session-value :login))
-        (request-uri (hunchentoot:session-value :request-uri)))
+  (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (reject-suggestion id)
@@ -241,8 +243,7 @@
 
 (hunchentoot:define-easy-handler (delete-comment-handler
 				  :uri "/wn/delete-comment") (id return-uri)
-  (let ((login (hunchentoot:session-value :login))
-        (request-uri (hunchentoot:session-value :request-uri)))
+  (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
           (delete-comment id)
@@ -281,9 +282,9 @@
       (yason:encode-plist (list :result "Done") s))))
 
 (hunchentoot:define-easy-handler (github-callback-handler
-				  :uri "/wn/callback") (code)
+				  :uri "/wn/callback") (code destination)
   (let ((access-token (get-access-token code))
-        (request-uri (hunchentoot:session-value :request-uri)))
+        (request-uri (when destination (hunchentoot:url-decode destination))))
     (setf (hunchentoot:session-value :login) (get-user-login (get-user access-token)))
     (if request-uri
         (hunchentoot:redirect request-uri)
