@@ -1,6 +1,6 @@
 # README #
 
-This is CL-WNBROWSER version 2.0.  It is currently running at http://logics.emap.fgv.br/wn/
+This is CL-WNBROWSER version 2.0.  It is currently running at http://wnpt.brlcloud.com/wn/
 
 See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT/
 
