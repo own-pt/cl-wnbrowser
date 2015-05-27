@@ -133,8 +133,13 @@ LEX-FILE."
                                entry)))
 	     lex-file))))
 
-(defun make-drilldown-activity (&key type action status doc_type user provenance)
+(defun make-drilldown-activity (&key tag type action status doc_type user provenance)
   (append
+   (when tag
+     (mapcar #'(lambda (entry)
+		 (cons "drilldown"
+                       (format nil "[\"tags\",\"~a\"]" entry)))
+	     tag))
    (when provenance
      (mapcar #'(lambda (entry)
 		 (cons "drilldown"

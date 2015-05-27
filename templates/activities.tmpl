@@ -77,43 +77,62 @@
 {if $numfound > 0}
 <div class="container">
 
+  {literal}
+  <script>
+    function facetChecked()
+    {
+      document.forms.formfacet['start'].value=0;
+      document.forms.formfacet.submit();
+    }
+  </script>
+  {/literal}
+
+  
   <div class="facets">
     <form id="formfacet" action="search-activities" method="GET">
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
+      {if isNonnull($facets.tags)}
+      <div class="facettype">Tag:</div>
+    
+      {foreach $f in $facets.tags}
+      <input type="checkbox" name="fq_tag" {checked($f.name, $fq_tag)} value="{$f.name}" onchange="facetChecked();">{converttag($f.name)} ({$f.count})</input><br/>
+      {/foreach}
+      {/if}
+
       {if isNonnull($facets.type)}
       <div class="facettype">Type:</div>
     
       {foreach $f in $facets.type}
-      <input type="checkbox" name="fq_type" {checked($f.name, $fq_type)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input><br/>
+      <input type="checkbox" name="fq_type" {checked($f.name, $fq_type)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.action)}
       <div class="facettype">Action:</div>
       {foreach $f in $facets.action}
-      <input type="checkbox" name="fq_action" {checked($f.name, $fq_action)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_action" {checked($f.name, $fq_action)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.status)}
       <div class="facettype">Status:</div>
       {foreach $f in $facets.status}
-      <input type="checkbox" name="fq_status" {checked($f.name, $fq_status)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_status" {checked($f.name, $fq_status)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.doc_type)}
       <div class="facettype">Doc. type:</div>
       {foreach $f in $facets.doc_type}
-      <input type="checkbox" name="fq_doc_type" {checked($f.name, $fq_doc_type)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_doc_type" {checked($f.name, $fq_doc_type)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.user)}
       <div class="facettype">User:</div>
       {foreach $f in $facets.user}
-      <input type="checkbox" name="fq_user" {checked($f.name, $fq_user)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_user" {checked($f.name, $fq_user)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
       
@@ -121,7 +140,7 @@
       <div class="facettype">Provenance:</div>
     
       {foreach $f in $facets.provenance}
-      <input type="checkbox" name="fq_provenance" {checked($f.name, $fq_provenance)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input><br/>
+      <input type="checkbox" name="fq_provenance" {checked($f.name, $fq_provenance)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
       {/foreach}
       {/if}
 

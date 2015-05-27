@@ -116,6 +116,14 @@ in dealing with checkboxes."
                  suggestions)))
     (member trimmed-entry entries :test #'string=)))
 
+(defun convert-tag (str)
+  "Converts from the format stored in SOLR to a more human readable version."
+  (cond ((starts-with-subseq "HASH" str :test #'string=)
+         (format nil "#~a" (subseq str 4)))
+        ((starts-with-subseq "AT" str :test #'string=)
+         (format nil "@~a" (subseq str 2)))
+        (t str)))
+
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
@@ -127,6 +135,7 @@ in dealing with checkboxes."
        ("synsetidtosumo" #'synset-id-to-sumo)
        ("trimcomment" #'trim-comment)
        ("getdocid" #'get-doc-id)
+       ("converttag" #'convert-tag)
        ("validstatus" #'valid-status)
        ("isauthorizedapprove" #'is-authorized-to-approve/reject)
        ("isauthorizedvote" #'is-authorized-to-vote)

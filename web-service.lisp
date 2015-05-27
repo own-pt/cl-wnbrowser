@@ -107,6 +107,7 @@
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
     (term start debug sf so
 	  (fq_type :parameter-type 'list)
+	  (fq_tag :parameter-type 'list)
 	  (fq_action :parameter-type 'list)
 	  (fq_status :parameter-type 'list)
 	  (fq_doc_type :parameter-type 'list)
@@ -120,6 +121,7 @@
        (preprocess-term term)
        (make-drilldown-activity
         :type fq_type
+        :tag fq_tag
         :action fq_action
         :status fq_status
         :doc_type fq_doc_type
@@ -133,6 +135,7 @@
 	      (process-activities
 	       (list :debug debug :term term
 		     :fq_type fq_type
+                     :fq_tag fq_tag
 		     :fq_action fq_action
 		     :fq_status fq_status
 		     :fq_doc_type fq_doc_type

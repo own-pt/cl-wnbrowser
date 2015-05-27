@@ -15,6 +15,16 @@
 {if $numfound > 0}
 <div class="container">
 
+  {literal}
+  <script>
+    function facetChecked()
+    {
+      document.forms.formfacet['start'].value=0;
+      document.forms.formfacet.submit();
+    }
+  </script>
+  {/literal}
+  
   <div class="facets">
     <form id="formfacet" action="search" method="GET">
       <input type="hidden" name="term" value="{$term}"/>
@@ -24,28 +34,28 @@
       <div class="facettype">RDF Type:</div>
     
       {foreach $f in $facets.rdf_type}
-      <input type="checkbox" name="fq_rdftype" {checked($f.name, $fq_rdftype)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input><br/>
+      <input type="checkbox" name="fq_rdftype" {checked($f.name, $fq_rdftype)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.wn30_lexicographerfile)}
       <div class="facettype">Lexicographer file:</div>
       {foreach $f in $facets.wn30_lexicographerfile}
-      <input type="checkbox" name="fq_lexfile" {checked($f.name, $fq_lexfile)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_lexfile" {checked($f.name, $fq_lexfile)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.word_count_pt)}
       <div class="facettype"># words (pt_BR):</div>
       {foreach $f in $facets.word_count_pt}
-      <input type="checkbox" name="fq_word_count_pt" {checked($f.name, $fq_word_count_pt)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_word_count_pt" {checked($f.name, $fq_word_count_pt)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
 
       {if isNonnull($facets.word_count_en)}
       <div class="facettype"># words (en):</div>
       {foreach $f in $facets.word_count_en}
-      <input type="checkbox" name="fq_word_count_en" {checked($f.name, $fq_word_count_en)} value="{$f.name}" onchange="document.forms.formfacet.submit();">{$f.name} ({$f.count})</input></br>
+      <input type="checkbox" name="fq_word_count_en" {checked($f.name, $fq_word_count_en)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
       {/foreach}
       {/if}
 
