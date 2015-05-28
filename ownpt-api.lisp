@@ -172,7 +172,7 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun search-cloudant (term drilldown api start limit sf so)
+(defun execute-search (term drilldown api start limit sf so)
   (let* ((result (execute-cloudant-query term
                                          :drilldown drilldown
                                          :api api

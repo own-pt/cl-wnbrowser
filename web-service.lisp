@@ -67,7 +67,7 @@
   (disable-caching)
   (cl-wnbrowser.templates:stats (list :stats (get-statistics))))
 
-(hunchentoot:define-easy-handler (search-cloudant-handler :uri "/wn/search")
+(hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
     (term start debug limit
 	  (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
@@ -79,7 +79,7 @@
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
 	    (documents num-found facets error)
-          (search-cloudant
+          (execute-search
            (preprocess-term term)
            (make-drilldown :rdf-type fq_rdftype
                            :lex-file fq_lexfile
@@ -117,7 +117,7 @@
   (disable-caching)
   (multiple-value-bind
         (documents num-found facets error)
-      (search-cloudant
+      (execute-search
        (preprocess-term term)
        (make-drilldown-activity
         :type fq_type
