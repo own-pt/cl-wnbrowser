@@ -13,25 +13,24 @@
 	 (synset (car (get-docs result))))
     (car (getf synset :|word_en|))))
 
-(defun get-cloudant-query-plist (q drilldown limit start sort-field sort-order)
+(defun get-cloudant-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove
    nil
    (append 
     (list
      (when q (cons "q" q))
+     (when fl (cons "fl" fl))
      (when start (cons "start" start))
      (when sort-field (cons "sf" sort-field))
      (when sort-order (cons "so" sort-order))
      (when (and limit (parse-integer limit :junk-allowed t))
-       (if (> (parse-integer limit :junk-allowed t) 200)
-           (cons "limit" "200")
-           (cons "limit" limit))))
+           (cons "limit" limit)))
     (when drilldown drilldown))))
 
-(defun execute-cloudant-query (term &key drilldown limit sort-field sort-order (start 0) (api "search-documents"))
+(defun execute-cloudant-query (term &key drilldown limit sort-field sort-order (start 0) fl (api "search-documents"))
   (call-rest-method
    api
-   :parameters (get-cloudant-query-plist term drilldown limit start sort-field sort-order)))
+   :parameters (get-cloudant-query-plist term drilldown limit start sort-field sort-order fl)))
 
 (defun delete-suggestion (id)
   (call-rest-method
@@ -188,6 +187,18 @@ LEX-FILE."
 	 (get-facet-fields result)
 	 nil)
 	(values nil nil nil (get-error-reason result)))))
+
+(defun get-synset-ids (term drilldown start limit)
+  (let* ((result (execute-cloudant-query term
+                                         :drilldown drilldown
+                                         :api "search-documents"
+                                         :start start
+                                         :limit limit
+                                         :fl "doc_id"))
+	 (success (request-successful? result)))
+    (if success
+        (get-docs result)
+        nil)))
 
 (defun get-synset (id)
   (get-document-by-id "synset" id))
