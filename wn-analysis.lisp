@@ -78,17 +78,17 @@
 (defun run()
   (with-open-file (stream "rule-1.csv" :direction :output :if-exists :supersede)
     (dolist (id (get-synsets-from-api :rdf-type '("VerbSynset")))
-      (process-rule-1 (getf id :|doc_id|) stream))))
+      (process-rule-1 id stream))))
 
   (with-open-file (stream "rule-2.csv" :direction :output :if-exists :supersede)
     (dolist (id (get-synsets-from-api :rdf-type '("AdjectiveSynset")))
-      (process-rule-2 (getf id :|doc_id|) stream))))
+      (process-rule-2 id stream))))
 
   (with-open-file (stream "rule-3.csv" :direction :output :if-exists :supersede)
     (dolist (id (get-synsets-from-api :rdf-type '("AdjectiveSynset")))
-      (process-rule-3 (getf id :|doc_id|) stream))))
+      (process-rule-3 id stream))))
 
   (with-open-file (stream "rule-4.csv" :direction :output :if-exists :supersede)
     (dolist (id (get-synsets-from-api :rdf-type '("AdjectiveSynset")))
-      (process-rule-4 (getf id :|doc_id|) stream))))
+      (process-rule-4 id stream))))
 

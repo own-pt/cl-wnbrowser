@@ -197,7 +197,7 @@ LEX-FILE."
                                          :fl "doc_id"))
 	 (success (request-successful? result)))
     (if success
-        (get-docs result)
+        (mapcar (lambda (s) (getf s :|doc_id|)) (get-docs result))
         nil)))
 
 (defun get-synset (id)
