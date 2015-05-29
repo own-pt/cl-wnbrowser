@@ -90,10 +90,10 @@
   (call-rest-method (format nil "~a/~a" doctype (drakma:url-encode id :utf-8))))
 
 (defun request-successful? (result)
-  (null (getjso "error" result)))
+  (not (string-equal "SolrError" (getjso "name" result))))
 
 (defun get-error-reason (result)
-  (getjso "reason" result))
+  (getjso "message" result))
 
 (defun get-docs (result)
   (mapcar #'(lambda (row) (getjso "doc" row))
