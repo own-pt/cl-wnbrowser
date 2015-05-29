@@ -9,11 +9,11 @@
 
 (defun get-synset-word-en (id)
   "Returns the FIRST entry in the word_en property for the given SYNSET-ID"
-  (let* ((result (execute-cloudant-query (format nil "id:\"~a\"" id)))
+  (let* ((result (execute-search-query (format nil "id:\"~a\"" id)))
 	 (synset (car (get-docs result))))
     (car (getf synset :|word_en|))))
 
-(defun get-cloudant-query-plist (q drilldown limit start sort-field sort-order fl)
+(defun get-search-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove
    nil
    (append 
@@ -27,10 +27,10 @@
            (cons "limit" limit)))
     (when drilldown drilldown))))
 
-(defun execute-cloudant-query (term &key drilldown limit sort-field sort-order (start 0) fl (api "search-documents"))
+(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl (api "search-documents"))
   (call-rest-method
    api
-   :parameters (get-cloudant-query-plist term drilldown limit start sort-field sort-order fl)))
+   :parameters (get-search-query-plist term drilldown limit start sort-field sort-order fl)))
 
 (defun delete-suggestion (id)
   (call-rest-method
@@ -172,7 +172,7 @@ LEX-FILE."
 	     user))))
 
 (defun execute-search (term drilldown api start limit sf so)
-  (let* ((result (execute-cloudant-query term
+  (let* ((result (execute-search-query term
                                          :drilldown drilldown
                                          :api api
                                          :start start
@@ -189,7 +189,7 @@ LEX-FILE."
 	(values nil nil nil (get-error-reason result)))))
 
 (defun get-synset-ids (term drilldown start limit)
-  (let* ((result (execute-cloudant-query term
+  (let* ((result (execute-search-query term
                                          :drilldown drilldown
                                          :api "search-documents"
                                          :start start
