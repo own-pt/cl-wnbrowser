@@ -6,7 +6,6 @@
 ;; distribution (see LICENSE)
 
 (defpackage #:cl-wnbrowser
-  (:use :cl :closure-template :alexandria :parse-number)
-  (:import-from :split-sequence :split-sequence)
+  (:use :cl :closure-template :split-sequence :alexandria :parse-number)
   (:import-from :cl-fad :merge-pathnames-as-file
 		:merge-pathnames-as-directory :walk-directory))
