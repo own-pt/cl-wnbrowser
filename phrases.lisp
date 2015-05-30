@@ -6,17 +6,22 @@ exemplo, se X estiver em um synset for hiperônimo de outro synset com
 Y e ambos forem nome, podemos apresentar a frase "X é um tipo de Y." e
 perguntar apenas se a frase faz sentido. Se alguém dizer não, pode ser
 que X ou Y estejam no synset errado.|#
-(defun fill-hypernyms ()
-  (dolist (id (get-synset-ids "wn30_hypernymOf:[* TO *] AND word_count_pt:[1 TO *]" (make-drilldown :rdf-type '("NounSynset")) "0" "2000000"))
-    (let* ((synset (get-synset id))
-           (hypernyms (getf synset :|wn30_hypernymOf|)))
-      (when hypernyms
-        (dolist (h hypernyms)
-          (let* ((h-synset (get-synset h))
-                 (rdf-type (getf h-synset :|rdf_type|))
-                 (h-word-pt (getf h-synset :|word_pt|)))
-            (when (and (member "NounSynset" rdf-type :test #'equal)
-                       h-word-pt)
-              (format t "~a é um tipo de ~a?~%"
-                      (car h-word-pt)
-                      (car (getf synset :|word_pt|))))))))))
+(defun generate-all-hypernym-phrases ()
+  (flet ((all-translated-nouns-with-hypernyms ()
+           (get-synset-ids "wn30_hypernymOf:[* TO *] AND word_count_pt:[1 TO *]" (make-drilldown :rdf-type '("NounSynset")) "0" "2000000"))
+         (is-noun (s)
+           (member "NounSynset" (getf s :|rdf_type|) :test #'equal))
+         (has-pt-words (s)
+           (getf s :|word_pt|))
+         (first-pt-word (s)
+           (car (getf s :|word_pt|)))
+         (hypernyms (s)
+           (getf s :|wn30_hypernymOf|)))
+  
+  (dolist (s1 (mapcar #'get-synset (all-translated-nouns-with-hypernyms)))
+    (dolist (s2 (mapcar #'get-synset (hypernyms s1)))
+      (when (and (is-noun s2) (has-pt-words s2))
+        (let ((w1 (first-pt-word s1))
+              (w2 (first-pt-word s2)))
+          (when (not (string-equal w1 w2))
+              (format t "~a é um tipo de ~a?~%" w2 w1))))))))
