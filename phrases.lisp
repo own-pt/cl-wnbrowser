@@ -35,5 +35,7 @@ que X ou Y estejam no synset errado.|#
             (let ((w1 (first-pt-word s1))
                   (w2 (first-pt-word s2)))
               (when (not (string-equal w1 w2))
-                (push (list :id1 s1 :id2 s2 :w1 w1 :w2 w2) result)))))))
+                (push (list :id1 (getf s1 :|doc_id|)
+                            :id2 (getf s2 :|doc_id|)
+                            :w1 w1 :w2 w2) result)))))))
     result))
