@@ -5,9 +5,5 @@
 ;; under the terms of the MIT License which accompanies this
 ;; distribution (see LICENSE)
 
-(defpackage #:cl-wnbrowser
-  (:use :cl :closure-template :split-sequence
-        :graph-algorithms
-        :alexandria :parse-number)
-  (:import-from :cl-fad :merge-pathnames-as-file
-		:merge-pathnames-as-directory :walk-directory))
+(in-package :cl-wnbrowser)
+

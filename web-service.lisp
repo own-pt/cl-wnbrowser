@@ -55,6 +55,9 @@
      :info (get-root)
      :githubid *github-client-id*))))
 
+(hunchentoot:define-easy-handler (get-prototypes-handler :uri "/wn/prototypes") ()
+  (cl-wnbrowser.templates:prototypes))
+
 (defun disable-caching ()
   (hunchentoot:no-cache))
 
@@ -106,6 +109,8 @@
 
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
     (term start debug sf so
+          (fq_sum_votes :parameter-type 'list)
+          (fq_num_votes :parameter-type 'list)
 	  (fq_type :parameter-type 'list)
 	  (fq_tag :parameter-type 'list)
 	  (fq_action :parameter-type 'list)
@@ -120,6 +125,8 @@
       (execute-search
        (preprocess-term term)
        (make-drilldown-activity
+        :sum_votes fq_sum_votes
+        :num_votes fq_num_votes
         :type fq_type
         :tag fq_tag
         :action fq_action
@@ -135,6 +142,8 @@
 	      (process-activities
 	       (list :debug debug :term term
 		     :fq_type fq_type
+                     :fq_num_votes fq_num_votes
+                     :fq_sum_votes fq_sum_votes
                      :fq_tag fq_tag
 		     :fq_action fq_action
 		     :fq_status fq_status

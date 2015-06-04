@@ -68,7 +68,7 @@
 
     <p>sort [ <a href="#" onclick="sort('date'); return false;">date</a>
       | <a href="#" onclick="sort('sum_votes'); return false;">votes</a>
-      | <a href="#" onclick="sort('vote_score'); return false;">score</a>
+      | <a href="#" onclick="sort('vote_score'); return false;"># votes</a>
       ] [ <a href="#" onclick="order('desc'); return false;">desc</a> |
       <a href="#" onclick="order('asc'); return false;">asc</a> ] (<b>{$sf} {$so}</b>)</p>
     
@@ -141,6 +141,22 @@
     
       {foreach $f in $facets.provenance}
       <input type="checkbox" name="fq_provenance" {checked($f.name, $fq_provenance)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+      {/foreach}
+      {/if}
+
+      {if isNonnull($facets.vote_score)}
+      <div class="facettype"># votes:</div>
+    
+      {foreach $f in $facets.vote_score}
+      <input type="checkbox" name="fq_num_votes" {checked($f.name, $fq_num_votes)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+      {/foreach}
+      {/if}
+
+      {if isNonnull($facets.sum_votes)}
+      <div class="facettype">Final vote:</div>
+    
+      {foreach $f in $facets.sum_votes}
+      <input type="checkbox" name="fq_sum_votes" {checked($f.name, $fq_sum_votes)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
       {/foreach}
       {/if}
 

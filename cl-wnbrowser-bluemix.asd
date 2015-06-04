@@ -8,12 +8,13 @@
 (asdf:defsystem #:cl-wnbrowser-bluemix
     :serial t
     :depends-on (:drakma :flexi-streams :hunchentoot :yason :closure-template
-                         :split-sequence :local-time
+                         :split-sequence :local-time :graph-algorithms
                          :alexandria :cl-csv :cl-ppcre :parse-number)
     :components (
 		 (:file "packages")
 		 (:file "utils")
                  (:file "secrets")
+                 (:file "prototypes")
 		 (:file "constants"     :depends-on ("packages"))
                  (:file "github"        :depends-on ("constants"))
 		 (:file "ownpt-api"     :depends-on ("utils" "constants"))

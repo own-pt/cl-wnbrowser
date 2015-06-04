@@ -132,8 +132,18 @@ LEX-FILE."
                                entry)))
 	     lex-file))))
 
-(defun make-drilldown-activity (&key tag type action status doc_type user provenance)
+(defun make-drilldown-activity (&key tag type action status doc_type user provenance sum_votes num_votes)
   (append
+   (when sum_votes
+     (mapcar #'(lambda (entry)
+		 (cons "drilldown"
+                       (format nil "[\"sum_votes\",\"~a\"]" entry)))
+	     sum_votes))
+   (when num_votes
+     (mapcar #'(lambda (entry)
+		 (cons "drilldown"
+                       (format nil "[\"vote_score\",\"~a\"]" entry)))
+	     num_votes))
    (when tag
      (mapcar #'(lambda (entry)
 		 (cons "drilldown"

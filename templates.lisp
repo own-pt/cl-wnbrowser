@@ -55,11 +55,11 @@
 (defun get-doc-id (doc)
   (getf doc :|id|))
 
-(defun checked (term list)
+(defun checked (term list &key (test #'string=))
   "Helper function to be called from the TEMPLATE code.  It returns
 CHECKED in case TERM belongs to LISP; nil otherwise.  This is useful
 in dealing with checkboxes."
-  (if (member term list :test #'string=)
+  (if (member term list :test test)
       "checked"
       nil))
 
@@ -143,6 +143,7 @@ in dealing with checkboxes."
        ("prettydate" #'pretty-print-iso-date)
        ("solrencode" #'solr-encode)
        ("checked" #'checked)
+       ("nchecked" (lambda (term list) (checked term list :test #'eq)))
        ("isarray" #'is-array)
        ("synsetworden" #'get-synset-word-en))
     (walk-directory
