@@ -55,9 +55,6 @@
      :info (get-root)
      :githubid *github-client-id*))))
 
-(hunchentoot:define-easy-handler (get-prototypes-handler :uri "/wn/prototypes") ()
-  (cl-wnbrowser.templates:prototypes))
-
 (defun disable-caching ()
   (hunchentoot:no-cache))
 
@@ -328,6 +325,15 @@
 				  :uri "/wn/sense-tagging-process-suggestion") (file text word userid selection comment)
   (add-sense-tagging-suggestion file text word userid selection comment)
   (hunchentoot:redirect (format nil "/wn/sense-tagging-details?file=~a&text=~a&word=~a&userid=~a" file text word userid)))
+
+(hunchentoot:define-easy-handler (get-prototypes-handler :uri "/wn/prototypes") ()
+  (cl-wnbrowser.templates:prototypes))
+
+(hunchentoot:define-easy-handler (get-prototypes-analysis-handler :uri "/wn/prototypes/analysis") ()
+  (cl-wnbrowser.templates:gloss-analysis (evaluate-glosses)))
+
+(hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/phrases") ()
+  (cl-wnbrowser.templates:phrases (list :phrases (generate-all-hypernym-phrases))))
 
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler

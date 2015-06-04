@@ -232,7 +232,8 @@ LEX-FILE."
 (defun get-statistics ()
   (call-rest-method "statistics"))
 
-(defun call-rest-method (method &key parameters)
+(defun call-rest-method/stream (method &key parameters)
+  "Alternative to CALL-REST-METHOD that uses a stream; this is more memory efficient, but it may cause problems if YASON:PARSE takes too long to parse the stream and the stream may be cut due to timeout."
     (let* ((stream (drakma:http-request
                    (format nil "~a/~a" *ownpt-api-uri* method)
                    :parameters parameters
@@ -246,4 +247,18 @@ LEX-FILE."
 			    :object-key-fn #'make-keyword)))
       (close stream)
       obj)))
+  
+(defun call-rest-method (method &key parameters)
+    (let ((octets (drakma:http-request
+                   (format nil "~a/~a" *ownpt-api-uri* method)
+                   :parameters parameters
+		   :external-format-out :utf-8
+                   :method :get
+                   :connection-timeout 120
+                   :want-stream nil)))
+      (yason:parse
+       (flexi-streams:octets-to-string octets :external-format :utf-8)
+                   :object-as :plist
+                   :object-key-fn #'make-keyword)))
+
   
