@@ -1,9 +1,11 @@
 (in-package :cl-wnbrowser)
 
-(defparameter *suggestions* (make-hash-table :test #'equal))
-(defparameter *wn*  (make-hash-table :test #'equal))
+(defparameter *suggestions* nil)
+(defparameter *wn* nil)
 
 (defun cache-dbs ()
+  (setf *suggestions* (make-hash-table :test #'equal))
+  (setf *wn* (make-hash-table :test #'equal))
   (cache-wn)
   (cache-suggestions))
 
@@ -22,6 +24,22 @@
       (setf
        (gethash id *suggestions*)
        (push s (gethash id *suggestions*))))))
+
+(defun search-word-in-cache (str &key (type nil))
+  (let ((synsets nil))
+    (maphash (lambda (key value)
+               (when (and
+                      (member str (append (getf value :|word_en|)
+                                          (getf value :|word_pt|))
+                              :test #'string-equal)
+                      (if type
+                          (member type (getf value :|rdf_type|)
+                                  :test #'string-equal)
+                          t))
+                 (push key synsets)))
+             *wn*)
+    synsets))
+
 
 (defun get-cached-suggestions (id)
   (gethash id *suggestions*))
