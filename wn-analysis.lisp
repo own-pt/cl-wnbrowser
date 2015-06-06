@@ -27,6 +27,7 @@
                                  (or (ends-with-subseq "ar" w)
                                      (ends-with-subseq "er" w)
                                      (ends-with-subseq "ir" w)
+                                     (ends-with-subseq "ôr" w)
                                      (ends-with-subseq "or" w))) split-gloss)))))
 
 ;;; 2) todas as glosas de ADJETIVOS com palavras terminadas em (-ar, -er,
