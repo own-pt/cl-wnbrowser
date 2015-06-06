@@ -9,11 +9,15 @@
   (cache-wn)
   (cache-suggestions))
 
+(defun nominalization? (doc)
+  (member "Nominalization" (getf doc :|rdf_type|) :test #'equal))
+
 (defun cache-wn ()
   (dolist (s (execute-search "*" nil
                              "search-documents" "0" "2000000" nil nil))
     (let ((id (getf s :|doc_id|)))
-      (setf (gethash id *wn*) s))))
+      (when (not (nominalization? s))
+        (setf (gethash id *wn*) s)))))
 
 (defun cache-suggestions ()
   (dolist (s (execute-search "*"
@@ -40,9 +44,11 @@
              *wn*)
     synsets))
 
-
 (defun get-cached-suggestions (id)
   (gethash id *suggestions*))
 
 (defun get-cached-document (id)
   (gethash id *wn*))
+
+(defun get-all-cached-ids ()
+  (hash-table-keys *wn*))

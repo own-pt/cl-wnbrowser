@@ -335,6 +335,9 @@
 (hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/phrases") ()
   (cl-wnbrowser.templates:phrases (list :phrases (generate-all-hypernym-phrases))))
 
+(hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/isolated-vertices") ()
+  (cl-wnbrowser.templates:isolated-vertices (list :vertices (isolated-vertices))))
+
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"
