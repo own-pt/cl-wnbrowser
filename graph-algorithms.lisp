@@ -25,7 +25,8 @@
                             :|wn30_substanceMeronymOf|))
 
 (defun all-relations (id)
-  (mapcan (lambda (r) (getf (get-cached-document id) r)) *relations*))
+  (mapcan (lambda (r)
+            (copy-list (getf (get-cached-document id) r))) *relations*))
 
 (defun isolated-vertices ()
   (let ((vertices (get-all-cached-ids))

@@ -4,8 +4,8 @@
 (defparameter *wn* nil)
 
 (defun cache-dbs ()
-  (setf *suggestions* (make-hash-table :test #'equal))
-  (setf *wn* (make-hash-table :test #'equal))
+  (setf *suggestions* (make-hash-table :test #'equal :size 200000))
+  (setf *wn* (make-hash-table :test #'equal :size 150000))
   (cache-wn)
   (cache-suggestions))
 
