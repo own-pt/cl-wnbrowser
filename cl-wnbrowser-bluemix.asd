@@ -18,7 +18,6 @@
                  (:file "graph-algorithms" :depends-on ("wn-cache"))
                  (:file "phrases"       :depends-on ("wn-cache"))
                  (:file "wn-analysis"   :depends-on ("wn-cache"))
-                 (:file "prototypes"    :depends-on ("wn-analysis" "phrases" "graph-algorithms"))
 		 (:file "constants"     :depends-on ("packages"))
                  (:file "github"        :depends-on ("constants"))
 		 (:file "ownpt-api"     :depends-on ("utils" "constants"))

@@ -145,7 +145,9 @@ in dealing with checkboxes."
        ("checked" #'checked)
        ("nchecked" (lambda (term list) (checked term list :test #'eq)))
        ("isarray" #'is-array)
-       ("synsetworden" #'get-synset-word-en))
+       ("synsetworden" #'get-synset-word-en)
+       ("synsetword" #'get-synset-word)
+       ("synsetgloss" #'get-synset-gloss))
     (walk-directory
      (merge-pathnames *templates-directory* *basedir*)
      (lambda (f)

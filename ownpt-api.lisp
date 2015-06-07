@@ -9,9 +9,23 @@
 
 (defun get-synset-word-en (id)
   "Returns the FIRST entry in the word_en property for the given SYNSET-ID"
-  (let* ((result (execute-search-query (format nil "id:\"~a\"" id)))
-	 (synset (car (get-docs result))))
-    (car (getf synset :|word_en|))))
+  (car (getf (get-synset id) :|word_en|)))
+
+(defun get-synset-word (id)
+  "If the synset has word_pt entries, returns the first one; otherwise
+returns the first entry in word_en."
+  (let* ((synset (get-synset id))
+         (word-pt (car (getf synset :|word_pt|)))
+         (word-en (car (getf synset :|word_en|))))
+    (if word-pt word-pt word-en)))
+
+(defun get-synset-gloss (id)
+  "If the synset has word_pt entries, returns the first one; otherwise
+returns the first entry in word_en."
+  (let* ((synset (get-synset id))
+         (gloss-pt (car (getf synset :|gloss_pt|)))
+         (gloss-en (car (getf synset :|gloss_en|))))
+    (if gloss-pt gloss-pt gloss-en)))
 
 (defun get-search-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove

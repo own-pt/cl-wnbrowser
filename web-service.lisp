@@ -335,8 +335,11 @@
 (hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/phrases") ()
   (cl-wnbrowser.templates:phrases (list :phrases (generate-all-hypernym-phrases))))
 
-(hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/isolated-vertices") ()
+(hunchentoot:define-easy-handler (get-prototypes-isolated-vertices-handler :uri "/wn/prototypes/isolated-vertices") ()
   (cl-wnbrowser.templates:isolated-vertices (list :vertices (isolated-vertices))))
+
+(hunchentoot:define-easy-handler (get-prototypes-dijkstra-handler :uri "/wn/prototypes/dijkstra") (w1 w2)
+  (cl-wnbrowser.templates:dijkstra (list :paths (search-paths w1 w2))))
 
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
