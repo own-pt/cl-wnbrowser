@@ -7,6 +7,7 @@
 
 (in-package :cl-wnbrowser)
 
+;;; these are the relations used to build the directed graph
 (defparameter *relations* '(
                             :|wn30_classifiedByRegion|
                             :|wn30_classifiedByTopic|
@@ -61,7 +62,7 @@
               (let ((path (reconstruct-path prev s2)))
                 (push s1 path)
                 (push (list :id1 s1 :id2 s2 :path path) result)))))
-        (let* ((sorted-result (sort result #'<
-                                    :key (lambda (x) (length (getf x :path)))))
+        (let* ((sorted-result
+                (sort result #'< :key (lambda (x) (length (getf x :path)))))
                (len (length sorted-result)))
           (subseq sorted-result 0 (if (< len 10) len 10)))))))
