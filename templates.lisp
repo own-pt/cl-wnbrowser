@@ -55,6 +55,11 @@
 (defun get-doc-id (doc)
   (getf doc :|id|))
 
+(defun is-member (term list)
+  (if (member term list :test #'string-equal)
+      t
+      nil))
+
 (defun checked (term list &key (test #'string=))
   "Helper function to be called from the TEMPLATE code.  It returns
 CHECKED in case TERM belongs to LISP; nil otherwise.  This is useful
@@ -145,6 +150,7 @@ in dealing with checkboxes."
        ("checked" #'checked)
        ("nchecked" (lambda (term list) (checked term list :test #'eq)))
        ("isarray" #'is-array)
+       ("ismember" #'is-member)
        ("synsetworden" #'get-synset-word-en)
        ("synsetword" #'get-synset-word)
        ("synsetgloss" #'get-synset-gloss))

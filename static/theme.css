@@ -1,5 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto|Inconsolata);
+
 body, h1, h2, h3, p, ul, li, i { 
-    font-family: Segoe UI, Verdana, sans-serif; 
+    font-family: Roboto, Segoe UI, Verdana, sans-serif; 
+}
+
+tt, pre {
+    font-family: 'Inconsolata', monospace;
 }
 
 h1 { 
@@ -75,6 +81,10 @@ li.breadcrumb {
     margin: 0; 
 }
 
+li.comment, li.suggestion {
+    padding-bottom: 4px;
+}
+
 li.breadcrumb::before { 
     content: " \bb  "; 
 }
@@ -147,4 +157,21 @@ background-color: #EAF2D3;
     margin-left: 7px;
     background: transparent;
     overflow: hidden;
+}
+
+div.user {
+    display:inline;
+    color: #660033;
+    font-weight:bold;
+}
+
+div.status {
+    display:inline;
+    color: #0066FF;
+    font-style:italic;
+}
+
+div.already-voted {
+    display:inline;
+    color: green;
 }

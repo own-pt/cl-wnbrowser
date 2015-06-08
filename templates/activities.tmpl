@@ -36,6 +36,13 @@
       form.submit();
       }
 
+      function reset()
+      {
+      var form = document.getElementById('form');
+      form.elements["term"].value = '*';
+      form.submit();
+      }
+
       function sort(f)
       {
       var form = document.getElementById('form');
@@ -59,10 +66,18 @@
       <input type="submit" value="Search" />
     </form>
     </p>
+
+    [ {if isNonnull($login)}
+    <b>{$login}</b>
+    {else}
+    <a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">Login</a>
+    {/if} ]
+    
     {if isNonnull($login)}
     <p>[ <a href="#" onclick="mymentions('{$login}'); return false;">my @mentions</a>
       | <a href="#" onclick="votes('{$login}'); return false;">votes</a>
       | <a href="#" onclick="pending('{$login}'); return false;">pending</a>
+      | <a href="#" onclick="reset(); return false;">reset</a>
       ]</p>
     {/if}
 
@@ -173,12 +188,14 @@
     {if ($d.type == 'comment')}
 
     {call comment}
+    {param login: $login /}
     {param document: $d /}
     {/call}
     
     {else}
 
     {call suggestion}
+    {param login: $login /}
     {param document: $d /}
     {/call}
     

@@ -137,23 +137,26 @@
 	    (let* ((start/i (if start (parse-integer start) 0)))
 	      (setf (hunchentoot:session-value :term) term)
 	      (process-activities
-	       (list :debug debug :term term
-		     :fq_type fq_type
-                     :fq_num_votes fq_num_votes
-                     :fq_sum_votes fq_sum_votes
-                     :fq_tag fq_tag
-		     :fq_action fq_action
-		     :fq_status fq_status
-		     :fq_doc_type fq_doc_type
-                     :fq_user fq_user
-                     :fq_provenance fq_provenance
-		     :previous (get-previous start/i)
-		     :next (get-next start/i 25)
-                     :so so
-                     :sf sf
-		     :start start/i :numfound num-found
-		     :facets facets :documents documents))))))
-
+               (append (get-login)
+                       (list :debug debug :term term
+                             :fq_type fq_type
+                             :fq_num_votes fq_num_votes
+                             :fq_sum_votes fq_sum_votes
+                             :fq_tag fq_tag
+                             :fq_action fq_action
+                             :fq_status fq_status
+                             :fq_doc_type fq_doc_type
+                             :fq_user fq_user
+                             :fq_provenance fq_provenance
+                             :previous (get-previous start/i)
+                             :next (get-next start/i 25)
+                             :so so
+                             :sf sf
+                             :callbackuri (make-callback-uri "/wn/search-activities")
+                             :start start/i :numfound num-found
+                             :githubid *github-client-id*
+                             :facets facets :documents documents)))))))
+ 
 (hunchentoot:define-easy-handler (get-synset-handler
 				  :uri "/wn/synset") (id debug)
   (setf (hunchentoot:content-type*) "text/html")

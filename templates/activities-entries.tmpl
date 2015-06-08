@@ -15,22 +15,21 @@
 {template comment}
 
 <li class="comment">
-  (<i>comment</i>
-    {call create-link}
+  ({call create-link}
     {param document: $document /}
-    {/call}) <b>{$document.user}</b>: {trimcomment($document.params)} ({prettydate($document.date)})
+    {/call}) <div class="user">{$document.user}</div>: {trimcomment($document.params)} ({prettydate($document.date)})
 </li>
 
 {/template}
 
 {template suggestion}
 
-  <li class="suggestion">
-    
-    ([{$document.sum_votes}|{$document.vote_score}] <i>suggestion</i>
+<li class="suggestion">
+  {if isNonnull($login) and ismember($login,$document.all_voters)}<div class="already-voted">&#10004;</div>{/if}
+    ([{$document.sum_votes}/{$document.vote_score}]
     {call create-link}
     {param document: $document /}
-    {/call}) <b>{$document.user}</b>: {$document.action}({$document.params}) <i>{$document.status}</i>
+    {/call}) <div class="user">{$document.user}</div>: {$document.action}({$document.params}) <div class="status">{$document.status}</div>
     
    </li>
 
