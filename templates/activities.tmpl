@@ -90,6 +90,8 @@
   
   <div class="facets">
     <form id="formfacet" action="search-activities" method="GET">
+      <input type="hidden" name="sf" value="{$sf}" />
+      <input type="hidden" name="so" value="{$so}" />
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
       {if isNonnull($facets.tags)}
