@@ -619,7 +619,7 @@
   <h3>Suggestions</h3>
   <a href="#suggestions"></a>
   <table class="suggestions">
-    <tr><th>Votes</th><th>Action</th><th>Content</th><th>User (prov.)</th><th>Status</th><th>Action</th></tr>
+    <tr><th>Votes</th><th>Action</th><th>Content</th><th>User (prov.)</th><th>Age</th><th>Status</th><th>Action</th></tr>
     
     {foreach $s in $suggestions}
     {if isNonnull($login)}
@@ -669,18 +669,14 @@
         {/if}
         </div>
       </td>
-      <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td><td>{$s.status}</td>
+      <td><tt>{$s.action}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td>
+      <td>{prettydate($s.date)}</td>
+      <td>{$s.status}</td>
       <td>
         {if validstatus($s.status) and (isself($login, $s.user) or isauthorizedapprove($login))}
         <a href="/wn/delete-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Delete suggestion">del</a>
 	{else}
 	del
-	{/if}
-	{if validstatus($s.status) and isauthorizedapprove($login)} |
-        <a href="/wn/accept-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Accept suggestion">acc</a> |
-        <a href="/wn/reject-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Reject suggestion">rej</a>
-        {else}
-        | acc | rej
         {/if}
       </td>
     </tr>
