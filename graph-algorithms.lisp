@@ -33,8 +33,17 @@
                             :|wn30_substanceMeronymOf|))
 
 (defun all-relations (id)
+  "Return all directed edges spanning from vertex."
   (mapcan (lambda (r)
             (copy-list (getf (get-cached-document id) r))) *relations*))
+
+(defun all-bidirectional-relations (id)
+  "Return all bidirectional edges spanning from vertex.  Meaning, if
+  there is an edge from ID to ID' but not from ID' to ID, then ID' is
+  not included in the result."
+  (remove-if (lambda (r)
+               (not (member id (all-relations r) :test #'equal)))
+             (all-relations id)))
 
 (defun isolated-vertices ()
   (let ((vertices (get-all-cached-ids))
@@ -66,3 +75,11 @@
                 (sort result #'< :key (lambda (x) (length (getf x :path)))))
                (len (length sorted-result)))
           (subseq sorted-result 0 (if (< len 10) len 10)))))))
+
+(defun find-cliques ()
+  (let ((current 0))
+    (maximal-cliques (get-all-cached-ids) #'all-bidirectional-relations
+                     (lambda (c)
+                       (when (> (length c) current)
+                         (setf current (length c))
+                         (format t "Clique [~a]~%" c))))))
