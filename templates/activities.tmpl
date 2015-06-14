@@ -109,13 +109,6 @@
       <input type="hidden" name="so" value="{$so}" />
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
-      {if isNonnull($facets.tags)}
-      <div class="facettype">Tag:</div>
-    
-      {foreach $f in $facets.tags}
-      <input type="checkbox" name="fq_tag" {checked($f.name, $fq_tag)} value="{$f.name}" onchange="facetChecked();">{converttag($f.name)} ({$f.count})</input><br/>
-      {/foreach}
-      {/if}
 
       {if isNonnull($facets.type)}
       <div class="facettype">Type:</div>
@@ -177,6 +170,14 @@
       {/foreach}
       {/if}
 
+      {if isNonnull($facets.tags)}
+      <div class="facettype">Tag:</div>
+    
+      {foreach $f in $facets.tags}
+      <input type="checkbox" name="fq_tag" {checked($f.name, $fq_tag)} value="{$f.name}" onchange="facetChecked();">{converttag($f.name)} ({$f.count})</input><br/>
+      {/foreach}
+      {/if}
+      
     </form>
   </div>
   
