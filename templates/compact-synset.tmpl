@@ -2,34 +2,11 @@
 
 {namespace cl-wnbrowser.Templates}
 
-{template synset-ref}
-
-     {if isarray($synsets)}
-     {foreach $s in $synsets}
-       {if not isFirst($s)}, {/if}
-       <a href="synset?id={$s.id}">{$s.name}</a>
-     {/foreach}
-     {/if}  
-
-{/template}
-
-{template describe-relation}
-
-     {if isNonnull($synsets)}
-         <li>{$description}: 
-         [ {call synset-ref}{param synsets: $synsets /}{/call} ]
-         </li>
-     {/if}
-
-{/template}
-
 {template compact-synset}
-<html>
-<body>
 
 <div class="synsetprops">
 
-  <b>{$doc_id}</b> [en: <i>{$gloss_en}</i>] [pt: 
+  <b><a href="synset?id={$doc_id}">{$doc_id}</a></b> [en: <i>{$gloss_en}</i>] [pt: 
   {foreach $g in $gloss_pt}
   {if not isFirst($g)}{sp}&bull;{sp}{/if}
   {$g}{ifempty}n/a
@@ -186,8 +163,5 @@
   {/if}
 
 </div>
-
-</body>
-</html>
 
 {/template}
