@@ -3,18 +3,20 @@
 (defparameter *suggestions* nil)
 (defparameter *wn* nil)
 
-(defun cache-dbs ()
+(defun cache-dbs (&key (core-only nil))
   (setf *suggestions* (make-hash-table :test #'equal :size 200000))
   (setf *wn* (make-hash-table :test #'equal :size 150000))
-  (cache-wn)
+  (cache-wn core-only)
   (cache-suggestions))
 
 (defun nominalization? (doc)
   (member "Nominalization" (getf doc :|rdf_type|) :test #'equal))
 
-(defun cache-wn ()
-  (dolist (s (execute-search "*" nil
-                             "search-documents" "0" "2000000" nil nil))
+(defun cache-wn (core-only)
+  (dolist (s (execute-search
+              (if core-only "rdf_type:CoreConcept" "*")
+              nil
+              "search-documents" "0" "2000000" nil nil))
     (let ((id (getf s :|doc_id|)))
       (when (not (nominalization? s))
         (setf (gethash id *wn*) s)))))

@@ -76,10 +76,10 @@
                (len (length sorted-result)))
           (subseq sorted-result 0 (if (< len 10) len 10)))))))
 
+(defparameter *clique-cache* nil)
+
 (defun find-cliques ()
-  (let ((current 0))
-    (maximal-cliques (get-all-cached-ids) #'all-bidirectional-relations
-                     (lambda (c)
-                       (when (> (length c) current)
-                         (setf current (length c))
-                         (format t "Clique [~a]~%" c))))))
+  (maximal-cliques (get-all-cached-ids) #'all-bidirectional-relations
+                   (lambda (c)
+                     (when (> (length c) 2)
+                       (push c *clique-cache*)))))
