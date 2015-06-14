@@ -24,6 +24,12 @@
     (get-login)
     synset)))
 
+(defun process-compact-synset (synset)
+  (cl-wnbrowser.templates:compact-synset
+   (append
+    (get-login)
+    synset)))
+
 (defun make-callback-uri (request-uri)
   (let* ((redirect-uri (format nil "http://~a~a" *base-url* request-uri))
          (callback-uri (format nil "http://~a/wn/callback?destination=~a"
@@ -105,7 +111,7 @@
 		     :facets facets :documents documents)))))))
 
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
-    (term start debug sf so
+    (bulk term start debug sf so
           (fq_sum_votes :parameter-type 'list)
           (fq_num_votes :parameter-type 'list)
 	  (fq_type :parameter-type 'list)
@@ -140,6 +146,7 @@
                (append (get-login)
                        (list :debug debug :term term
                              :fq_type fq_type
+                             :bulk bulk
                              :fq_num_votes fq_num_votes
                              :fq_sum_votes fq_sum_votes
                              :fq_tag fq_tag
@@ -155,7 +162,8 @@
                              :callbackuri (make-callback-uri "/wn/search-activities")
                              :start start/i :numfound num-found
                              :githubid *github-client-id*
-                             :facets facets :documents documents)))))))
+                             :facets facets
+                             :documents documents)))))))
  
 (hunchentoot:define-easy-handler (get-synset-handler
 				  :uri "/wn/synset") (id debug)
@@ -173,6 +181,28 @@
      (append
       (list
        :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
+       :term term
+       :callbackuri (make-callback-uri request-uri)
+       :returnuri request-uri
+       :debug debug
+       :comments comments
+       :suggestions suggestions
+       :githubid *github-client-id*
+       :synset synset)
+      synset))))
+
+(hunchentoot:define-easy-handler (get-compact-synset-handler
+				  :uri "/wn/compact-synset") (id debug)
+  (setf (hunchentoot:content-type*) "text/html")
+  (disable-caching)
+  (let* ((synset (get-synset id))
+         (suggestions (get-suggestions id))
+         (comments (get-comments id))
+         (request-uri (hunchentoot:request-uri*))
+	 (term (hunchentoot:session-value :term)))
+    (process-compact-synset
+     (append
+      (list
        :term term
        :callbackuri (make-callback-uri request-uri)
        :returnuri request-uri

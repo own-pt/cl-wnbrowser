@@ -38,6 +38,15 @@
   (member user votes :test #'(lambda (a b)
                                (equal (getf b :|user|) a))))
 
+(defun nice-action (action)
+  (cond ((string-equal "add-gloss-pt" action) "+gl")
+        ((string-equal "remove-gloss-pt" action) "-gl")
+        ((string-equal "add-word-pt" action) "+w")
+        ((string-equal "remove-word-pt" action) "-w")
+        ((string-equal "add-example-pt" action) "+ex")
+        ((string-equal "remove-example-pt" action) "-ex")
+        (t "??")))
+
 (defun is-self (logged user)
   (if (and logged user)
       (string-equal logged user)
@@ -132,6 +141,7 @@ in dealing with checkboxes."
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
+       ("niceaction" #'nice-action)
        ("alreadyvoted" #'already-voted)
        ("getvoteid" #'get-vote-id)
        ("insuggestions" #'in-suggestions)

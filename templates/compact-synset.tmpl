@@ -1,0 +1,193 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+{template synset-ref}
+
+     {if isarray($synsets)}
+     {foreach $s in $synsets}
+       {if not isFirst($s)}, {/if}
+       <a href="synset?id={$s.id}">{$s.name}</a>
+     {/foreach}
+     {/if}  
+
+{/template}
+
+{template describe-relation}
+
+     {if isNonnull($synsets)}
+         <li>{$description}: 
+         [ {call synset-ref}{param synsets: $synsets /}{/call} ]
+         </li>
+     {/if}
+
+{/template}
+
+{template compact-synset}
+<html>
+<body>
+
+<div class="synsetprops">
+
+  <b>{$doc_id}</b> [en: <i>{$gloss_en}</i>] [pt: 
+  {foreach $g in $gloss_pt}
+  {if not isFirst($g)}{sp}&bull;{sp}{/if}
+  {$g}{ifempty}n/a
+  {/foreach}]
+
+<p>
+  [en: {foreach $w in $word_en}
+  {if not isFirst($w)}{sp}&bull;{sp}{/if}
+  {$w}
+  {/foreach}]
+  
+  [pt: {foreach $w in $word_pt}
+  {if not isFirst($w)}{sp}&bull;{sp}{/if}
+  {$w}
+  {ifempty}n/a
+  {/foreach}]
+</p>
+
+<li>{$wn30_lexicographerfile}/{$rdf_type}</li>
+
+    {call describe-relation}
+      {param description: 'Classified by usage' /}
+      {param synsets: $wn30_classifiedbyusageexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Hypernym of' /}
+      {param synsets: $wn30_hypernymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Hyponym of' /}
+      {param synsets: $wn30_hyponymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Part holonym of' /}
+      {param synsets: $wn30_partholonymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Part meronym of' /}
+      {param synsets: $wn30_partmeronymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Member holonym of' /}
+      {param synsets: $wn30_memberholonymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Member meronym of' /}
+      {param synsets: $wn30_membermeronymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Substance holonym of' /}
+      {param synsets: $wn30_substanceholonymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Substance meronym of' /}
+      {param synsets: $wn30_substancemeronymofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Similar to' /}
+      {param synsets: $wn30_similartoexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'See also' /}
+      {param synsets: $wn30_seealsoexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Instance of' /}
+      {param synsets: $wn30_instanceofexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Has instance' /}
+      {param synsets: $wn30_hasinstanceexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Attribute' /}
+      {param synsets: $wn30_attributeexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Causes' /}
+      {param synsets: $wn30_causesexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Same verb group as' /}
+      {param synsets: $wn30_sameverbgroupasexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Entails' /}
+      {param synsets: $wn30_entailsexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classified by region' /}
+      {param synsets: $wn30_classifiedbyregionexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classified by topic' /}
+      {param synsets: $wn30_classifiedbytopicexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classified by usage' /}
+      {param synsets: $wn30_classifiedbyusageexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classifies by region' /}
+      {param synsets: $wn30_classifiesbyregionexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classifies by topic' /}
+      {param synsets: $wn30_classifiesbytopicexpanded /}
+    {/call}
+
+    {call describe-relation}
+      {param description: 'Classifies by usage' /}
+      {param synsets: $wn30_classifiesbyusageexpanded /}
+    {/call}
+
+  </ul>
+
+  {if isNonnull($suggestions)}
+  <a href="#suggestions"></a>
+  <table class="suggestions">
+    <tr><th>Votes</th><th>Action</th><th>Content</th><th>User (prov.)</th><th>Age</th><th>Status</th></tr>
+    
+    {foreach $s in $suggestions}
+    <tr>
+      <td>
+        {$s.votes.total}
+      </td>
+      <td><tt>{niceaction($s.action)}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td>
+      <td>{prettydate($s.date)}</td>
+      <td>{$s.status}</td>
+    </tr>
+    {/foreach}
+  </table>
+  {/if}
+
+</div>
+
+</body>
+</html>
+
+{/template}
