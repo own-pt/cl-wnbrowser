@@ -25,6 +25,7 @@
   {/foreach}]
 </p>
 
+<ul>
 <li>{$wn30_lexicographerfile}/{$rdf_type}</li>
 
     {call describe-relation}
@@ -147,7 +148,7 @@
   {if isNonnull($suggestions)}
   <a href="#suggestions"></a>
   <table class="suggestions">
-    <tr><th>Votes</th><th>Action</th><th>Content</th><th>User (prov.)</th><th>Age</th><th>Status</th></tr>
+    <tr><th>Votes</th><th>Action</th><th>Content</th><th>User (prov.)</th><th>Age</th></tr>
     
     {foreach $s in $suggestions}
     <tr>
@@ -156,7 +157,6 @@
       </td>
       <td><tt>{niceaction($s.action)}</tt></td><td>{$s.params}</td><td>{$s.user} ({$s.provenance})</td>
       <td>{prettydate($s.date)}</td>
-      <td>{$s.status}</td>
     </tr>
     {/foreach}
   </table>
