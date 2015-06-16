@@ -22,7 +22,18 @@
   </head>
 
 <body>
+
+<p><i>This page list 10 synsets that have suggestions that have not yet been voted by you.  You may refresh it to get the next 10 once you have voted on all.
+</i></p>
+
 {if isNonnull($login)}
+
+  {literal}
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="/wn/st/voting.js"></script>
+  </script>
+  {/literal}
+
 {foreach $id in $documents}
 
   <div id="synset-{$id}">
@@ -33,8 +44,8 @@
 
 {/foreach}
 {else}
-Please
-<a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">login</a> to proceed.
+<p>Please
+<a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">login</a> to proceed.</p>
 {/if}
 </body>
 </html>

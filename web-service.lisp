@@ -192,7 +192,7 @@
                      :doc_type fq_doc_type
                      :provenance fq_provenance
                      :user fq_user)
-         :api "search-activities" :start start :limit "25"
+         :api "search-activities" :start start :limit "10"
          :sf sf :sf so :fl "doc_id")
       (if error
           (process-error (list :error error :term term))
@@ -220,7 +220,8 @@
                    :facets facets
                    :documents
                    (remove-duplicates
-                    (mapcar (lambda (x) (getf x :|doc_id|)) documents)))))))))
+                    (mapcar (lambda (x) (getf x :|doc_id|)) documents)
+                    :test #'equal))))))))
 
 (hunchentoot:define-easy-handler (get-synset-handler
 				  :uri "/wn/synset") (id debug)
