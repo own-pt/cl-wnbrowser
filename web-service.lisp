@@ -44,9 +44,6 @@
 (defun process-results (result)
   (cl-wnbrowser.templates:result result))
 
-(defun process-activities (activities)
-  (cl-wnbrowser.templates:activities (append (get-login) activities)))
-
 (defun process-error (result)
   (cl-wnbrowser.templates:searcherror result))
 
@@ -87,11 +84,12 @@
 	    (documents num-found facets error)
           (execute-search
            (preprocess-term term)
-           (make-drilldown :rdf-type fq_rdftype
-                           :lex-file fq_lexfile
-                           :word-count-pt fq_word_count_pt
-                           :word-count-en fq_word_count_en)
-           "search-documents" start limit nil nil)
+           :drilldown (make-drilldown :rdf-type fq_rdftype
+                                      :lex-file fq_lexfile
+                                      :word-count-pt fq_word_count_pt
+                                      :word-count-en fq_word_count_en)
+           :api "search-documents"
+           :start start :limit limit)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0))
@@ -111,7 +109,7 @@
 		     :facets facets :documents documents)))))))
 
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
-    (bulk term start debug sf so
+    (term start debug sf so
           (fq_sum_votes :parameter-type 'list)
           (fq_num_votes :parameter-type 'list)
 	  (fq_type :parameter-type 'list)
@@ -127,26 +125,26 @@
         (documents num-found facets error)
       (execute-search
        (preprocess-term term)
-       (make-drilldown-activity
-        :sum_votes fq_sum_votes
-        :num_votes fq_num_votes
-        :type fq_type
-        :tag fq_tag
-        :action fq_action
-        :status fq_status
-        :doc_type fq_doc_type
-        :provenance fq_provenance
-        :user fq_user)
-       "search-activities" start "25" sf so)
+       :drilldown (make-drilldown-activity
+                   :sum_votes fq_sum_votes
+                   :num_votes fq_num_votes
+                   :type fq_type
+                   :tag fq_tag
+                   :action fq_action
+                   :status fq_status
+                   :doc_type fq_doc_type
+                   :provenance fq_provenance
+                   :user fq_user)
+       :api "search-activities" :start start
+       :limit "25" :sf sf :so so)
 	(if error
 	    (process-error (list :error error :term term))
 	    (let* ((start/i (if start (parse-integer start) 0)))
 	      (setf (hunchentoot:session-value :term) term)
-	      (process-activities
+              (cl-wnbrowser.templates:activities
                (append (get-login)
                        (list :debug debug :term term
                              :fq_type fq_type
-                             :bulk bulk
                              :fq_num_votes fq_num_votes
                              :fq_sum_votes fq_sum_votes
                              :fq_tag fq_tag
@@ -164,7 +162,66 @@
                              :githubid *github-client-id*
                              :facets facets
                              :documents documents)))))))
- 
+
+
+(hunchentoot:define-easy-handler (search-bulk-vote-handler :uri "/wn/bulk-vote")
+    (term start debug sf so
+          (fq_sum_votes :parameter-type 'list)
+          (fq_num_votes :parameter-type 'list)
+	  (fq_type :parameter-type 'list)
+	  (fq_tag :parameter-type 'list)
+	  (fq_action :parameter-type 'list)
+	  (fq_status :parameter-type 'list)
+	  (fq_doc_type :parameter-type 'list)
+          (fq_provenance :parameter-type 'list)
+          (fq_user :parameter-type 'list))
+  (setf (hunchentoot:content-type*) "text/html")
+  (disable-caching)
+  (let ((login (hunchentoot:session-value :login)))
+    (multiple-value-bind
+          (documents num-found facets error)
+        (execute-search
+         (format nil "(type:suggestion) AND -all_voters:~a" login)
+         :drilldown (make-drilldown-activity
+                     :sum_votes fq_sum_votes
+                     :num_votes fq_num_votes
+                     :type fq_type
+                     :tag fq_tag
+                     :action fq_action
+                     :status fq_status
+                     :doc_type fq_doc_type
+                     :provenance fq_provenance
+                     :user fq_user)
+         :api "search-activities" :start start :limit "25"
+         :sf sf :sf so :fl "doc_id")
+      (if error
+          (process-error (list :error error :term term))
+          (let* ((start/i (if start (parse-integer start) 0)))
+            (setf (hunchentoot:session-value :term) term)
+            (cl-wnbrowser.templates:bulk-vote
+             (list :debug debug :term term
+                   :fq_type fq_type
+                   :login login
+                   :fq_num_votes fq_num_votes
+                   :fq_sum_votes fq_sum_votes
+                   :fq_tag fq_tag
+                   :fq_action fq_action
+                   :fq_status fq_status
+                   :fq_doc_type fq_doc_type
+                   :fq_user fq_user
+                   :fq_provenance fq_provenance
+                   :previous (get-previous start/i)
+                   :next (get-next start/i 25)
+                   :so so
+                   :sf sf
+                   :callbackuri (make-callback-uri "/wn/bulk-vote")
+                   :start start/i :numfound num-found
+                   :githubid *github-client-id*
+                   :facets facets
+                   :documents
+                   (remove-duplicates
+                    (mapcar (lambda (x) (getf x :|doc_id|)) documents)))))))))
+
 (hunchentoot:define-easy-handler (get-synset-handler
 				  :uri "/wn/synset") (id debug)
   (setf (hunchentoot:content-type*) "text/html")

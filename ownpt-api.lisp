@@ -195,13 +195,14 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun execute-search (term drilldown api start limit sf so)
+(defun execute-search (term &key drilldown api start limit sf so fl)
   (let* ((result (execute-search-query term
                                          :drilldown drilldown
                                          :api api
                                          :start start
                                          :limit limit
                                          :sort-field sf
+                                         :fl fl
                                          :sort-order so))
 	 (success (request-successful? result)))
     (if success
