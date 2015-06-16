@@ -22,6 +22,7 @@
   </head>
 
 <body>
+{if isNonnull($login)}
 {foreach $id in $documents}
 
   <div id="synset-{$id}">
@@ -31,6 +32,10 @@
   <script>load_synset('{$id}')</script>
 
 {/foreach}
+{else}
+Please
+<a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">login</a> to proceed.
+{/if}
 </body>
 </html>
 
