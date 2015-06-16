@@ -15,17 +15,17 @@
 (defun cache-wn (core-only)
   (dolist (s (execute-search
               (if core-only "rdf_type:CoreConcept" "*")
-              nil
-              "search-documents" "0" "2000000" nil nil))
+              :api "search-documents" :start "0" :limit "2000000"))
     (let ((id (getf s :|doc_id|)))
       (when (not (nominalization? s))
         (setf (gethash id *wn*) s)))))
 
 (defun cache-suggestions ()
-  (dolist (s (execute-search "*"
-                             (make-drilldown-activity :status '("new")
-                                                      :action '("add-gloss-pt"))
-                             "search-activities" "0" "2000000" nil nil))
+  (dolist (s (execute-search
+              "*"
+              :drilldown (make-drilldown-activity :status '("new")
+                                                  :action '("add-gloss-pt"))
+              :api "search-activities" :start "0" :limit "2000000"))
     (let ((id (getf s :|doc_id|)))
       (setf
        (gethash id *suggestions*)
