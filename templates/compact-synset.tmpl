@@ -6,19 +6,21 @@
 
 <div class="synsetprops">
 
-  <b><a href="synset?id={$doc_id}">{$doc_id}</a></b> [en: <i>{$gloss_en}</i>] [pt: 
+  <h1>{$gloss_en}</h1>
+  <b><a href="synset?id={$doc_id}">{$doc_id}</a></b>
+  [gloss pt: 
   {foreach $g in $gloss_pt}
   {if not isFirst($g)}{sp}&bull;{sp}{/if}
   {$g}{ifempty}n/a
   {/foreach}]
 
 <p>
-  [en: {foreach $w in $word_en}
+  [<b>words en</b>: {foreach $w in $word_en}
   {if not isFirst($w)}{sp}&bull;{sp}{/if}
   {$w}
   {/foreach}]
   
-  [pt: {foreach $w in $word_pt}
+  [<b>words pt</b>: {foreach $w in $word_pt}
   {if not isFirst($w)}{sp}&bull;{sp}{/if}
   {$w}
   {ifempty}n/a

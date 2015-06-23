@@ -21,8 +21,7 @@ Word 2: <input type="text" name="w2" value="{$w2}">
 </p>
 
 {foreach $p in $paths}
-<p><i><a href="/wn/synset?id={$p.id1}">{synsetgloss($p.id1)}</a></i> x
-  <i><a href="/wn/synset?id={$p.id2}">{synsetgloss($p.id2)}</a></i>
+<p><i><a href="/wn/synset?id={$p.id1}" alt="{synsetgloss($p.id1)}">{$p.id1}</a></i> x <i><a href="/wn/synset?id={$p.id2}" alt="{synsetgloss($p.id2)}">{$p.id2}</a></i>
 </p>
 
 <p>Path:
