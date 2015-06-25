@@ -119,11 +119,16 @@ returns the first entry in word_en."
 (defun get-facet-fields (response)
   (getjso "counts" response))
 
-(defun make-drilldown (&key rdf-type lex-file word-count-pt word-count-en)
+(defun make-drilldown (&key rdf-type lex-file word-count-pt word-count-en frame)
   "Creates the appropriate PLIST that should be fed to SOLR out of the
 list of facet filters specified in the parameters RDF-TYPE and
 LEX-FILE."
   (append
+   (when frame
+     (mapcar #'(lambda (entry)
+		 (cons "drilldown"
+                       (format nil "[\"wn30_frame\",\"~a\"]" entry)))
+	     frame))
    (when word-count-pt
      (mapcar #'(lambda (entry)
 		 (cons "drilldown"

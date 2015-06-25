@@ -72,7 +72,8 @@
 
 (hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
     (term start debug limit
-	  (fq_word_count_pt :parameter-type 'list)
+	  (fq_frame :parameter-type 'list)
+          (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
 	  (fq_lexfile :parameter-type 'list))
@@ -86,6 +87,7 @@
            (preprocess-term term)
            :drilldown (make-drilldown :rdf-type fq_rdftype
                                       :lex-file fq_lexfile
+                                      :frame fq_frame
                                       :word-count-pt fq_word_count_pt
                                       :word-count-en fq_word_count_en)
            :api "search-documents"
@@ -98,6 +100,7 @@
 	      (setf (hunchentoot:session-value :term) term)
 	      (process-results
 	       (list :debug debug :term term
+                     :fq_frame fq_frame
 		     :fq_rdftype fq_rdftype
 		     :fq_lexfile fq_lexfile
 		     :fq_word_count_pt fq_word_count_pt

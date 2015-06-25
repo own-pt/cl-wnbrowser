@@ -59,6 +59,13 @@
       {/foreach}
       {/if}
 
+      {if isNonnull($facets.wn30_frame)}
+      <div class="facettype">Frame:</div>
+      {foreach $f in $facets.wn30_frame}
+      <input type="checkbox" name="fq_frame" {checked($f.name, $fq_frame)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+      {/foreach}
+      {/if}
+
     </form>
   </div>
   
