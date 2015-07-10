@@ -77,7 +77,6 @@
 	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
 	  (fq_lexfile :parameter-type 'list))
-  (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
@@ -92,25 +91,35 @@
                                       :word-count-en fq_word_count_en)
            :api "search-documents"
            :start start :limit limit)
-	(if error
-	    (process-error (list :error error :term term))
-	    (let* ((start/i (if start (parse-integer start) 0))
-                   (limit/i (if limit (parse-integer limit) 10)))
-	      (hunchentoot:delete-session-value :ids)
-	      (setf (hunchentoot:session-value :term) term)
-	      (process-results
-	       (list :debug debug :term term
-                     :fq_frame fq_frame
-		     :fq_rdftype fq_rdftype
-		     :fq_lexfile fq_lexfile
-		     :fq_word_count_pt fq_word_count_pt
-		     :fq_word_count_en fq_word_count_en
-		     :previous (get-previous start/i)
-		     :next (get-next start/i limit/i)
-                     :limit limit/i
-		     :start start/i :numfound num-found
-		     :facets facets :documents documents)))))))
-
+	(let* ((start/i (if start (parse-integer start) 0))
+	      (limit/i (if limit (parse-integer limit) 10))
+	      (result (if error 
+			  (list :error error :term term)
+			  (list :debug debug :term term
+				:fq_frame fq_frame
+				:fq_rdftype fq_rdftype
+				:fq_lexfile fq_lexfile
+				:fq_word_count_pt fq_word_count_pt
+				:fq_word_count_en fq_word_count_en
+				:previous (get-previous start/i)
+				:next (get-next start/i limit/i)
+				:limit limit/i
+				:start start/i :numfound num-found
+				:facets facets :documents documents))))
+	(if (string-equal "application/json" (hunchentoot:header-in* :accept))
+	    (progn
+	      (setf (hunchentoot:content-type*) "application/json")
+	      (with-output-to-string (s)
+		(yason:encode-plist result s)))
+	    (progn
+	      (setf (hunchentoot:content-type*) "text/html")
+	      (if error
+		  (process-error result)
+		  (progn 
+		    (hunchentoot:delete-session-value :ids)
+		    (setf (hunchentoot:session-value :term) term)
+		    (process-results result)))))))))
+		  
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
     (term start debug sf so
           (fq_sum_votes :parameter-type 'list)
@@ -228,7 +237,6 @@
 
 (hunchentoot:define-easy-handler (get-synset-handler
 				  :uri "/wn/synset") (id debug)
-  (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (let* ((synset (get-synset id))
          (suggestions (get-suggestions id))
@@ -236,21 +244,27 @@
          (request-uri (hunchentoot:request-uri*))
 	 (term (hunchentoot:session-value :term))
 	 (ids (hunchentoot:session-value :ids)))
-    (when (not (string-equal (lastcar ids) id))
-      (setf (hunchentoot:session-value :ids) (append ids (list id))))
-    (process-synset
-     (append
-      (list
-       :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
-       :term term
-       :callbackuri (make-callback-uri request-uri)
-       :returnuri request-uri
-       :debug debug
-       :comments comments
-       :suggestions suggestions
-       :githubid *github-client-id*
-       :synset synset)
-      synset))))
+    (if (string-equal "application/json" (hunchentoot:header-in* :accept))
+	  (progn
+	    (setf (hunchentoot:content-type*) "application/json")
+	    (with-output-to-string (s)
+	      (yason:encode-plist (list :comments comments :suggestions suggestions :synset synset) s)))
+	  (progn
+	    (when (not (string-equal (lastcar ids) id))
+	      (setf (hunchentoot:session-value :ids) (append ids (list id))))
+	    (setf (hunchentoot:content-type*) "text/html")
+	    (process-synset
+	     (append (list
+		      :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
+		      :term term
+		      :callbackuri (make-callback-uri request-uri)
+		      :returnuri request-uri
+		      :debug debug
+		      :comments comments
+		      :suggestions suggestions
+		      :githubid *github-client-id*
+		      :synset synset)
+		     synset))))))
 
 (hunchentoot:define-easy-handler (get-compact-synset-handler
 				  :uri "/wn/compact-synset") (id debug)
