@@ -12,8 +12,7 @@ See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT
 
 ### License ###
 
-The CL-WNBROWSER distribution is available under the MIT License.  See
-the file LICENSE for details.
+See the file LICENSE for details.
 
 ### Starting up the web server ###
 
