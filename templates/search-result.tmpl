@@ -9,6 +9,18 @@
    {param term: $term /}
 {/call}
 
+<p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a> | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a> | <a href="search-activities">Activity</a> | <a href="stats">Stats</a>  |
+  
+  {if isNonnull($login)}
+  <b>{$login}</b>
+  {else}
+  <a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">Login</a>
+  {/if}
+  | API version <b>{$info.version}</b>
+  ]
+</p>
+
+
 <h2>{$numfound} result{if $numfound == 0 or $numfound > 1}s{/if}
     found for '{$term}'</h2>
 
@@ -17,6 +29,16 @@
 
   {literal}
   <script>
+      function toggle_visibility(id) 
+      {
+        var e = document.getElementById(id);
+
+        if(e.style.display == 'none')
+          e.style.display = 'block';
+        else
+          e.style.display = 'none';
+      }
+
     function facetChecked()
     {
       document.forms.formfacet['start'].value=0;
@@ -31,40 +53,54 @@
       <input type="hidden" name="start" value="{$start}"/>
       <input type="hidden" name="limit" value="{$limit}"/>
       {if isNonnull($facets.rdf_type)}
-      <div class="facettype">RDF Type:</div>
-    
-      {foreach $f in $facets.rdf_type}
-      <input type="checkbox" name="fq_rdftype" {checked($f.name, $fq_rdftype)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
-      {/foreach}
+      <div class="facettype" onclick="toggle_visibility('rdf-type-collapsible')">RDF Type:</div>
+
+      <div id="rdf-type-collapsible" style="display: block">
+	{foreach $f in $facets.rdf_type}
+	<input type="checkbox" name="fq_rdftype" {checked($f.name, $fq_rdftype)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+	{/foreach}
       {/if}
+      </div>
 
       {if isNonnull($facets.wn30_lexicographerfile)}
-      <div class="facettype">Lexicographer file:</div>
-      {foreach $f in $facets.wn30_lexicographerfile}
-      <input type="checkbox" name="fq_lexfile" {checked($f.name, $fq_lexfile)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('lex-file-collapsible')">Lexicographer file:</div>
+
+      <div id="lex-file-collapsible" style="display: block">
+	{foreach $f in $facets.wn30_lexicographerfile}
+	<input type="checkbox" name="fq_lexfile" {checked($f.name, $fq_lexfile)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.word_count_pt)}
-      <div class="facettype"># words (pt_BR):</div>
-      {foreach $f in $facets.word_count_pt}
-      <input type="checkbox" name="fq_word_count_pt" {checked($f.name, $fq_word_count_pt)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('word-count-pt-collapsible')"># words (pt_BR):</div>
+
+      <div id="word-count-pt-collapsible" style="display: block">
+	{foreach $f in $facets.word_count_pt}
+	<input type="checkbox" name="fq_word_count_pt" {checked($f.name, $fq_word_count_pt)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.word_count_en)}
-      <div class="facettype"># words (en):</div>
-      {foreach $f in $facets.word_count_en}
-      <input type="checkbox" name="fq_word_count_en" {checked($f.name, $fq_word_count_en)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('word-count-en-collapsible')"># words (en):</div>
+
+      <div id="word-count-en-collapsible" style="display: block">
+	{foreach $f in $facets.word_count_en}
+	<input type="checkbox" name="fq_word_count_en" {checked($f.name, $fq_word_count_en)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.wn30_frame)}
-      <div class="facettype">Frame:</div>
-      {foreach $f in $facets.wn30_frame}
-      <input type="checkbox" name="fq_frame" {checked($f.name, $fq_frame)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('frame-collapsible')">Frame:</div>
+
+      <div id="frame-collapsible" style="display: block">
+	{foreach $f in $facets.wn30_frame}
+	<input type="checkbox" name="fq_frame" {checked($f.name, $fq_frame)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
     </form>
   </div>
