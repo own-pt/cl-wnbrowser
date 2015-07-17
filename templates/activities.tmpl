@@ -15,6 +15,16 @@
     <h1><a href="/wn/">OpenWordnet-PT</a></h1>
     {literal}
     <script>
+      function toggle_visibility(id) 
+      {
+        var e = document.getElementById(id);
+
+        if(e.style.display == 'none')
+          e.style.display = 'block';
+        else
+          e.style.display = 'none';
+      }
+
       function mymentions(me)
       {
       var form = document.getElementById('form');
@@ -116,73 +126,91 @@
       <input type="hidden" name="start" value="{$start}"/>
 
       {if isNonnull($facets.type)}
-      <div class="facettype">Type:</div>
-    
-      {foreach $f in $facets.type}
-      <input type="checkbox" name="fq_type" {checked($f.name, $fq_type)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('type-collapsible')">Type:</div>
+      <div id="type-collapsible" style="display: block">
+	{foreach $f in $facets.type}
+	<input type="checkbox" name="fq_type" {checked($f.name, $fq_type)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.action)}
-      <div class="facettype">Action:</div>
-      {foreach $f in $facets.action}
-      <input type="checkbox" name="fq_action" {checked($f.name, $fq_action)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('action-collapsible')">Action:</div>
+      <div id="action-collapsible" style="display: block">
+	{foreach $f in $facets.action}
+	<input type="checkbox" name="fq_action" {checked($f.name, $fq_action)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.status)}
-      <div class="facettype">Status:</div>
-      {foreach $f in $facets.status}
-      <input type="checkbox" name="fq_status" {checked($f.name, $fq_status)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('status-collapsible')">Status:</div>
+      <div id="status-collapsible" style="display: block">
+	{foreach $f in $facets.status}
+	<input type="checkbox" name="fq_status" {checked($f.name, $fq_status)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.doc_type)}
-      <div class="facettype">Doc. type:</div>
-      {foreach $f in $facets.doc_type}
-      <input type="checkbox" name="fq_doc_type" {checked($f.name, $fq_doc_type)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('doc-type-collapsible')">Doc. type:</div>
+      
+      <div id="doc-type-collapsible" style="display: block">
+	{foreach $f in $facets.doc_type}
+	<input type="checkbox" name="fq_doc_type" {checked($f.name, $fq_doc_type)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.user)}
-      <div class="facettype">User:</div>
-      {foreach $f in $facets.user}
-      <input type="checkbox" name="fq_user" {checked($f.name, $fq_user)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
-      {/foreach}
-      {/if}
-      
+      <div class="facettype" onclick="toggle_visibility('user-collapsible')">User:</div>
+      <div id="user-collapsible" style="display: block">
+	{foreach $f in $facets.user}
+	<input type="checkbox" name="fq_user" {checked($f.name, $fq_user)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input></br>
+	{/foreach}
+	{/if}
+      </div>
+
       {if isNonnull($facets.provenance)}
-      <div class="facettype">Provenance:</div>
+      <div class="facettype" onclick="toggle_visibility('prov-collapsible')">Provenance:</div>
     
-      {foreach $f in $facets.provenance}
-      <input type="checkbox" name="fq_provenance" {checked($f.name, $fq_provenance)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
-      {/foreach}
-      {/if}
+      <div id="prov-collapsible" style="display: block">
+	{foreach $f in $facets.provenance}
+	<input type="checkbox" name="fq_provenance" {checked($f.name, $fq_provenance)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+	{/foreach}
+	{/if}
+	</div>
 
       {if isNonnull($facets.vote_score)}
-      <div class="facettype"># votes:</div>
+      <div class="facettype" onclick="toggle_visibility('nvotes-collapsible')"># votes:</div>
     
-      {foreach $f in $facets.vote_score}
-      <input type="checkbox" name="fq_num_votes" {checked($f.name, $fq_num_votes)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
-      {/foreach}
-      {/if}
+      <div id="nvotes-collapsible" style="display: block">
+	{foreach $f in $facets.vote_score}
+	<input type="checkbox" name="fq_num_votes" {checked($f.name, $fq_num_votes)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.sum_votes)}
-      <div class="facettype">Final vote:</div>
-    
-      {foreach $f in $facets.sum_votes}
-      <input type="checkbox" name="fq_sum_votes" {checked($f.name, $fq_sum_votes)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
-      {/foreach}
-      {/if}
+      <div class="facettype" onclick="toggle_visibility('fvote-collapsible')">Final vote:</div>
+
+      <div id="fvote-collapsible" style="display: block">
+	{foreach $f in $facets.sum_votes}
+	<input type="checkbox" name="fq_sum_votes" {checked($f.name, $fq_sum_votes)} value="{$f.name}" onchange="facetChecked();">{$f.name} ({$f.count})</input><br/>
+	{/foreach}
+	{/if}
+      </div>
 
       {if isNonnull($facets.tags)}
-      <div class="facettype">Tag:</div>
+      <div class="facettype" onclick="toggle_visibility('tag-collapsible')">Tag:</div>
     
-      {foreach $f in $facets.tags}
-      <input type="checkbox" name="fq_tag" {checked($f.name, $fq_tag)} value="{$f.name}" onchange="facetChecked();">{converttag($f.name)} ({$f.count})</input><br/>
-      {/foreach}
-      {/if}
-      
+      <div id="tag-collapsible" style="display: block">
+	{foreach $f in $facets.tags}
+	<input type="checkbox" name="fq_tag" {checked($f.name, $fq_tag)} value="{$f.name}" onchange="facetChecked();">{converttag($f.name)} ({$f.count})</input><br/>
+	{/foreach}
+	{/if}
+      </div>
+
     </form>
   </div>
   
