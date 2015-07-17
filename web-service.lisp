@@ -92,6 +92,7 @@
 			  (list :error error :term term)
 			  (list :debug debug :term term
 				:githubid *github-client-id*
+				:login (hunchentoot:session-value :login)
 				:callbackuri (make-callback-uri request-uri)
 				:returnuri request-uri
 				:info (get-root)
@@ -159,6 +160,7 @@
 			     :info (get-root)
 			     :term term
 			     :githubid *github-client-id*
+			     :login (hunchentoot:session-value :login)
 			     :callbackuri (make-callback-uri request-uri)
 			     :returnuri request-uri
                              :fq_type fq_type
@@ -174,9 +176,7 @@
                              :next (get-next start/i 25)
                              :so so
                              :sf sf
-                             :callbackuri (make-callback-uri "/wn/search-activities")
                              :start start/i :numfound num-found
-                             :githubid *github-client-id*
                              :facets facets
                              :documents documents)))))))
 
