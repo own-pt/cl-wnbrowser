@@ -149,36 +149,44 @@
                    :user fq_user)
        :api "search-activities" :start start
        :limit "25" :sf sf :so so)
-	(if error
-	    (process-error (list :error error :term term))
-	    (let* ((start/i (if start (parse-integer start) 0))
-		   (request-uri (hunchentoot:request-uri*)))
-	      (setf (hunchentoot:session-value :term) term)
-              (cl-wnbrowser.templates:activities
-               (append (get-login)
-                       (list :debug debug 
-			     :info (get-root)
-			     :term term
-			     :githubid *github-client-id*
-			     :login (hunchentoot:session-value :login)
-			     :callbackuri (make-callback-uri request-uri)
-			     :returnuri request-uri
-                             :fq_type fq_type
-                             :fq_num_votes fq_num_votes
-                             :fq_sum_votes fq_sum_votes
-                             :fq_tag fq_tag
-                             :fq_action fq_action
-                             :fq_status fq_status
-                             :fq_doc_type fq_doc_type
-                             :fq_user fq_user
-                             :fq_provenance fq_provenance
-                             :previous (get-previous start/i)
-                             :next (get-next start/i 25)
-                             :so so
-                             :sf sf
-                             :start start/i :numfound num-found
-                             :facets facets
-                             :documents documents)))))))
+
+    (let* ((start/i (if start (parse-integer start) 0))
+           (request-uri (hunchentoot:request-uri*))
+           (result (if error (list :error error :term term)
+                       (append (get-login)
+                               (list :debug debug 
+                                     :info (get-root)
+                                     :term term
+                                     :githubid *github-client-id*
+                                     :login (hunchentoot:session-value :login)
+                                     :callbackuri (make-callback-uri request-uri)
+                                     :returnuri request-uri
+                                     :fq_type fq_type
+                                     :fq_num_votes fq_num_votes
+                                     :fq_sum_votes fq_sum_votes
+                                     :fq_tag fq_tag
+                                     :fq_action fq_action
+                                     :fq_status fq_status
+                                     :fq_doc_type fq_doc_type
+                                     :fq_user fq_user
+                                     :fq_provenance fq_provenance
+                                     :previous (get-previous start/i)
+                                     :next (get-next start/i 25)
+                                     :so so
+                                     :sf sf
+                                     :start start/i :numfound num-found
+                                     :facets facets
+                                     :documents documents)))))
+      (if (string-equal "application/json" (hunchentoot:header-in* :accept))
+          (progn
+            (setf (hunchentoot:content-type*) "application/json")
+            (with-output-to-string (s)
+              (yason:encode-plist result s)))
+          (progn
+            (setf (hunchentoot:session-value :term) term)
+            (setf (hunchentoot:content-type*) "text/html")
+            (if error (process-error (list :error error :term term))
+                (cl-wnbrowser.templates:activities result)))))))
 
 (hunchentoot:define-easy-handler (get-synset-handler
 				  :uri "/wn/synset") (id debug)
