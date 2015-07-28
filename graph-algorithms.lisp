@@ -68,8 +68,9 @@
           (let ((prev (dijkstra s1 (get-all-cached-ids) #'all-relations)))
             (dolist (s2 w2-synsets)
               (let ((path (reconstruct-path prev s2)))
-                (push s1 path)
-                (push (list :id1 s1 :id2 s2 :path path) result)))))
+                (when path
+                  (push s1 path)
+                  (push (list :id1 s1 :id2 s2 :path path) result))))))
         (let* ((sorted-result
                 (sort result #'< :key (lambda (x) (length (getf x :path)))))
                (len (length sorted-result)))
