@@ -18,7 +18,7 @@
 
 (defun search-activities (term)
     (let* ((stream (drakma:http-request
-                   (format nil "http://~a/wn/search-activities?sf=&so=&term=~a&start=0&fq_action=add-word-pt" *server* (drakma:url-encode term :utf-8))
+                   (format nil "http://~a/wn/search-activities?sf=&so=&term=~a&start=0&fq_action=add-word-pt" *server* term)
 		   :external-format-out :utf-8
                    :accept "application/json"
                    :method :get
@@ -33,7 +33,7 @@
 
 (defun search-wn (term)
     (let* ((stream (drakma:http-request
-                   (format nil "http://~a/wn/search?term=word_pt:~a" *server* (drakma:url-encode term :utf-8))
+                   (format nil "http://~a/wn/search?term=word_pt:~a" *server* term)
 		   :external-format-out :utf-8
                    :accept "application/json"
                    :method :get
