@@ -2,8 +2,8 @@
 
 ;; Copyright (c) 2015 The OpenWordNet-PT project
 ;; This program and the accompanying materials are made available
-;; under the terms of the MIT License which accompanies this
-;; distribution (see LICENSE)
+;; under the terms described in the LICENSE file.
+
 
 (defpackage #:cl-wnbrowser
   (:use :cl :closure-template :split-sequence

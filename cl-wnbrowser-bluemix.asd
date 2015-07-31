@@ -2,8 +2,7 @@
 
 ;; copyright (c) 2015 Fabricio Rosario (f@cp300.org)
 ;; This program and the accompanying materials are made available
-;; under the terms of the MIT License which accompanies this
-;; distribution (see LICENSE)
+;; under the terms of the LICENSE file.
 
 (asdf:defsystem #:cl-wnbrowser-bluemix
     :serial t

@@ -2,8 +2,7 @@
 
 ;; Copyright (c) 2015 The OpenWordNet-PT project
 ;; This program and the accompanying materials are made available
-;; under the terms of the MIT License which accompanies this
-;; distribution (see LICENSE)
+;; under the terms described in the LICENSE file.
 
 (in-package :cl-wnbrowser)
 
@@ -69,9 +68,15 @@
           (let ((prev (dijkstra s1 (get-all-cached-ids) #'all-relations)))
             (dolist (s2 w2-synsets)
               (let ((path (reconstruct-path prev s2)))
+<<<<<<< HEAD
 		(when path
 		  (push s1 path)
 		  (push (list :id1 s1 :id2 s2 :path path) result))))))
+=======
+                (when path
+                  (push s1 path)
+                  (push (list :id1 s1 :id2 s2 :path path) result))))))
+>>>>>>> d0a19d1c7c913da6e9fd603e3d3db17341e6bfc3
         (let* ((sorted-result
                 (sort result #'< :key (lambda (x) (length (getf x :path)))))
                (len (length sorted-result)))
