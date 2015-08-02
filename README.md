@@ -2,11 +2,10 @@
 
 This is CL-WNBROWSER version 2.0.  It is currently running at http://wnpt.brlcloud.com/wn/
 
-See also the OpenWordnet-PT site at https://github.com/arademaker/openWordnet-PT/
+See also the OpenWordnet-PT project: https://github.com/own-pt/openWordnet-PT
 
 ### How do I get set up? ###
 
-* This version is based on the OpenWordnet API at Bluemix (http://wnpt.brlcloud.com/api/)
 * SBCL (tested with 1.2.11, 1.2.2, and 1.1.14) or CCL (tested with 1.10);
 * For easier/faster setup, quicklisp is highly recommended.
 
