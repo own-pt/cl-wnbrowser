@@ -76,6 +76,23 @@
                (len (length sorted-result)))
           (subseq sorted-result 0 (if (< len 10) len 10)))))))
 
+(defun search-paths-synsets (s1 s2)
+  (let ((w1-synsets (list s1))
+        (w2-synsets (list s2))
+        (result nil))
+    (when (and w1-synsets w2-synsets)
+      (dolist (s1 w1-synsets)
+        (let ((prev (dijkstra s1 (get-all-cached-ids) #'all-relations)))
+          (dolist (s2 w2-synsets)
+            (let ((path (reconstruct-path prev s2)))
+              (when path
+                (push s1 path)
+                (push (list :id1 s1 :id2 s2 :path path) result))))))
+      (let* ((sorted-result
+              (sort result #'< :key (lambda (x) (length (getf x :path)))))
+             (len (length sorted-result)))
+        (subseq sorted-result 0 (if (< len 10) len 10))))))
+
 (defparameter *clique-cache* nil)
 
 (defun find-cliques ()
