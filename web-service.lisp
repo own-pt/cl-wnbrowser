@@ -381,6 +381,9 @@
 (hunchentoot:define-easy-handler (get-prototypes-dijkstra-handler :uri "/wn/prototypes/dijkstra") (w1 w2)
   (cl-wnbrowser.templates:dijkstra (list :paths (search-paths w1 w2))))
 
+(hunchentoot:define-easy-handler (get-prototypes-dijkstra-ss-handler :uri "/wn/prototypes/dijkstra-s") (w1 w2)
+  (cl-wnbrowser.templates:dijkstra (list :paths (search-paths-synsets w1 w2))))
+
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"
