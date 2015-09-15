@@ -1,6 +1,6 @@
 ;; -*- mode: common-lisp -*-
 
-;; copyright (c) 2015 Fabricio Rosario (f@cp300.org)
+;; copyright (c) 2015 The OpenWordNet-PT projetct
 ;; This program and the accompanying materials are made available
 ;; under the terms of the LICENSE file.
 

@@ -13,6 +13,8 @@
   (member "Nominalization" (getf doc :|rdf_type|) :test #'equal))
 
 (defun cache-wn (core-only)
+  (when (not *wn*)
+    (setf *wn* (make-hash-table :test #'equal :size 150000)))
   (dolist (s (execute-search
               (if core-only "rdf_type:CoreConcept" "*")
               :api "search-documents" :start "0" :limit "2000000"))
@@ -21,6 +23,8 @@
         (setf (gethash id *wn*) s)))))
 
 (defun cache-suggestions ()
+  (when (not *suggestions*)
+    (setf *suggestions* (make-hash-table :test #'equal :size 200000)))
   (dolist (s (execute-search
               "*"
               :drilldown (make-drilldown-activity :status '("new")
