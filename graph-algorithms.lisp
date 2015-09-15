@@ -8,13 +8,13 @@
 
 ;;; these are the relations used to build the directed graph
 (defparameter *relations* '(
-                            :|wn30_classifiedByRegion|
-                            :|wn30_classifiedByTopic|
-                            :|wn30_classifiedByUsage|
-                            :|wn30_classifiesByRegion|
-                            :|wn30_classifiesByTopic|
-                            :|wn30_classifiesByUsage|
-                            :|wn30_seeAlso|
+;;                            :|wn30_classifiedByRegion|
+;;                            :|wn30_classifiedByTopic|
+;;                            :|wn30_classifiedByUsage|
+;;                            :|wn30_classifiesByRegion|
+;;                            :|wn30_classifiesByTopic|
+;;                            :|wn30_classifiesByUsage|
+;;                            :|wn30_seeAlso|
                             :|wn30_hasInstance|
                             :|wn30_instanceOf|
                             :|wn30_entails|
