@@ -8,7 +8,7 @@
     :serial t
     :depends-on (:drakma :flexi-streams :hunchentoot :yason :closure-template
                          :split-sequence :local-time :graph-algorithms
-                         :cl-fad
+                         :cl-fad :trivial-shell
                          :alexandria :cl-csv :cl-ppcre :parse-number)
     :components (
 		 (:file "packages")
