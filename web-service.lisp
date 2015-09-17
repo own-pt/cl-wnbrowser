@@ -402,6 +402,11 @@
                               :relations
                               (mapcar #'make-keyword (hash-table-keys selected))))))
 
+(hunchentoot:define-easy-handler (get-prototypes-fod-handler 
+                                  :uri "/wn/prototypes/flngod") (text)
+  (cl-wnbrowser.templates:fod
+   (list :text text :freeling (call-freeling text))))
+
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"

@@ -1,0 +1,48 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+{template fod}
+
+<html>
+<body>
+<h1>Freeling On Demand</h1>
+
+<i>Only english sentences for now.  This will take at least 40 seconds to run.</i>
+
+<p>[ <a href="/wn/prototypes">back to prototypes.</a> ]</p>
+
+<p>
+<form>
+<input type="text" name="text" value="{$text}">
+<input type="submit">
+</form>
+</p>
+
+<p>{$text}</p>
+
+<p>Language: {$freeling.lang}.</p>
+
+<p>Analysis</p>
+
+<ol>
+{foreach $s in $freeling.analysis}
+<li>
+  <ul>
+  {foreach $a in $s}
+  <li>
+  [wordform: <b>{$a.wordform}</b>, lemma: <b>{$a.lemma}</b>], tag: <b>{$a.tag}</b>, senses:
+  {foreach $sense in $a.senses}
+  {lb}<a href="http://wnpt.brlcloud.com/wn/synset?id={sensesynset($sense)}">{sensesynset($sense)}</a> ({senseweight($sense)}){rb}
+  {/foreach}
+  ]
+  </li>
+  {/foreach}
+  </ul>
+  
+</li>
+{/foreach}
+</ol>
+
+
+{/template}
