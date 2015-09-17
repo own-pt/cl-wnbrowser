@@ -405,7 +405,7 @@
 (hunchentoot:define-easy-handler (get-prototypes-fod-handler 
                                   :uri "/wn/prototypes/flngod") (text)
   (cl-wnbrowser.templates:fod
-   (list :text text :freeling (call-freeling text))))
+   (list :text text :freeling (if text (call-freeling text) nil))))
 
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
