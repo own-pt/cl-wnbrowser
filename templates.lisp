@@ -137,10 +137,10 @@ in dealing with checkboxes."
          (format nil "@~a" (subseq str 2)))
         (t str)))
 
-(defun get-synset (s)
+(defun get-sense-synset (s)
   (car (split-sequence #\: s)))
 
-(defun get-weight (s)
+(defun get-sense-weight (s)
   (cadr (split-sequence #\: s)))
 
 (defun setup-templates ()
@@ -148,8 +148,8 @@ in dealing with checkboxes."
       (("issynset" #'is-synset)
        ("niceaction" #'nice-action)
        ("alreadyvoted" #'already-voted)
-       ("sensesynset" #'get-synset)
-       ("senseweight" #'get-weight)
+       ("sensesynset" #'get-sense-synset)
+       ("senseweight" #'get-sense-weight)
        ("getvoteid" #'get-vote-id)
        ("insuggestions" #'in-suggestions)
        ("extractlinks" #'extract-links)
