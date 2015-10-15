@@ -17,11 +17,11 @@
 (defun get-login ()
   (list :login (hunchentoot:session-value :login)))
 
-(defun process-synset (synset)
+(defun process-synset (parameters)
   (cl-wnbrowser.templates:synset
    (append
     (get-login)
-    synset)))
+    parameters)))
 
 (defun make-callback-uri (request-uri)
   (let* ((redirect-uri (format nil "http://~a~a" *base-url* request-uri))
@@ -71,6 +71,7 @@
 	  (fq_rdftype :parameter-type 'list)
 	  (fq_lexfile :parameter-type 'list))
   (disable-caching)
+  (setf (hunchentoot:session-value :term) term)
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
@@ -116,7 +117,6 @@
 		  (process-error result)
 		  (progn 
 		    (hunchentoot:delete-session-value :ids)
-		    (setf (hunchentoot:session-value :term) term)
 		    (process-results result)))))))))
 		  
 (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
