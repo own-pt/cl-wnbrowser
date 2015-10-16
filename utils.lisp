@@ -25,7 +25,8 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
   
 (defun is-synset-id (term)
   "Check if TERM matches the expected behavior of a synset ID."
-  (not (null (cl-ppcre:scan "^(\\d+)-[nvar]$" term))))
+  (not (null (cl-ppcre:scan "^(\\d{8})-[nvar]$" 
+                            (string-trim '(#\space #\tab) term)))))
 
 ;;http://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
 
