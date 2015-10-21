@@ -1,0 +1,40 @@
+/** -*- mode: html -*- */
+
+{namespace cl-wnbrowser.Templates}
+
+{template synsetInvalid}
+{call header}
+   {param extratitle: $doc_id /}
+   {param term: $term /}
+{/call}
+
+    <p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a> | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a> | <a href="search-activities">Activity</a> | <a href="stats">Stats</a>  |
+
+      {if isNonnull($login)}
+      <b>{$login}</b>
+      {else}
+      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">Login</a>
+      {/if}
+      | API version <b>{$info.version}</b>
+      ]</p>
+
+<div class="synsetprops">
+
+  {if isNonnull($doc_ids)}
+  <div class="breadcrumb">
+    <ul class="breadcrumb">
+      {foreach $doc_id in $doc_ids}
+      <li class="breadcrumb"><a href="synset?id={$doc_id}">{synsetworden($doc_id)}</a></li>
+      {/foreach}
+    </ul>
+  </div>
+  {/if}
+
+  <h2>Error</h2>
+
+  <p>The synset id <b>{$originalId}</b> is invalid.</p>
+
+</div>
+
+{call footer /}
+{/template}

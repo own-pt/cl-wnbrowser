@@ -83,14 +83,15 @@ in dealing with checkboxes."
 ;;; 00449295-n
 ;;; 0123456789
 (defun synset-id-to-sumo (synset-id)
-  (let ((id (subseq synset-id 0 8))
-        (type (subseq synset-id 9 10))
-        (sumo-type "?"))
-    (cond ((equal "n" type) (setq sumo-type "1"))
-          ((equal "v" type) (setq sumo-type "2"))
-          ((equal "a" type) (setq sumo-type "3"))
-          ((equal "r" type) (setq sumo-type "4")))
-    (format nil "~a~a" sumo-type id)))
+  (when synset-id 
+    (let ((id (subseq synset-id 0 8))
+          (type (subseq synset-id 9 10))
+          (sumo-type "?"))
+      (cond ((equal "n" type) (setq sumo-type "1"))
+            ((equal "v" type) (setq sumo-type "2"))
+            ((equal "a" type) (setq sumo-type "3"))
+            ((equal "r" type) (setq sumo-type "4")))
+      (format nil "~a~a" sumo-type id))))
 
 (defun extract-links (txt index userid)
   (let ((tmpl "<a target=\"sense-tagging-details\" href=\"sense-tagging-details?file=bosque.json&text=~a&word=~a&userid=~a\">~a</a>")

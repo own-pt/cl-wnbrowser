@@ -18,10 +18,15 @@
   (list :login (hunchentoot:session-value :login)))
 
 (defun process-synset (parameters)
-  (cl-wnbrowser.templates:synset
-   (append
-    (get-login)
-    parameters)))
+  (if (getf parameters :|error|)
+      (cl-wnbrowser.templates:synset-invalid
+       (append
+        (get-login)
+        parameters))
+      (cl-wnbrowser.templates:synset
+       (append
+        (get-login)
+        parameters))))
 
 (defun make-callback-uri (request-uri)
   (let* ((redirect-uri (format nil "http://~a~a" *base-url* request-uri))
@@ -208,6 +213,7 @@
 	    (process-synset
 	     (append (list
 		      :info (get-root)
+                      :original-id id
 		      :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
 		      :term term
 		      :callbackuri (make-callback-uri request-uri)
