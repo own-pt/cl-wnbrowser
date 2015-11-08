@@ -12,7 +12,7 @@
 
 (defun process-rule (id test-fn)
   (let ((result nil))
-    (dolist (s (get-cached-suggestions id))
+    (dolist (s (get-cached-gloss-suggestions id))
       (when (>= (getf s :|sum_votes|) 0)
         (let* ((gloss (getf s :|params|))
                (split-gloss

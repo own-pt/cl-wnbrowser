@@ -1,16 +1,28 @@
 (in-package :cl-wnbrowser)
 
-(defparameter *suggestions* nil)
+(defparameter *gloss-suggestions* nil)
+(defparameter *word-suggestions* nil)
 (defparameter *wn* nil)
 
 (defun cache-dbs (&key (core-only nil))
-  (setf *suggestions* (make-hash-table :test #'equal :size 200000))
+  (setf *gloss-suggestions* (make-hash-table :test #'equal :size 200000))
+  (setf *word-suggestions* (make-hash-table :test #'equal :size 200000))
   (setf *wn* (make-hash-table :test #'equal :size 150000))
   (cache-wn core-only)
-  (cache-suggestions))
+  (cache-word-suggestions)
+  (cache-gloss-suggestions))
 
 (defun nominalization? (doc)
   (member "Nominalization" (getf doc :|rdf_type|) :test #'equal))
+
+(defun verb? (doc)
+  (member "VerbSynset" (getf doc :|rdf_type|) :test #'equal))
+
+(defun get-en-words (doc)
+  (getf doc :|word_en|))
+
+(defun get-pt-words (doc)
+  (getf doc :|word_pt|))
 
 (defun cache-wn (core-only)
   (when (not *wn*)
@@ -22,18 +34,24 @@
       (when (not (nominalization? s))
         (setf (gethash id *wn*) s)))))
 
-(defun cache-suggestions ()
-  (when (not *suggestions*)
-    (setf *suggestions* (make-hash-table :test #'equal :size 200000)))
+(defun cache-word-suggestions ()
+  (cache-suggestions "add-word-pt" *word-suggestions*))
+
+(defun cache-gloss-suggestions ()
+  (cache-suggestions "add-gloss-pt" *gloss-suggestions*))
+
+(defun cache-suggestions (action hash-table)
+  (when (not hash-table)
+    (setf hash-table (make-hash-table :test #'equal :size 200000)))
   (dolist (s (execute-search
               "*"
               :drilldown (make-drilldown-activity :status '("new")
-                                                  :action '("add-gloss-pt"))
+                                                  :action (list action))
               :api "search-activities" :start "0" :limit "2000000"))
     (let ((id (getf s :|doc_id|)))
       (setf
-       (gethash id *suggestions*)
-       (push s (gethash id *suggestions*))))))
+       (gethash id hash-table)
+       (push s (gethash id hash-table))))))
 
 (defun search-word-in-cache (str &key (type nil))
   (let ((synsets nil))
@@ -50,8 +68,8 @@
              *wn*)
     synsets))
 
-(defun get-cached-suggestions (id)
-  (gethash id *suggestions*))
+(defun get-cached-gloss-suggestions (id)
+  (gethash id *gloss-suggestions*))
 
 (defun get-cached-document (id)
   (gethash id *wn*))

@@ -21,7 +21,7 @@
 
 ;;; (defparameter *ownpt-api-uri* "http://ownpt2-dev.mybluemix.net")
 ;;; (defparameter *ownpt-api-uri* "http://ownpt2.mybluemix.net")
-(defparameter *ownpt-api-uri* "http://localhost:3000")
+(defparameter *ownpt-api-uri* "http://127.0.0.1:3000")
 
 (defparameter *allegro-graph-url*
   "http://logics.emap.fgv.br:10035/repositories")

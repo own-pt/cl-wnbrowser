@@ -413,6 +413,13 @@
   (cl-wnbrowser.templates:fod
    (list :text text :freeling (if text (call-freeling text) nil))))
 
+(hunchentoot:define-easy-handler (get-prototypes-verbs-handler 
+                                  :uri "/wn/prototypes/verbs") (text)
+  (cl-wnbrowser.templates:verbs
+   (list :portal (check-portal-da-lingua-portuguesa)
+	 :verbnet (check-verbnet)
+	 :verbocean (check-verbocean))))
+
 (defun start-server (&optional (port 4243))
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"

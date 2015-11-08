@@ -7,8 +7,8 @@
 (asdf:defsystem #:cl-wnbrowser-bluemix
     :serial t
     :depends-on (:drakma :flexi-streams :hunchentoot :yason :closure-template
-                         :split-sequence :local-time :graph-algorithms
-                         :cl-fad :trivial-shell
+                         :split-sequence :local-time :graph-algorithms :fare-csv
+                         :cl-fad :trivial-shell :mk-string-metrics
                          :alexandria :cl-csv :cl-ppcre :parse-number)
     :components (
 		 (:file "packages")
