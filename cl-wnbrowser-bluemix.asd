@@ -25,5 +25,6 @@
                  (:file "sense-tagging" :depends-on ("ownpt-api"))
 		 (:file "templates"     :depends-on ("constants"))
 		 (:file "agraph"        :depends-on ("constants"))
+                 (:file "corpora"       :depends-on ("ownpt-api"))
 		 (:file "web-service"   :depends-on ("secrets" "templates" "ownpt-api" "github" "freeling"))
 ))
