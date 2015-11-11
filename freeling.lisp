@@ -6,7 +6,7 @@
 
 (in-package :cl-wnbrowser)
 
-(defparameter *fod* "/home/fcbr/fod.py")
+(defparameter *fod* "/tmp/fod.py")
 
 (defun make-freeling-call (filename-in filename-out)
   (format nil "~a ~a ~a" *fod* filename-in filename-out))
