@@ -68,7 +68,7 @@
     (do ((line (read-line stream nil)
                (read-line stream nil)))
         ((null line))
-      (setf (gethash (string-trim '(#\space #\return #\newline) line) *portal-da-lingua-portuguesa*) nil))))
+      (setf (gethash (trim line) *portal-da-lingua-portuguesa*) nil))))
 
 (defun get-similar-words (word)
   (append (remove-if-not (lambda (x)
