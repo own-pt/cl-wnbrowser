@@ -43,20 +43,23 @@
 (defparameter *verbnet* nil)
 (defparameter *verbocean* nil)
 
+(defun trim (s)
+  (string-trim '(#\space #\return #\newline) s))
+
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
   (fare-csv:with-rfc4180-csv-syntax ()
     (dolist (row (fare-csv:read-csv-file (merge-pathnames "corpora/verbnet.br.csv" *basedir*) :external-format :utf-8))
-      (let ((pt (first row))
-	    (en (third row)))
+      (let ((pt (trim (first row)))
+	    (en (trim (third row))))
 	(push en (gethash pt *verbnet*))))))
 
 (defun load-verbocean ()
   (setf *verbocean* (make-hash-table :test #'equal :size 15000))
   (fare-csv:with-rfc4180-csv-syntax ()
     (dolist (row (fare-csv:read-csv-file (merge-pathnames "corpora/verbocean-translated.csv" *basedir*)  :external-format :utf-8))
-      (let ((en (first row))
-	    (pt (second row)))
+      (let ((en (trim (first row)))
+	    (pt (trim (second row))))
 	(push en (gethash pt *verbocean*))))))
 
 (defun load-portal-da-lingua-portuguesa ()
