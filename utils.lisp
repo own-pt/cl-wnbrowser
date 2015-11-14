@@ -6,6 +6,9 @@
 
 (in-package :cl-wnbrowser)
 
+(defun trim (s)
+  (string-trim '(#\Space #\Return #\Tab #\Newline) s))
+
 (defun process-pairs (function list)
   "Process LIST and applies FUNCTION to every pair, accumulating the
 results of FUNCTION via APPEND.  It is expected that FUNCTION returns
@@ -26,7 +29,7 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
 (defun is-synset-id (term)
   "Check if TERM matches the expected behavior of a synset ID."
   (not (null (cl-ppcre:scan "^(\\d{8})-[nvar]$" 
-                            (string-trim '(#\space #\tab) term)))))
+                            (trim term)))))
 
 ;;http://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
 

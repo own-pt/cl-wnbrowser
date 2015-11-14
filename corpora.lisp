@@ -10,10 +10,6 @@
 (defparameter *words-pt-wn* nil)
 (defparameter *words-en-wn* nil)
 
-;; add check synset-type
-
-;; (verb? (gethash "00343334-v" *wn*))
-
 (defun cache-words (&key (core-only nil))
   (flet ((get-synset-words (synset)
 	     (let ((synset-id (getf synset :|doc_id|)))
@@ -42,9 +38,6 @@
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
 (defparameter *verbocean* nil)
-
-(defun trim (s)
-  (string-trim '(#\space #\return #\newline) s))
 
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))

@@ -119,14 +119,14 @@ in dealing with checkboxes."
       (convert (getf txt :|text|) offsets tags 0 0 nil))))
 
 (defun in-suggestions (entry suggestions action)
-  (let ((trimmed-entry (string-trim '(#\Space) entry))
+  (let ((trimmed-entry (trim entry))
         (entries 
          (mapcan (lambda (s)
                    (when
                        (and
                         (not (string-equal "not-accepted" (getf s :|status|)))
                         (string-equal action (getf s :|action|)))
-                       (list (string-trim '(#\Space) (getf s :|params|)))))
+                       (list (trim (getf s :|params|)))))
                  suggestions)))
     (member trimmed-entry entries :test #'string=)))
 
