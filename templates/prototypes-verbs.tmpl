@@ -22,8 +22,10 @@ listamos tamb&eacute;m os synsets relacionados.</p>
 <a name="verbnet"></a>
 <h2>Verbnet.br</h2>
 
+<p>Number of words in corpus: {$verbnet.total}. In OWN-PT: {$verbnet.totalwn}.  In suggestions: {$verbnet.totalsuggestions}. Missing: {$verbnet.total-($verbnet.totalwn+$verbnet.totalsuggestions)}.  </p>
+
 <ol>
-{foreach $entry in $verbnet}
+{foreach $entry in $verbnet.words}
 <li>{$entry.word}:
   {foreach $s in $entry.synsets}
   {if not isFirst($s)}, {/if}
@@ -38,8 +40,11 @@ listamos tamb&eacute;m os synsets relacionados.</p>
 <a name="verbocean"></a>
 <h2>VerbOcean translated</h2>
 
+<p>Number of words in corpus: {$verbocean.total}. In OWN-PT: {$verbocean.totalwn}.  In suggestions: {$verbocean.totalsuggestions}. Missing: {$verbocean.total-($verbocean.totalwn+$verbocean.totalsuggestions)}.  </p>
+
+
 <ol>
-{foreach $entry in $verbocean}
+{foreach $entry in $verbocean.words}
 <li>{$entry.word}:
   {foreach $s in $entry.synsets}
   {if not isFirst($s)}, {/if}
@@ -54,8 +59,10 @@ listamos tamb&eacute;m os synsets relacionados.</p>
 <a name="portal"></a>
 <h2>Portal da L&iacute;ngua Portuguesa</h2>
 
+<p>Number of words in corpus: {$portal.total}. In OWN-PT: {$portal.totalwn}.  In suggestions: {$portal.totalsuggestions}. Missing: {$portal.total-($portal.totalwn+$portal.totalsuggestions)}.  </p>
+
 <ol>
-{foreach $entry in $portal}
+{foreach $entry in $portal.words}
 <li>{$entry.word}</li>
 {/foreach}
 </ol>
