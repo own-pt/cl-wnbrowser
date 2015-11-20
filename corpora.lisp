@@ -36,6 +36,7 @@
   (load-verbocean)
   (load-pt-ud)
   (load-verbos-dg)
+  (load-nomlex-floating)
   (load-portal-da-lingua-portuguesa))
   
 (defparameter *portal-da-lingua-portuguesa* nil)
@@ -44,6 +45,7 @@
 (defparameter *dhbb* nil)
 (defparameter *pt-ud* nil)
 (defparameter *verbos-dg* nil)
+(defparameter *nomlex-floating* nil)
 
 (defun load-complex-corpus (filename hashtable)
   (fare-csv:with-rfc4180-csv-syntax ()
@@ -86,6 +88,9 @@
   (setf *verbos-dg* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/verbos-dg.txt" *basedir*) *verbos-dg*))
 
+(defun load-nomlex-floating ()
+  (setf *nomlex-floating* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus (merge-pathnames "corpora/verbos-nomlex-floating.txt" *basedir*) *nomlex-floating*))
 
 (defun get-similar-words (word)
   (append (remove-if-not (lambda (x)
@@ -135,3 +140,6 @@
 
 (defun check-verbos-dg ()
   (check-corpus *verbos-dg*))
+
+(defun check-nomlex-floating ()
+  (check-corpus *nomlex-floating*))

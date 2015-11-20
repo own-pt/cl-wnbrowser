@@ -421,6 +421,7 @@
          :dhbb (check-dhbb)
          :ptud (check-pt-ud)
          :verbosdg (check-verbos-dg)
+	 :nomlexfloating (check-nomlex-floating)
 	 :verbocean (check-verbocean))))
 
 (defun start-server (&optional (port 4243))
