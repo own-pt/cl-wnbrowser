@@ -421,6 +421,7 @@
          :dhbb (check-dhbb)
          :ptud (check-pt-ud)
          :verbosdg (check-verbos-dg)
+         :verbosdgcleaned (check-verbos-dg-cleaned)
 	 :nomlexfloating (check-nomlex-floating)
 	 :verbocean (check-verbocean))))
 

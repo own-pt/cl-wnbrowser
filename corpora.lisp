@@ -36,6 +36,7 @@
   (load-verbocean)
   (load-pt-ud)
   (load-verbos-dg)
+  (load-verbos-dg-cleaned)
   (load-nomlex-floating)
   (load-portal-da-lingua-portuguesa))
   
@@ -45,6 +46,7 @@
 (defparameter *dhbb* nil)
 (defparameter *pt-ud* nil)
 (defparameter *verbos-dg* nil)
+(defparameter *verbos-dg-cleaned* nil)
 (defparameter *nomlex-floating* nil)
 
 (defun load-complex-corpus (filename hashtable)
@@ -87,6 +89,10 @@
 (defun load-verbos-dg ()
   (setf *verbos-dg* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/verbos-dg.txt" *basedir*) *verbos-dg*))
+
+(defun load-verbos-dg-cleaned ()
+  (setf *verbos-dg-cleaned* (make-hash-table :test #'equal :size 15000))
+  (load-complex-corpus (merge-pathnames "corpora/verbos-dg-cleaned.csv" *basedir*) *verbos-dg-cleaned*))
 
 (defun load-nomlex-floating ()
   (setf *nomlex-floating* (make-hash-table :test #'equal :size 15000))
@@ -140,6 +146,9 @@
 
 (defun check-verbos-dg ()
   (check-corpus *verbos-dg*))
+
+(defun check-verbos-dg-cleaned ()
+  (check-corpus *verbos-dg-cleaned*))
 
 (defun check-nomlex-floating ()
   (check-corpus *nomlex-floating*))
