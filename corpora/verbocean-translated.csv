@@ -3287,7 +3287,7 @@ desarrolhar,uncork,
 descobrir,uncover,
 ,undercut,undercut
 subestimar,underestimate,
-submeter-se a,undergo,
+submeter-se,undergo,
 subjazer,underlie,subjazem
 sublinhar,underline,
 sabotar,undermine,minar
@@ -3398,7 +3398,6 @@ advertir,warn,
 urdir,warp,urdidura
 garantir,warrant,garantia
 lavar,wash,lavagem
-desperdicar,waste,desperdício
 observar,watch,
 aguar,water,água
 acenar,wave,onda
@@ -3443,10 +3442,9 @@ limpar,wipe,
 ,wire,arame
 gravar,wiretap,escuta
 desejar,wish,desejo
-enfeiticar,witch,bruxa
 retirar,withdraw,
 reter,withhold,
-resistir a,withstand,
+resistir,withstand,
 testemunhar,witness,testemunha
 devorar,wolf,lobo
 cortejar,woo,
@@ -3469,6 +3467,6 @@ puxar,yank,puxão
 gritar,yell,
 acovardar,yellow,amarelo
 render,yield,rendimento
-,zap,zap
+zapar,zap,zap
 ,zip,zip
 zonear,zone,zona
