@@ -17,7 +17,25 @@ mas que ainda n&atilde;o foram inclu&iacute;das na OWN-PT.
 Se um corpus tiver tradu&ccedil;&atilde;o em ing&ecirc;s, listamos
 tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 
-[ <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+
+<a name="ptud"></a>
+<h2>Universal Dependencies (PT) (verbos)</h2>
+
+<p>Number of words in corpus: {$ptud.total}. In OWN-PT: {$ptud.totalwn}.  In suggestions: {$ptud.totalsuggestions}. Missing: {$ptud.total-($ptud.totalwn+$ptud.totalsuggestions)}.  </p>
+
+<ol>
+{foreach $entry in $ptud.words}
+<li>{$entry.word}:
+  {foreach $s in $entry.synsets}
+  {if not isFirst($s)}, {/if}
+  <a href="/wn/synset?id={$s}">{$s}</a>
+  {/foreach}
+</li>
+{/foreach}
+</ol>
+
+[ <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="dhbb"></a>
 <h2>DHBB (verbos)</h2>
@@ -35,7 +53,7 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {/foreach}
 </ol>
 
-[ <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="verbnet"></a>
 <h2>Verbnet.br</h2>
@@ -53,7 +71,7 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {/foreach}
 </ol>
 
-[ <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="verbocean"></a>
 <h2>VerbOcean translated</h2>
@@ -72,7 +90,7 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {/foreach}
 </ol>
 
-[ <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="portal"></a>
 <h2>Portal da L&iacute;ngua Portuguesa (verbos)</h2>
@@ -85,7 +103,7 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {/foreach}
 </ol>
 
-[ <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 </body>
 </html>

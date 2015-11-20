@@ -34,12 +34,14 @@
   (load-verbnet)
   (load-dhbb)
   (load-verbocean)
+  (load-pt-ud)
   (load-portal-da-lingua-portuguesa))
   
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
+(defparameter *pt-ud* nil)
 
 (defun load-complex-corpus (filename hashtable)
   (fare-csv:with-rfc4180-csv-syntax ()
@@ -73,6 +75,10 @@
 (defun load-portal-da-lingua-portuguesa ()
   (setf *portal-da-lingua-portuguesa* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/portal-da-lingua-pt.txt" *basedir*) *portal-da-lingua-portuguesa*))
+
+(defun load-pt-ud ()
+  (setf *pt-ud* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus (merge-pathnames "corpora/pt-ud.txt" *basedir*) *pt-ud*))
 
 (defun get-similar-words (word)
   (append (remove-if-not (lambda (x)
@@ -116,3 +122,6 @@
 
 (defun check-verbocean ()
   (check-corpus *verbocean*))
+
+(defun check-pt-ud ()
+  (check-corpus *pt-ud*))
