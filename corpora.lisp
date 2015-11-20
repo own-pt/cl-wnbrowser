@@ -42,6 +42,7 @@
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
 (defparameter *pt-ud* nil)
+(defparameter *verbos-dg* nil)
 
 (defun load-complex-corpus (filename hashtable)
   (fare-csv:with-rfc4180-csv-syntax ()
@@ -79,6 +80,11 @@
 (defun load-pt-ud ()
   (setf *pt-ud* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/pt-ud.txt" *basedir*) *pt-ud*))
+
+(defun load-verbos-dg ()
+  (setf *verbos-dg* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus (merge-pathnames "corpora/verbos-dg.txt" *basedir*) *verbos-dg*))
+
 
 (defun get-similar-words (word)
   (append (remove-if-not (lambda (x)
@@ -125,3 +131,6 @@
 
 (defun check-pt-ud ()
   (check-corpus *pt-ud*))
+
+(defun check-verbos-dg ()
+  (check-corpus *verbos-dg*))

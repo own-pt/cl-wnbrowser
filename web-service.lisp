@@ -420,6 +420,7 @@
 	 :verbnet (check-verbnet)
          :dhbb (check-dhbb)
          :ptud (check-pt-ud)
+         :verbosdg (check-verbos-dg)
 	 :verbocean (check-verbocean))))
 
 (defun start-server (&optional (port 4243))
