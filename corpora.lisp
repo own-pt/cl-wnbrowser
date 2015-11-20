@@ -35,6 +35,7 @@
   (load-dhbb)
   (load-verbocean)
   (load-pt-ud)
+  (load-verbos-dg)
   (load-portal-da-lingua-portuguesa))
   
 (defparameter *portal-da-lingua-portuguesa* nil)
