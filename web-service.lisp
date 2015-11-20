@@ -418,6 +418,8 @@
   (cl-wnbrowser.templates:verbs
    (list :portal (check-portal-da-lingua-portuguesa)
 	 :verbnet (check-verbnet)
+         :dhbb (check-dhbb)
+         :ptud (check-pt-ud)
 	 :verbocean (check-verbocean))))
 
 (defun start-server (&optional (port 4243))

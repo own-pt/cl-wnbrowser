@@ -9,15 +9,51 @@
    <meta charset="UTF-8"> 
 </head>
 <body>
-<h1>An&aacute;lise de verbos</h1>
+<h1>Missing words in OWN-PT</h1>
 
-<p>Esta p&aacute;gina lista os verbos presentes em determinadas listas
-de verbos mas que ainda n&atilde;o foram inclu&iacute;dos na
-OWN-PT. Para a lista que tiver o verbo correspondente em ing&ecirc;s,
-listamos tamb&eacute;m os synsets relacionados.</p>
+<p>Esta p&aacute;gina lista palavras presentes em diferentes corpora
+mas que ainda n&atilde;o foram inclu&iacute;das na OWN-PT. 
 
-[ <a href="#verbnet">verbnet</a> | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+Se um corpus tiver tradu&ccedil;&atilde;o em ing&ecirc;s, listamos
+tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 
+[  <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+
+<a name="ptud"></a>
+<h2>Universal Dependencies (PT) (verbos)</h2>
+
+<p>Number of words in corpus: {$ptud.total}. In OWN-PT: {$ptud.totalwn}.  In suggestions: {$ptud.totalsuggestions}. Missing: {$ptud.total-($ptud.totalwn+$ptud.totalsuggestions)}.  </p>
+
+<ol>
+{foreach $entry in $ptud.words}
+<li>{$entry.word}:
+  {foreach $s in $entry.synsets}
+  {if not isFirst($s)}, {/if}
+  <a href="/wn/synset?id={$s}">{$s}</a>
+  {/foreach}
+</li>
+{/foreach}
+</ol>
+
+[ <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+
+<a name="dhbb"></a>
+<h2>DHBB (verbos)</h2>
+
+<p>Number of words in corpus: {$dhbb.total}. In OWN-PT: {$dhbb.totalwn}.  In suggestions: {$dhbb.totalsuggestions}. Missing: {$dhbb.total-($dhbb.totalwn+$dhbb.totalsuggestions)}.  </p>
+
+<ol>
+{foreach $entry in $dhbb.words}
+<li>{$entry.word}:
+  {foreach $s in $entry.synsets}
+  {if not isFirst($s)}, {/if}
+  <a href="/wn/synset?id={$s}">{$s}</a>
+  {/foreach}
+</li>
+{/foreach}
+</ol>
+
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="verbnet"></a>
 <h2>Verbnet.br</h2>
@@ -35,7 +71,7 @@ listamos tamb&eacute;m os synsets relacionados.</p>
 {/foreach}
 </ol>
 
-[ <a href="#verbnet">verbnet</a> | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="verbocean"></a>
 <h2>VerbOcean translated</h2>
@@ -54,10 +90,10 @@ listamos tamb&eacute;m os synsets relacionados.</p>
 {/foreach}
 </ol>
 
-[ <a href="#verbnet">verbnet</a> | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 <a name="portal"></a>
-<h2>Portal da L&iacute;ngua Portuguesa</h2>
+<h2>Portal da L&iacute;ngua Portuguesa (verbos)</h2>
 
 <p>Number of words in corpus: {$portal.total}. In OWN-PT: {$portal.totalwn}.  In suggestions: {$portal.totalsuggestions}. Missing: {$portal.total-($portal.totalwn+$portal.totalsuggestions)}.  </p>
 
@@ -66,7 +102,8 @@ listamos tamb&eacute;m os synsets relacionados.</p>
 <li>{$entry.word}</li>
 {/foreach}
 </ol>
-[ <a href="#verbnet">verbnet</a> | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+
+[  <a href="#ptud">PT-UD</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 </body>
 </html>
