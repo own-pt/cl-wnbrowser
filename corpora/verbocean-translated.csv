@@ -1453,7 +1453,7 @@ proteger,harbour,porto
 endurecer,harden,
 danificar,harm,dano
 harmonizar,harmonize,
-arreiar,harness,arreios
+arrear,harness,arreios
 ,harrow,grade
 colher,harvest,colheita
 ,hash,Hash
@@ -1546,12 +1546,11 @@ imunizar,immunize,
 impactar,impact,impacto
 prejudicar,impair,
 empalar,impale,
-panelizar,impanel,impanel
 transmitir,impart,
 acusar,impeach,
 impedir,impede,
 ,imperil,pôr em perigo
-impersonar,impersonate,personificar
+empessoar,impersonate,personificar
 implantar,implant,
 implementar,implement,implemento
 implicar,implicate,
@@ -1581,7 +1580,7 @@ aumentar,increase,
 incriminar,incriminate,
 incubar,incubate,
 inculcar,inculcate,
-incorrer em,incur,
+incorrer,incur,
 indenizar,indemnify,
 indexar,index,índice
 indicar,indicate,
@@ -1646,8 +1645,8 @@ interpretar,interpret,
 interrogar,interrogate,
 interromper,interrupt,
 entrelaçar,intertwine,
-entrevista,interview,
-entrelaar,interweave,
+entrevistar,interview,
+entrelaçar,interweave,
 intimidar,intimidate,
 entoar,intone,
 intrigar,intrigue,intriga
@@ -1872,15 +1871,9 @@ espelhar,mirror,espelho
 ,misconstrue,interpretar mal
 ,misdirect,desorientar
 maltratar,mishandle,
-identificar erroneamente,misidentify,misidentify
 ,misinterpret,interpretar mal
 subestimar,misjudge,
 enganar,mislead,
-gerenciar mal,mismanage,mismanage
-jogal mal,misplay,misplay
-pronunciar mal,mispronounce,
-citar erradamente,misquote,
-ler mal,misread,
 deturpar,misrepresent,
 perder,miss,senhorita
 ,misspell,cometer erros de ortografia
@@ -2033,7 +2026,7 @@ ultrapassar,outrun,
 ,outsmart,ser mais esperto que
 terceirizar,outsource,
 ultrapassar,outstrip,
-prevalecer sobre,outweigh,
+prevalecer,outweigh,
 despistar,outwit,
 ,overarch,formar arco por cima de
 ,overbuild,construir em demasia
@@ -2045,7 +2038,7 @@ sobrecarregar,overcrowd,
 exagerar,overdo,
 extenuar,overdrive,
 exagerar,overemphasize,exagerar
-super-estimar,overestimate,exagerar
+superestimar,overestimate,exagerar
 sobrevoar,overfly,
 vistoriar,overhaul,vistoria
 ,overhear,ouvir por acaso
