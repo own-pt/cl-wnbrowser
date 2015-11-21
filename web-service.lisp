@@ -420,6 +420,7 @@
 	 :verbnet (check-verbnet)
          :dhbb (check-dhbb)
          :ptud (check-pt-ud)
+         :ptudcleaned (check-pt-ud-cleaned)
          :verbosdg (check-verbos-dg)
          :verbosdgcleaned (check-verbos-dg-cleaned)
 	 :nomlexfloating (check-nomlex-floating)
