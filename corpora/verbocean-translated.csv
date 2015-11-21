@@ -2089,7 +2089,6 @@ deleitar,pamper,
 garimpar,panhandle,cabo de caçarola
 apavorar,panic,pânico
 arfar,pant,
-par,par,
 desfilar,parade,desfile
 paralelizar,parallel,paralelo
 paralisar,paralyze,
@@ -2240,13 +2239,13 @@ antecipar,preempt,
 prefaciar,preface,prefácio
 preferir,prefer,
 prefixar,prefix,prefixo
-pre-aquecer,preheat,de pré-aquecimento
-pre-julgar,prejudge,julgar antecipadamente
+preaquecer,preheat,de pré-aquecimento
+prejulgar,prejudge,julgar antecipadamente
 prejudicar,prejudice,prejuízo
 estrear,premiere,estréia
 preocupar,preoccupy,
 preparar,prepare,
-pre-pagar,prepay,pré-pago
+prepagar,prepay,pré-pago
 pressagiar,presage,presságio
 prescrever,prescribe,
 apresentar,present,presente
@@ -2257,7 +2256,7 @@ presumir,presume,
 prevenir,prevent,
 visualizar,preview,visualização
 apreçar,price,preo
-picada,prick,picar
+picar,prick,picar
 preparar,prime,primordial
 imprimir,print,impressão
 priorizar,prioritize,
@@ -2318,7 +2317,7 @@ empurrar,push,empurre
 colocar,put,
 bater,putt,bater levemente
 confundir,puzzle,quebra-cabeças
-quadriplicar,quadruple,quádruplo
+quadruplicar,quadruple,quádruplo
 beber,quaff,beber em grandes goles
 qualificar,qualify,
 quantificar,quantify,
@@ -2409,7 +2408,7 @@ receder,recede,recuar
 receber,receive,
 receder,recess,recesso
 recarregar,recharge,
-re-verificar,recheck,verifique novamente
+reverificar,recheck,verifique novamente
 recitar,recite,
 recontar,reckon,contar
 recuperar,reclaim,
@@ -2500,7 +2499,7 @@ reintroduzir,reintroduce,
 reinventar,reinvent,
 reinvestir,reinvest,
 revigorar,reinvigorate,
-reedição,reissue,
+reeditar,reissue,
 reiterar,reiterate,
 rejeitar,reject,
 reingressar,rejoin,
@@ -2567,7 +2566,7 @@ reproduzir,reproduce,
 reprogramar,reprogram,
 repudiar,repudiate,
 repulsar,repulse,repulsa
-requesitar,request,pedido
+requisitar,request,pedido
 requerer,require,exigir
 requesitar,requisition,requisição
 reler,reread,
@@ -2663,7 +2662,7 @@ rugir,roar,rugido
 assar,roast,assado
 roubar,rob,
 vestir,robe,robe
-balancar,rock,rocha
+balançar,rock,rocha
 turvar,roil,
 rolar,roll,rolo
 romantizar,romanticize,
@@ -2807,7 +2806,7 @@ mudar,shift,mudança
 brilhar,shine,brilho
 atelhar,shingle,telha
 enviar,ship,navio
-esquivar-se a,shirk,
+esquivar-se,shirk,
 chocar,shock,choque
 enxotar,shoo,
 atirar,shoot,
