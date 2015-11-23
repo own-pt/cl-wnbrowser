@@ -32,6 +32,7 @@
 (defun init-corpora ()
   (cache-words)
   (load-verbnet)
+  (load-verbnet-gold)
   (load-dhbb)
   (load-verbocean)
   (load-pt-ud)
@@ -43,6 +44,7 @@
   
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
+(defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
 (defparameter *pt-ud* nil)
@@ -71,6 +73,10 @@
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
   (load-complex-corpus  (merge-pathnames "corpora/verbnet.br.csv" *basedir*) *verbnet*))
+
+(defun load-verbnet-gold ()
+  (setf *verbnet-gold* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus  (merge-pathnames "corpora/verbnet.br-gold.csv" *basedir*) *verbnet-gold*))
 
 (defun load-verbocean ()
   (setf *verbocean* (make-hash-table :test #'equal :size 15000))
@@ -140,6 +146,9 @@
 
 (defun check-verbnet ()
   (check-corpus *verbnet*))
+
+(defun check-verbnet-gold ()
+  (check-corpus *verbnet-gold*))
 
 (defun check-dhbb ()
   (check-corpus *dhbb*))

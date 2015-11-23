@@ -418,6 +418,7 @@
   (cl-wnbrowser.templates:verbs
    (list :portal (check-portal-da-lingua-portuguesa)
 	 :verbnet (check-verbnet)
+	 :verbnetgold (check-verbnet-gold)
          :dhbb (check-dhbb)
          :ptud (check-pt-ud)
          :ptudcleaned (check-pt-ud-cleaned)
