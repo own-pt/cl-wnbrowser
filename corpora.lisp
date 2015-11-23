@@ -76,7 +76,7 @@
 
 (defun load-verbnet-gold ()
   (setf *verbnet-gold* (make-hash-table :test #'equal :size 15000))
-  (load-simple-corpus  (merge-pathnames "corpora/verbnet.br-gold.csv" *basedir*) *verbnet-gold*))
+  (load-simple-corpus  (merge-pathnames "corpora/verbnet.br-gold.txt" *basedir*) *verbnet-gold*))
 
 (defun load-verbocean ()
   (setf *verbocean* (make-hash-table :test #'equal :size 15000))
