@@ -526,8 +526,6 @@ disorganizar,clutter,desordem
 ,co-host,co-host
 cooptar,co-opt,co-opt
 coordenar,co-ordinate,
-coproduzir,co-produce,co-produtos
-copatronizar,co-sponsor,copatrocinador
 coestrelar,co-star,co-estrela
 treinar,coach,treinador
 cobrir,coat,casaco
@@ -684,7 +682,7 @@ cremar,cremate,
 criminalizar,criminalize,
 franzir,crimp,franzido
 aleijar,cripple,aleijado
-crostar,crisp,quebradiço
+encrostar,crisp,quebradiço
 cruzar,criss-cross,cruzado
 cruzar,crisscross,cruzam
 criticar,criticise,
@@ -732,7 +730,6 @@ datar,date,data
 emassar,daub,argamassa
 assustar,daunt,
 entorpecer,daze,torpor
-de-escalar,de-escalate,
 desativar,deactivate,
 amortecer,deaden,
 tratar,deal,acordo
@@ -936,7 +933,7 @@ dispersar,disperse,
 desanimar,dispirit,
 deslocar,displace,
 exibir,display,display
-disgostar,displease,ofender
+desgostar,displease,ofender
 refutar,disprove,refutar
 disputar,dispute,disputa
 desqualificar,disqualify,
@@ -1025,7 +1022,6 @@ desempoeirar,dust,poeira
 ,dwarf,anão
 tingir,dye,corante
 dinamitar,dynamite,dinamite
-e-mail,e-mail,
 ,eagle,águia
 destinar,earmark,
 ganhar,earn,
@@ -1092,7 +1088,6 @@ energizar,energize,
 ,enforce,fazer cumprir
 engajar,engage,
 engendrar,engender,
-engenheirar,engineer,engenheiro
 gravar,engrave,
 ocupar,engross,
 engolfar,engulf,
@@ -1166,7 +1161,6 @@ examinar,examine,
 exasperar,exasperate,
 escavar,excavate,
 exceder,exceed,
-exceptar,excerpt,excerto
 trocar,exchange,troca
 ,excise,imposto
 excitar,excite,
@@ -1183,7 +1177,7 @@ isentar,exempt,isento
 exercitar,exercise,exercício
 exercer,exert,
 exalar,exhale,
-exhaurir,exhaust,escape
+exaurir,exhaust,escape
 exibir,exhibit,exposição
 animar,exhilarate,
 exortar,exhort,
@@ -1212,7 +1206,6 @@ expurgar,expunge,
 estender,extend,
 exterminar,exterminate,
 extinguir,extinguish,
-extolar,extol,Extol
 extorquir,extort,
 extrair,extract,extrato
 extraditar,extradite,
@@ -1242,7 +1235,6 @@ engordar,fatten,
 falhar,fault,falha
 favorecer,favor,
 favorecer,favour,
-fax,fax,
 perturbar,faze,
 temer,fear,medo
 festejar,feast,festa
@@ -1255,7 +1247,7 @@ cortar,fell,caiu
 cercar,fence,cerca
 carregar,ferry,balsa
 fertilizar,fertilize,
-festonejar,festoon,festão
+festonar,festoon,festão
 buscar,fetch,
 fictionalizar,fictionalize,fictionalize
 defender,field,campo
@@ -1281,7 +1273,7 @@ firmar,firm,empresa
 pescar,fish,peixe
 caber,fit,
 fixar,fix,
-manguar,flail,mangual
+mangar,flail,mangual
 despedaçar,flake,floco
 flamejar,flame,chama
 flanquear,flank,flanco
@@ -1289,7 +1281,7 @@ bater,flap,aba
 ,flash,flash
 achatar,flatten,
 alisar,flatter,alisador
-saboriar,flavor,sabor
+saborear,flavor,sabor
 empenar,fledge,
 fugir,flee,
 tosquiar,fleece,velo
@@ -1334,7 +1326,7 @@ multar,forfeit,multa
 forjar,forge,
 esquecer,forget,
 perdoar,forgive,
-renunciar a,forgo,
+renunciar,forgo,
 formar,form,forma
 formalizar,formalize,
 formatar,format,formato
@@ -1405,7 +1397,7 @@ incentivar,goad,incentivo
 devorar,gobble,
 governar,govern,
 agarrar,grab,garra
-gracear,grace,graça
+agraciar,grace,graça
 corrigir,grade,grau
 graduar,graduate,diplomado
 enxertar,graft,enxerto
@@ -1437,7 +1429,7 @@ gomar,gum,goma
 destripar,gut,intestino
 beber,guzzle,bebedeira
 girar,gyrate,
-picaretear,hack,picareta
+picaretar,hack,picareta
 saudar,hail,granizo
 parar,halt,parada
 ,halve,reduzir a metade
@@ -1456,7 +1448,7 @@ proteger,harbour,porto
 endurecer,harden,
 danificar,harm,dano
 harmonizar,harmonize,
-arreiar,harness,arreios
+arrear,harness,arreios
 ,harrow,grade
 colher,harvest,colheita
 ,hash,Hash
@@ -1549,12 +1541,11 @@ imunizar,immunize,
 impactar,impact,impacto
 prejudicar,impair,
 empalar,impale,
-panelizar,impanel,impanel
 transmitir,impart,
 acusar,impeach,
 impedir,impede,
 ,imperil,pôr em perigo
-impersonar,impersonate,personificar
+empessoar,impersonate,personificar
 implantar,implant,
 implementar,implement,implemento
 implicar,implicate,
@@ -1584,7 +1575,7 @@ aumentar,increase,
 incriminar,incriminate,
 incubar,incubate,
 inculcar,inculcate,
-incorrer em,incur,
+incorrer,incur,
 indenizar,indemnify,
 indexar,index,índice
 indicar,indicate,
@@ -1649,8 +1640,8 @@ interpretar,interpret,
 interrogar,interrogate,
 interromper,interrupt,
 entrelaçar,intertwine,
-entrevista,interview,
-entrelaar,interweave,
+entrevistar,interview,
+entrelaçar,interweave,
 intimidar,intimidate,
 entoar,intone,
 intrigar,intrigue,intriga
@@ -1742,7 +1733,6 @@ deixar,leave,
 legalizar,legalize,
 legislar,legislate,
 legitimar,legitimate,legítimo
-legitimizar,legitimize,legitimar
 emprestar,lend,
 alongar,lengthen,
 diminuir,lessen,
@@ -1875,15 +1865,9 @@ espelhar,mirror,espelho
 ,misconstrue,interpretar mal
 ,misdirect,desorientar
 maltratar,mishandle,
-identificar erroneamente,misidentify,misidentify
 ,misinterpret,interpretar mal
 subestimar,misjudge,
 enganar,mislead,
-gerenciar mal,mismanage,mismanage
-jogal mal,misplay,misplay
-pronunciar mal,mispronounce,
-citar erradamente,misquote,
-ler mal,misread,
 deturpar,misrepresent,
 perder,miss,senhorita
 ,misspell,cometer erros de ortografia
@@ -2036,7 +2020,7 @@ ultrapassar,outrun,
 ,outsmart,ser mais esperto que
 terceirizar,outsource,
 ultrapassar,outstrip,
-prevalecer sobre,outweigh,
+prevalecer,outweigh,
 despistar,outwit,
 ,overarch,formar arco por cima de
 ,overbuild,construir em demasia
@@ -2048,7 +2032,7 @@ sobrecarregar,overcrowd,
 exagerar,overdo,
 extenuar,overdrive,
 exagerar,overemphasize,exagerar
-super-estimar,overestimate,exagerar
+superestimar,overestimate,exagerar
 sobrevoar,overfly,
 vistoriar,overhaul,vistoria
 ,overhear,ouvir por acaso
@@ -2099,7 +2083,6 @@ deleitar,pamper,
 garimpar,panhandle,cabo de caçarola
 apavorar,panic,pânico
 arfar,pant,
-par,par,
 desfilar,parade,desfile
 paralelizar,parallel,paralelo
 paralisar,paralyze,
@@ -2250,13 +2233,13 @@ antecipar,preempt,
 prefaciar,preface,prefácio
 preferir,prefer,
 prefixar,prefix,prefixo
-pre-aquecer,preheat,de pré-aquecimento
-pre-julgar,prejudge,julgar antecipadamente
+preaquecer,preheat,de pré-aquecimento
+prejulgar,prejudge,julgar antecipadamente
 prejudicar,prejudice,prejuízo
-estreiar,premiere,estréia
+estrear,premiere,estréia
 preocupar,preoccupy,
 preparar,prepare,
-pre-pagar,prepay,pré-pago
+prepagar,prepay,pré-pago
 pressagiar,presage,presságio
 prescrever,prescribe,
 apresentar,present,presente
@@ -2267,7 +2250,7 @@ presumir,presume,
 prevenir,prevent,
 visualizar,preview,visualização
 apreçar,price,preo
-picada,prick,picar
+picar,prick,picar
 preparar,prime,primordial
 imprimir,print,impressão
 priorizar,prioritize,
@@ -2294,7 +2277,6 @@ escorar,prop,
 propagar,propagate,
 impulsionar,propel,
 propor,propose,
-proposicionar,proposition,proposição
 propor,propound,
 proscrever,proscribe,
 processar,prosecute,
@@ -2328,7 +2310,7 @@ empurrar,push,empurre
 colocar,put,
 bater,putt,bater levemente
 confundir,puzzle,quebra-cabeças
-quadriplicar,quadruple,quádruplo
+quadruplicar,quadruple,quádruplo
 beber,quaff,beber em grandes goles
 qualificar,qualify,
 quantificar,quantify,
@@ -2386,7 +2368,6 @@ perceber,realise,
 perceber,realize,
 realocar,reallocate,
 colher,reap,
-reaplicar,reapply,
 ,rear,traseiro
 ,rear-end,traseira
 rearmar,rearm,
@@ -2397,7 +2378,6 @@ reafirmar,reassert,
 reavaliar,reassess,
 redesignar,reassign,
 reassegurar,reassure,
-reautorizar,reauthorize,
 despertar,reawaken,despertar
 descontar,rebate,desconto
 religar,rebind,
@@ -2408,7 +2388,6 @@ reconstruir,rebuild,
 repelir,rebuke,repreensão
 refutar,rebut,
 recalcular,recalculate,
-recalibrar,recalibrate,
 recordar,recall,recordação
 retratar-se,recant,
 recapitular,recap,recapitulação
@@ -2419,7 +2398,7 @@ receder,recede,recuar
 receber,receive,
 receder,recess,recesso
 recarregar,recharge,
-re-verificar,recheck,verifique novamente
+reverificar,recheck,verifique novamente
 recitar,recite,
 recontar,reckon,contar
 recuperar,reclaim,
@@ -2431,7 +2410,6 @@ comprometer,recommit,comprometerem
 reconciliar,reconcile,conciliar
 reconfigurar,reconfigure,
 reconfirmar,reconfirm,
-reconectar,reconnect,
 reconsiderar,reconsider,
 reconstituir,reconstitute,
 reconstruir,reconstruct,
@@ -2508,9 +2486,8 @@ reintegrar,reintegrate,
 reinterpretar,reinterpret,
 reintroduzir,reintroduce,
 reinventar,reinvent,
-reinvestir,reinvest,
 revigorar,reinvigorate,
-reedição,reissue,
+reeditar,reissue,
 reiterar,reiterate,
 rejeitar,reject,
 reingressar,rejoin,
@@ -2531,7 +2508,7 @@ permanecer,remain,
 refazer,remake,
 deter,remand,detido
 observar,remark,observação
-re-casar,remarry,casar novamente
+recasar,remarry,casar novamente
 remediar,remedy,remédio
 lembrar,remember,
 lembrar,remind,
@@ -2543,7 +2520,7 @@ rasgar,rend,
 tornar,render,
 renegociar,renegotiate,
 renovar,renew,
-renunciar a,renounce,
+renunciar,renounce,
 renovar,renovate,
 alugar,rent,aluguel
 reabrir,reopen,
@@ -2574,11 +2551,10 @@ reprimendar,reprimand,reprimenda
 reimprimir,reprint,reimpressão
 censurar,reproach,censura
 reproduzir,reproduce,
-reprogramar,reprogram,
 repudiar,repudiate,
 repulsar,repulse,repulsa
-requesitar,request,pedido
-requerir,require,exigir
+requisitar,request,pedido
+requerer,require,exigir
 requesitar,requisition,requisição
 reler,reread,
 redirecionar,reroute,
@@ -2610,7 +2586,6 @@ restringir,restrict,
 reestruturar,restructure,
 reenviar,resubmit,
 voltar,resume,currículo
-re-oferecer,resupply,ressuprimento
 ressurgir,resurface,
 ressuscitar,resurrect,
 ressuscitar,resuscitate,
@@ -2673,7 +2648,7 @@ rugir,roar,rugido
 assar,roast,assado
 roubar,rob,
 vestir,robe,robe
-balancar,rock,rocha
+balançar,rock,rocha
 turvar,roil,
 rolar,roll,rolo
 romantizar,romanticize,
@@ -2817,7 +2792,7 @@ mudar,shift,mudança
 brilhar,shine,brilho
 atelhar,shingle,telha
 enviar,ship,navio
-esquivar-se a,shirk,
+esquivar-se,shirk,
 chocar,shock,choque
 enxotar,shoo,
 atirar,shoot,
@@ -2858,13 +2833,13 @@ simular,simulate,
 cantar,sing,
 chamuscar,singe,
 afundar,sink,pia
-sorvir,sip,sorvo
-sifonear,siphon,sifão
+sorver,sip,sorvo
+sifonar,siphon,sifão
 ,sire,pai
 sentar,sit,
 esboçar,sketch,esboço
 enviesar,skew,enviesado
-impalar,skewer,espada
+empalar,skewer,espada
 derrapar,skid,derrapagem
 desnatar,skim,
 despelar,skin,pele
@@ -2882,7 +2857,7 @@ matar,slay,
 fatiar,slice,fatia
 alisar,slick,liso
 deslizar,slide,slide
-tropecar,slip,deslize
+tropeçar,slip,deslize
 abrir,slit,fenda
 lascar,sliver,lasca de madeira
 estafar,slog,estafa
@@ -2984,7 +2959,7 @@ estabilizar,stablize,stablize
 empilhar,stack,pilha
 empregar,staff,pessoal
 encenar,stage,etapa
-machar,stain,mancha
+manchar,stain,mancha
 estacar,stake,estaca
 perseguir,stalk,pedúnculo
 tender,stall,tenda
@@ -3206,7 +3181,7 @@ tingir,tint,matiz
 apontar,tip,ponta
 cansar,tire,pneu
 titilar,titillate,
-entitular,title,título
+intitular,title,título
 brindar,toast,brinde
 tolerar,tolerate,
 ,toll,pedágio
@@ -3392,7 +3367,7 @@ andar,walk,
 emparedar,wall,parede
 ,wallop,soco
 querer,want,
-gorgear,warble,gorjeio
+gorjear,warble,gorjeio
 aquecer,warm,quente
 advertir,warn,
 urdir,warp,urdidura
