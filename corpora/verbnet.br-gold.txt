@@ -347,7 +347,7 @@ flutuar
 formular
 fortalecer
 fretar
-frustar
+frustrar
 fundir
 furar
 gaguejar
@@ -462,7 +462,6 @@ penalizar
 pender
 perambular
 perceber
-pertubar
 perturbar
 piar
 pinçar
