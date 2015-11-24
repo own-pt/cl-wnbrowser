@@ -2,6 +2,39 @@
 
 {namespace cl-wnbrowser.Templates}
 
+{template navigation}
+[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+{/template}
+
+{template showcorpus}
+{call navigation /}
+<a name="{$anchorname}"></a>
+<h2>{$title}</h2>
+
+{if isNonnull($corpus)}
+<p>Number of words in corpus: {$corpus.total}. In OWN-PT:
+{$corpus.totalwn}.  In suggestions:
+{$corpus.totalsuggestions}. Missing:
+{$corpus.total-($corpus.totalwn+$corpus.totalsuggestions)}.  </p>
+
+<ol>
+{foreach $entry in $corpus.words}
+<li>{$entry.word}{if isNonnull($entry.synsets)}:{/if}
+  {foreach $s in $entry.synsets}
+  {if not isFirst($s)}, {/if}
+  <a href="/wn/synset?id={$s}">{$s}</a>
+  {/foreach}
+</li>
+{/foreach}
+</ol>
+{else}
+
+<p>Empty corpus. Most likely cause is the system being restarted.
+Wait a couple of minutes and try again.</p>
+
+{/if}
+{/template}
+
 {template verbs}
 
 <html>
@@ -17,184 +50,66 @@ mas que ainda n&atilde;o foram inclu&iacute;das na OWN-PT.
 Se um corpus tiver tradu&ccedil;&atilde;o em ing&ecirc;s, listamos
 tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+{call showcorpus}
+{param anchorname: 'nomlexfloating' /}
+{param title: 'Nomlex floating words (verbos)' /}
+{param corpus: $nomlexfloating /}
+{/call}
 
-<a name="nomlexfloating"></a>
-<h2>Nomlex floating words (verbos)</h2>
+{call showcorpus}
+{param anchorname: 'verbosdgcleaned' /}
+{param title: 'PorPopular/DG/Cleaned (verbos)' /}
+{param corpus: $verbosdgcleaned /}
+{/call}
 
-<p>Number of words in corpus: {$nomlexfloating.total}. In OWN-PT: {$nomlexfloating.totalwn}.  In suggestions: {$nomlexfloating.totalsuggestions}. Missing: {$nomlexfloating.total-($nomlexfloating.totalwn+$nomlexfloating.totalsuggestions)}.  </p>
+{call showcorpus}
+{param anchorname: 'verbosdg' /}
+{param title: 'PorPopular/DG (verbos)' /}
+{param corpus: $verbosdg /}
+{/call}
 
-<ol>
-{foreach $entry in $nomlexfloating.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
+{call showcorpus}
+{param anchorname: 'ptudcleaned' /}
+{param title: 'Universal Dependencies/cleaned (PT) (verbos)' /}
+{param corpus: $ptudcleaned /}
+{/call}
 
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+{call showcorpus}
+{param anchorname: 'ptud' /}
+{param title: 'Universal Dependencies (PT) (verbos)' /}
+{param corpus: $ptud /}
+{/call}
 
-<a name="verbosdgcleaned"></a>
-<h2>PorPopular/DG/Cleaned (verbos)</h2>
+{call showcorpus}
+{param anchorname: 'dhbb' /}
+{param title: 'DHBB (verbos)' /}
+{param corpus: $dhbb /}
+{/call}
 
-<p>Number of words in corpus: {$verbosdgcleaned.total}. In OWN-PT: {$verbosdgcleaned.totalwn}.  In suggestions: {$verbosdgcleaned.totalsuggestions}. Missing: {$verbosdgcleaned.total-($verbosdgcleaned.totalwn+$verbosdgcleaned.totalsuggestions)}.  </p>
+{call showcorpus}
+{param anchorname: 'verbnetgold' /}
+{param title: 'Verbnet.BR (gold standard)' /}
+{param corpus: $verbnetgold /}
+{/call}
 
-<ol>
-{foreach $entry in $verbosdgcleaned.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
+{call showcorpus}
+{param anchorname: 'verbnet' /}
+{param title: 'Verbnet.BR' /}
+{param corpus: $verbnet /}
+{/call}
 
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
+{call showcorpus}
+{param anchorname: 'verbocean' /}
+{param title: 'VerbOcean translated' /}
+{param corpus: $verbocean /}
+{/call}
 
-<a name="verbosdg"></a>
-<h2>PorPopular/DG (verbos)</h2>
+{call showcorpus}
+{param anchorname: 'portal' /}
+{param title: 'Portal da Língua Portuguesa (verbos)' /}
+{param corpus: $portal /}
+{/call}
 
-<p>Number of words in corpus: {$verbosdg.total}. In OWN-PT: {$verbosdg.totalwn}.  In suggestions: {$verbosdg.totalsuggestions}. Missing: {$verbosdg.total-($verbosdg.totalwn+$verbosdg.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $verbosdg.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-
-<a name="ptudcleaned"></a>
-<h2>Universal Dependencies/cleaned (PT) (verbos)</h2>
-
-<p>Number of words in corpus: {$ptudcleaned.total}. In OWN-PT: {$ptudcleaned.totalwn}.  In suggestions: {$ptudcleaned.totalsuggestions}. Missing: {$ptudcleaned.total-($ptudcleaned.totalwn+$ptudcleaned.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $ptudcleaned.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-<a name="ptud"></a>
-<h2>Universal Dependencies (PT) (verbos)</h2>
-
-<p>Number of words in corpus: {$ptud.total}. In OWN-PT: {$ptud.totalwn}.  In suggestions: {$ptud.totalsuggestions}. Missing: {$ptud.total-($ptud.totalwn+$ptud.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $ptud.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-<a name="dhbb"></a>
-<h2>DHBB (verbos)</h2>
-
-<p>Number of words in corpus: {$dhbb.total}. In OWN-PT: {$dhbb.totalwn}.  In suggestions: {$dhbb.totalsuggestions}. Missing: {$dhbb.total-($dhbb.totalwn+$dhbb.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $dhbb.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-<a name="verbnetgold"></a>
-<h2>Verbnet.br (gold standard)</h2>
-
-<p>Number of words in corpus: {$verbnetgold.total}. In OWN-PT: {$verbnetgold.totalwn}.  In suggestions: {$verbnetgold.totalsuggestions}. Missing: {$verbnetgold.total-($verbnetgold.totalwn+$verbnetgold.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $verbnetgold.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-<a name="verbnet"></a>
-<h2>Verbnet.br</h2>
-
-<p>Number of words in corpus: {$verbnet.total}. In OWN-PT: {$verbnet.totalwn}.  In suggestions: {$verbnet.totalsuggestions}. Missing: {$verbnet.total-($verbnet.totalwn+$verbnet.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $verbnet.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-<a name="verbocean"></a>
-<h2>VerbOcean translated</h2>
-
-<p>Number of words in corpus: {$verbocean.total}. In OWN-PT: {$verbocean.totalwn}.  In suggestions: {$verbocean.totalsuggestions}. Missing: {$verbocean.total-($verbocean.totalwn+$verbocean.totalsuggestions)}.  </p>
-
-
-<ol>
-{foreach $entry in $verbocean.words}
-<li>{$entry.word}:
-  {foreach $s in $entry.synsets}
-  {if not isFirst($s)}, {/if}
-  <a href="/wn/synset?id={$s}">{$s}</a>
-  {/foreach}
-</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
-
-<a name="portal"></a>
-<h2>Portal da L&iacute;ngua Portuguesa (verbos)</h2>
-
-<p>Number of words in corpus: {$portal.total}. In OWN-PT: {$portal.totalwn}.  In suggestions: {$portal.totalsuggestions}. Missing: {$portal.total-($portal.totalwn+$portal.totalsuggestions)}.  </p>
-
-<ol>
-{foreach $entry in $portal.words}
-<li>{$entry.word}</li>
-{/foreach}
-</ol>
-
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> ]
 
 </body>
 </html>
