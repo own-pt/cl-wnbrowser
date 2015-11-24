@@ -6,7 +6,7 @@ See also the OpenWordnet-PT project: https://github.com/own-pt/openWordnet-PT
 
 ### How do I get set up? ###
 
-* SBCL (tested with 1.2.11, 1.2.2, and 1.1.14) or CCL (tested with 1.10);
+* SBCL (tested up to 1.3.0) or CCL (tested with 1.10);
 * For easier/faster setup, quicklisp is highly recommended.
 
 ### License ###
