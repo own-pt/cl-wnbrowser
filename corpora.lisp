@@ -34,6 +34,7 @@
   (load-verbnet)
   (load-verbnet-gold)
   (load-dhbb)
+  (load-propbank)
   (load-verbocean)
   (load-pt-ud)
   (load-pt-ud-cleaned)
@@ -44,6 +45,7 @@
   
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
+(defparameter *propbank* nil)
 (defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
@@ -93,6 +95,10 @@
 (defun load-pt-ud ()
   (setf *pt-ud* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/pt-ud.txt" *basedir*) *pt-ud*))
+
+(defun load-propbank ()
+  (setf *propbank* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus (merge-pathnames "corpora/propbank-todos-os-verbos.txt" *basedir*) *propbank*))
 
 (defun load-pt-ud-cleaned ()
   (setf *pt-ud-cleaned* (make-hash-table :test #'equal :size 15000))
@@ -160,6 +166,9 @@
 
 (defun check-pt-ud ()
   (check-corpus *pt-ud*))
+
+(defun check-propbank ()
+  (check-corpus *propbank*))
 
 (defun check-pt-ud-cleaned ()
   (check-corpus *pt-ud-cleaned*))
