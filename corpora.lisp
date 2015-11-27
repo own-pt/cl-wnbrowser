@@ -58,8 +58,8 @@
 (defun load-complex-corpus (filename hashtable)
   (fare-csv:with-rfc4180-csv-syntax ()
     (dolist (row (fare-csv:read-csv-file filename :external-format :utf-8))
-      (let ((pt (trim (first row)))
-	    (en (trim (second row))))
+      (let ((pt (trim (string-downcase (first row))))
+	    (en (trim (string-downcase (second row)))))
         (when (> (length pt) 0)
           (push en (gethash pt hashtable)))))))
 
@@ -70,7 +70,7 @@
         ((null line))
       (let ((trimmed-line (trim line)))
         (when (> (length trimmed-line) 0)
-          (setf (gethash (trim line) hashtable) nil))))))
+          (setf (gethash (string-downcase (trim line)) hashtable) nil))))))
 
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
