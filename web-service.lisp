@@ -421,6 +421,7 @@
 	 :verbnetgold (check-verbnet-gold)
          :dhbb (check-dhbb)
          :propbank (check-propbank)
+         :propbanktranslated (check-propbank-translated)
          :ptud (check-pt-ud)
          :ptudcleaned (check-pt-ud-cleaned)
          :verbosdg (check-verbos-dg)
