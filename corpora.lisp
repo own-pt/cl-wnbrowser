@@ -42,6 +42,7 @@
   (load-verbos-dg)
   (load-verbos-dg-cleaned)
   (load-nomlex-floating)
+  (load-nomlex-floating-translated)
   (load-portal-da-lingua-portuguesa))
   
 (defparameter *portal-da-lingua-portuguesa* nil)
@@ -56,6 +57,7 @@
 (defparameter *verbos-dg* nil)
 (defparameter *verbos-dg-cleaned* nil)
 (defparameter *nomlex-floating* nil)
+(defparameter *nomlex-floating-translated* nil)
 
 (defun load-complex-corpus (filename hashtable)
   (fare-csv:with-rfc4180-csv-syntax ()
@@ -121,6 +123,10 @@
 (defun load-nomlex-floating ()
   (setf *nomlex-floating* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/verbos-nomlex-floating.txt" *basedir*) *nomlex-floating*))
+
+(defun load-nomlex-floating-translated ()
+  (setf *nomlex-floating-translated* (make-hash-table :test #'equal :size 15000))
+  (load-complex-corpus (merge-pathnames "corpora/verbos-nomlex-floating.csv" *basedir*) *nomlex-floating-translated*))
 
 (defun get-similar-words (word)
   (append (remove-if-not (lambda (x)
@@ -190,3 +196,6 @@
 
 (defun check-nomlex-floating ()
   (check-corpus *nomlex-floating*))
+
+(defun check-nomlex-floating-translated ()
+  (check-corpus *nomlex-floating-translated*))

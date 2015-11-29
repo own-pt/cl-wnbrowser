@@ -3,7 +3,7 @@
 {namespace cl-wnbrowser.Templates}
 
 {template navigation}
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> | <a href="#propbank">PropBank (todos os verbos)</a> | <a href="#propbanktranslated">PropBank Translated (todos os verbos)</a> ]
+[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#nomlexfloatingtranslated">Nomlex/floating (translated)</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> | <a href="#propbank">PropBank (todos os verbos)</a> | <a href="#propbanktranslated">PropBank Translated (todos os verbos)</a> ]
 {/template}
 
 {template showcorpus}
@@ -53,6 +53,12 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {param anchorname: 'nomlexfloating' /}
 {param title: 'Nomlex floating words (verbos)' /}
 {param corpus: $nomlexfloating /}
+{/call}
+
+{call showcorpus}
+{param anchorname: 'nomlexfloatingtranslated' /}
+{param title: 'Nomlex floating words translated (verbos)' /}
+{param corpus: $nomlexfloatingtranslated /}
 {/call}
 
 {call showcorpus}

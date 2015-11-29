@@ -427,6 +427,7 @@
          :verbosdg (check-verbos-dg)
          :verbosdgcleaned (check-verbos-dg-cleaned)
 	 :nomlexfloating (check-nomlex-floating)
+	 :nomlexfloatingtranslated (check-nomlex-floating-translated)
 	 :verbocean (check-verbocean))))
 
 (defun start-server (&optional (port 4243))
