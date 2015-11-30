@@ -1,0 +1,2 @@
+$ cat *conllu | cut -f 3,4 -d$'\t' > 3-4.txt
+$ grep VERB 3-4.txt > pt-ud.txt
