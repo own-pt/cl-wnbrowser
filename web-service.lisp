@@ -135,7 +135,6 @@
 	  (fq_doc_type :parameter-type 'list)
           (fq_provenance :parameter-type 'list)
           (fq_user :parameter-type 'list))
-  (setf (hunchentoot:content-type*) "text/html")
   (disable-caching)
   (multiple-value-bind
         (documents num-found facets error)
@@ -423,6 +422,7 @@
          :propbank (check-propbank)
          :propbanktranslated (check-propbank-translated)
          :ptud (check-pt-ud)
+         :thousandcv (check-thousand-common-verbs)
          :ptudcleaned (check-pt-ud-cleaned)
          :verbosdg (check-verbos-dg)
          :verbosdgcleaned (check-verbos-dg-cleaned)

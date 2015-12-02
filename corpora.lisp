@@ -32,6 +32,7 @@
 (defun init-corpora ()
   (cache-words)
   (load-verbnet)
+  (load-thousand-common-verbs)
   (load-verbnet-gold)
   (load-dhbb)
   (load-propbank)
@@ -52,6 +53,7 @@
 (defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
+(defparameter *thousand-common-verbs* nil)
 (defparameter *pt-ud* nil)
 (defparameter *pt-ud-cleaned* nil)
 (defparameter *verbos-dg* nil)
@@ -79,6 +81,10 @@
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
   (load-complex-corpus  (merge-pathnames "corpora/verbnet.br.csv" *basedir*) *verbnet*))
+
+(defun load-thousand-common-verbs ()
+  (setf *thousand-common-verbs* (make-hash-table :test #'equal :size 1000))
+  (load-simple-corpus  (merge-pathnames "corpora/1000-verbs.txt" *basedir*) *thousand-common-verbs*))
 
 (defun load-verbnet-gold ()
   (setf *verbnet-gold* (make-hash-table :test #'equal :size 15000))
@@ -166,6 +172,9 @@
 
 (defun check-verbnet ()
   (check-corpus *verbnet*))
+
+(defun check-thousand-common-verbs ()
+  (check-corpus *thousand-common-verbs*))
 
 (defun check-verbnet-gold ()
   (check-corpus *verbnet-gold*))
