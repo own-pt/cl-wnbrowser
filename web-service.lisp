@@ -422,6 +422,7 @@
          :propbank (check-propbank)
          :propbanktranslated (check-propbank-translated)
          :ptud (check-pt-ud)
+         :intersection (check-intersection)
          :thousandcv (check-thousand-common-verbs)
          :portalaltafreq (check-portal-alta-freq)
          :ptudcleaned (check-pt-ud-cleaned)

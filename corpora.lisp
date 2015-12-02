@@ -35,6 +35,7 @@
   (load-thousand-common-verbs)
   (load-verbnet-gold)
   (load-dhbb)
+  (load-intersection)
   (load-portal-alta-freq)
   (load-propbank)
   (load-propbank-translated)
@@ -54,6 +55,7 @@
 (defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
+(defparameter *intersection* nil)
 (defparameter *thousand-common-verbs* nil)
 (defparameter *pt-ud* nil)
 (defparameter *pt-ud-cleaned* nil)
@@ -110,6 +112,10 @@
 (defun load-pt-ud ()
   (setf *pt-ud* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus (merge-pathnames "corpora/pt-ud.txt" *basedir*) *pt-ud*))
+
+(defun load-intersection ()
+  (setf *intersection* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus (merge-pathnames "corpora/intersection.txt" *basedir*) *intersection*))
 
 (defun load-propbank ()
   (setf *propbank* (make-hash-table :test #'equal :size 15000))
@@ -192,6 +198,9 @@
 
 (defun check-pt-ud ()
   (check-corpus *pt-ud*))
+
+(defun check-intersection ()
+  (check-corpus *intersection*))
 
 (defun check-propbank ()
   (check-corpus *propbank*))
