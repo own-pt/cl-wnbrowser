@@ -926,7 +926,7 @@ moer
 parir
 ensaiar
 atar
-accionar
+acionar
 preceder
 pressentir
 acalmar
