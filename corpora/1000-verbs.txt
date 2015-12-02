@@ -667,7 +667,7 @@ jurar
 estremecer
 ilustrar
 hesitar
-seleccionar
+selecionar
 duvidar
 enrolar
 partilhar
@@ -860,7 +860,7 @@ assemelhar
 chefiar
 equivaler
 navegar
-leccionar
+lecionar
 precipitar
 estragar
 cansar
