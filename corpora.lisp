@@ -35,6 +35,7 @@
   (load-thousand-common-verbs)
   (load-verbnet-gold)
   (load-dhbb)
+  (load-portal-alta-freq)
   (load-propbank)
   (load-propbank-translated)
   (load-verbocean)
@@ -89,6 +90,10 @@
 (defun load-verbnet-gold ()
   (setf *verbnet-gold* (make-hash-table :test #'equal :size 15000))
   (load-simple-corpus  (merge-pathnames "corpora/verbnet.br-gold.txt" *basedir*) *verbnet-gold*))
+
+(defun load-portal-alta-freq ()
+  (setf *portal-alta-freq* (make-hash-table :test #'equal :size 15000))
+  (load-simple-corpus  (merge-pathnames "corpora/portal-alta-freq.txt" *basedir*) *portal-alta-freq*))
 
 (defun load-verbocean ()
   (setf *verbocean* (make-hash-table :test #'equal :size 15000))
@@ -205,6 +210,9 @@
 
 (defun check-nomlex-floating ()
   (check-corpus *nomlex-floating*))
+
+(defun check-portal-alta-freq ()
+  (check-corpus *portal-alta-freq*))
 
 (defun check-nomlex-floating-translated ()
   (check-corpus *nomlex-floating-translated*))

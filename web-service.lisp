@@ -423,6 +423,7 @@
          :propbanktranslated (check-propbank-translated)
          :ptud (check-pt-ud)
          :thousandcv (check-thousand-common-verbs)
+         :portalaltafreq (check-portal-alta-freq)
          :ptudcleaned (check-pt-ud-cleaned)
          :verbosdg (check-verbos-dg)
          :verbosdgcleaned (check-verbos-dg-cleaned)
