@@ -47,7 +47,8 @@
   (load-nomlex-floating)
   (load-nomlex-floating-translated)
   (load-portal-da-lingua-portuguesa))
-  
+
+(defparameter *portal-alta-freq* nil)  
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
 (defparameter *propbank* nil)
@@ -55,9 +56,11 @@
 (defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
+(defparameter *dhbb-stats* nil)
 (defparameter *intersection* nil)
 (defparameter *thousand-common-verbs* nil)
 (defparameter *pt-ud* nil)
+(defparameter *pt-ud-stats* nil)
 (defparameter *pt-ud-cleaned* nil)
 (defparameter *verbos-dg* nil)
 (defparameter *verbos-dg-cleaned* nil)
@@ -71,6 +74,12 @@
 	    (en (trim (string-downcase (second row)))))
         (when (> (length pt) 0)
           (push en (gethash pt hashtable)))))))
+
+(defun load-frequency (filename hashtable)
+  (dolist (row (fare-csv:read-csv-file filename :external-format :utf-8))
+    (let ((freq (parse-integer (trim (string-downcase (first row)))))
+          (word (trim (string-downcase (second row)))))
+      (setf (gethash word hashtable) freq))))
 
 (defun load-simple-corpus (filename hashtable)
   (with-open-file (stream filename  :external-format :utf-8)
@@ -103,6 +112,8 @@
 
 (defun load-dhbb ()
   (setf *dhbb* (make-hash-table :test #'equal :size 15000))
+  (setf *dhbb-stats* (make-hash-table :test #'equal))
+  (load-frequency (merge-pathnames "corpora/dhbb-freq.csv" *basedir*) *dhbb-stats*)
   (load-complex-corpus (merge-pathnames "corpora/verbos-DHBB.csv" *basedir*) *dhbb*))
 
 (defun load-portal-da-lingua-portuguesa ()
@@ -111,6 +122,8 @@
 
 (defun load-pt-ud ()
   (setf *pt-ud* (make-hash-table :test #'equal :size 15000))
+  (setf *pt-ud-stats* (make-hash-table :test #'equal :size 15000))
+  (load-frequency (merge-pathnames "corpora/pt-ud-freq.csv" *basedir*) *pt-ud-stats*)
   (load-simple-corpus (merge-pathnames "corpora/pt-ud.txt" *basedir*) *pt-ud*))
 
 (defun load-intersection ()
@@ -160,7 +173,7 @@
 	(push s synsets)))
     synsets))
 
-(defun check-corpus (corpus)
+(defun check-corpus (corpus &optional stats)
   (when corpus
     (let ((result nil)
           (total 0)
@@ -172,9 +185,13 @@
             (incf in-suggestions)
             (if (gethash word *words-pt-wn*)
                 (incf in-wn)
-                (push (list :word word
-                            :synsets (get-possible-synsets word corpus))
-                      result))))
+                (let ((word-info (list :word word :synsets (get-possible-synsets word corpus))))
+                  (when stats
+                    (setf word-info 
+                          (append (list :count (gethash word stats 0)) word-info)))
+                  (push word-info result)))))
+      (when stats
+        (setf result (sort result #'> :key (lambda (x) (getf x :count)))))
       (list :total total :totalwn in-wn :totalsuggestions in-suggestions :words result)))
 )
 
@@ -191,13 +208,13 @@
   (check-corpus *verbnet-gold*))
 
 (defun check-dhbb ()
-  (check-corpus *dhbb*))
+  (check-corpus *dhbb* *dhbb-stats*))
 
 (defun check-verbocean ()
   (check-corpus *verbocean*))
 
 (defun check-pt-ud ()
-  (check-corpus *pt-ud*))
+  (check-corpus *pt-ud* *pt-ud-stats*))
 
 (defun check-intersection ()
   (check-corpus *intersection*))
@@ -209,7 +226,7 @@
   (check-corpus *propbank-translated*))
 
 (defun check-pt-ud-cleaned ()
-  (check-corpus *pt-ud-cleaned*))
+  (check-corpus *pt-ud-cleaned* *pt-ud-stats*))
 
 (defun check-verbos-dg ()
   (check-corpus *verbos-dg*))

@@ -19,7 +19,9 @@
 
 <ol>
 {foreach $entry in $corpus.words}
-<li>{$entry.word}{if isNonnull($entry.synsets)}:{/if}
+<li>{$entry.word}
+  {if isNonnull($entry.count)}({$entry.count}){/if}
+  {if isNonnull($entry.synsets)}:{/if}
   {foreach $s in $entry.synsets}
   {if not isFirst($s)}, {/if}
   <a href="/wn/synset?id={$s}">{$s}</a>
