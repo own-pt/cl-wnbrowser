@@ -1,5 +1,3 @@
-abalroar
-abonar
 acidentar
 acrescer
 adestrar
@@ -17,7 +15,6 @@ amostrar
 anuir
 apegar
 apropriar
-assessorar
 asseverar
 autonomizar
 autuar
@@ -95,7 +92,6 @@ disparatar
 disponibilizar
 dissertar
 distar
-doutorar
 doutrinar
 driblar
 editorar
@@ -126,7 +122,6 @@ filar
 flexibilizar
 fosfatar
 fracionar
-fragilizar
 frutificar
 globalizar
 gripar
@@ -136,9 +131,7 @@ historiar
 homogeneizar
 imperar
 implementar
-incrementar
 indagar
-indeterminar
 indiciar
 indisciplinar
 inflacionar
@@ -150,7 +143,6 @@ insubordinar
 intelectualizar
 interpelar
 intuir
-inviabilizar
 jactar
 licitar
 lisonjear
@@ -160,8 +152,6 @@ maturar
 mediatizar
 militarizar
 moralizar
-municiar
-municipalizar
 munir
 naturalizar
 noivar
@@ -179,10 +169,8 @@ possibilitar
 pressurizar
 prestigiar
 principiar
-problematizar
 profissionalizar
 proletarizar
-propalar
 propugnar
 prorrogar
 protagonizar
@@ -201,7 +189,6 @@ recensear
 recolocar
 recompor
 reconduzir
-reconfigurar
 recriminar
 redemocratizar
 reeducar
@@ -217,13 +204,11 @@ reinterpretar
 reinvestir
 rematar
 remexer
-renascer
 reputar
 resguardar
 respaldar
 respingar
 responsabilizar
-ressalvar
 retaliar
 retorquir
 revidar
@@ -239,7 +224,6 @@ sistematizar
 sobrar
 sobrevalorizar
 socializar
-sonegar
 suicidar
 superlotar
 superpor
@@ -260,6 +244,5 @@ valorar
 vedar
 veicular
 verticalizar
-viabilizar
 viger
 vulgarizar
