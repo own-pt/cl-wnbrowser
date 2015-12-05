@@ -417,6 +417,7 @@
   (cl-wnbrowser.templates:verbs
    (list :portal (check-portal-da-lingua-portuguesa)
 	 :verbnet (check-verbnet)
+	 :synsetcandidates (check-synset-candidates)
 	 :verbnetgold (check-verbnet-gold)
          :dhbb (check-dhbb)
          :propbank (check-propbank)

@@ -32,6 +32,7 @@
 (defun init-corpora ()
   (cache-words)
   (load-verbnet)
+  (load-synset-candidates)
   (load-thousand-common-verbs)
   (load-verbnet-gold)
   (load-dhbb)
@@ -51,6 +52,7 @@
 (defparameter *portal-alta-freq* nil)  
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
+(defparameter *synset-candidates* nil)
 (defparameter *propbank* nil)
 (defparameter *propbank-translated* nil)
 (defparameter *verbnet-gold* nil)
@@ -93,6 +95,10 @@
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
   (load-complex-corpus  (merge-pathnames "corpora/verbnet.br.csv" *basedir*) *verbnet*))
+
+(defun load-synset-candidates ()
+  (setf *synset-candidates* (make-hash-table :test #'equal :size 100))
+  (load-complex-corpus  (merge-pathnames "corpora/synset-candidates.csv" *basedir*) *synset-candidates*))
 
 (defun load-thousand-common-verbs ()
   (setf *thousand-common-verbs* (make-hash-table :test #'equal :size 1000))
@@ -200,6 +206,9 @@
 
 (defun check-verbnet ()
   (check-corpus *verbnet*))
+
+(defun check-synset-candidates ()
+  (check-corpus *synset-candidates*))
 
 (defun check-thousand-common-verbs ()
   (check-corpus *thousand-common-verbs*))
