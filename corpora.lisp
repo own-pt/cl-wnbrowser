@@ -25,7 +25,8 @@
     (setf *words-pt-suggestions* (make-hash-table :test #'equal :size 200000))
     (setf *words-en-wn* (make-hash-table :test #'equal :size 150000))
     (setf *words-pt-wn* (make-hash-table :test #'equal :size 150000))
-    (mapc #'get-synset-words (remove-if-not #'verb? (hash-table-values *wn*)))
+    ;; (mapc #'get-synset-words (remove-if-not #'verb? (hash-table-values *wn*)))
+    (mapc #'get-synset-words (hash-table-values *wn*))
     (mapc #'get-suggestion-words (hash-table-values *word-suggestions*))
     t))
 
