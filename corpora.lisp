@@ -36,6 +36,7 @@
   (load-thousand-common-verbs)
   (load-verbnet-gold)
   (load-dhbb)
+  (load-swadesh)
   (load-intersection)
   (load-portal-alta-freq)
   (load-propbank)
@@ -58,6 +59,7 @@
 (defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
+(defparameter *swadesh* nil)
 (defparameter *dhbb-stats* nil)
 (defparameter *intersection* nil)
 (defparameter *thousand-common-verbs* nil)
@@ -115,6 +117,10 @@
 (defun load-verbocean ()
   (setf *verbocean* (make-hash-table :test #'equal :size 15000))
   (load-complex-corpus (merge-pathnames "corpora/verbocean-translated.csv" *basedir*) *verbocean*))
+
+(defun load-swadesh ()
+  (setf *swadesh* (make-hash-table :test #'equal :size 320))
+  (load-complex-corpus (merge-pathnames "corpora/swadesh.csv" *basedir*) *swadesh*))
 
 (defun load-dhbb ()
   (setf *dhbb* (make-hash-table :test #'equal :size 15000))
@@ -221,6 +227,9 @@
 
 (defun check-verbocean ()
   (check-corpus *verbocean*))
+
+(defun check-swadesh ()
+  (check-corpus *swadesh*))
 
 (defun check-pt-ud ()
   (check-corpus *pt-ud* *pt-ud-stats*))
