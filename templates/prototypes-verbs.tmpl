@@ -9,7 +9,15 @@
 {template showcorpus}
 {call navigation /}
 <a name="{$anchorname}"></a>
-<h2>{$title}</h2>
+<h2>{$title|noAutoescape}</h2>
+
+{if isNonnull($description)}
+<p><i>{$description|noAutoescape}</i> 
+{if isNonnull($link)}
+<a href="{$link}">link</a>
+{/if}
+</p>
+{/if}
 
 {if isNonnull($corpus)}
 <p>Number of words in corpus: {$corpus.total}. In OWN-PT:
@@ -53,30 +61,40 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 
 {call showcorpus}
 {param anchorname: 'nomlexfloating' /}
+{param description: 'Nomlex-PT: a lexicon of Portuguese Nominalizations' /}
+{param link: 'http://arademaker.github.io/bibliography/lrec-2014.html' /}
 {param title: 'Nomlex floating words (verbos)' /}
 {param corpus: $nomlexfloating /}
 {/call}
 
 {call showcorpus}
 {param anchorname: 'nomlexfloatingtranslated' /}
+{param description: 'Nomlex-PT: a lexicon of Portuguese Nominalizations' /}
+{param link: 'http://arademaker.github.io/bibliography/lrec-2014.html' /}
 {param title: 'Nomlex floating words translated (verbos)' /}
 {param corpus: $nomlexfloatingtranslated /}
 {/call}
 
 {call showcorpus}
 {param anchorname: 'verbosdgcleaned' /}
+{param description: 'Projeto PorPopular' /}
+{param link: 'http://www.ufrgs.br/textecc/porlexbras/porpopular/' /}
 {param title: 'PorPopular/DG/Cleaned (verbos)' /}
 {param corpus: $verbosdgcleaned /}
 {/call}
 
 {call showcorpus}
 {param anchorname: 'verbosdg' /}
+{param description: 'Projeto PorPopular' /}
+{param link: 'http://www.ufrgs.br/textecc/porlexbras/porpopular/' /}
 {param title: 'PorPopular/DG (verbos)' /}
 {param corpus: $verbosdg /}
 {/call}
 
 {call showcorpus}
 {param anchorname: 'ptudcleaned' /}
+{param description: 'Universal Dependencies Portuguese treebank' /}
+{param link: 'https://github.com/UniversalDependencies/UD_Portuguese' /}
 {param title: 'Universal Dependencies/cleaned (PT) (verbos)' /}
 {param corpus: $ptudcleaned /}
 {/call}
@@ -84,52 +102,70 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {call showcorpus}
 {param anchorname: 'ptud' /}
 {param title: 'Universal Dependencies (PT) (verbos)' /}
+{param description: 'Universal Dependencies Portuguese treebank' /}
+{param link: 'https://github.com/UniversalDependencies/UD_Portuguese' /}
 {param corpus: $ptud /}
 {/call}
 
 {call showcorpus}
 {param anchorname: 'dhbb' /}
+{param description: 'Dicion&aacute;rio Hist&oacute;rico-Biogr&aacute;fico Brasileiro' /}
+{param link: 'http://arademaker.github.io/bibliography/DHandES-2014.html' /}
 {param title: 'DHBB (verbos)' /}
 {param corpus: $dhbb /}
 {/call}
 
 {call showcorpus}
 {param anchorname: 'verbnetgold' /}
+{param description: 'VerbNet.Br: semi-automatic construction of a domain independent verbal lexicon of Brazilian Portuguese' /}
+{param link: 'http://143.107.183.175:21380/portlex/index.php/en/projects/verbnetbringl' /}
 {param title: 'Verbnet.BR (gold standard)' /}
 {param corpus: $verbnetgold /}
 {/call}
 
 {call showcorpus}
+{param description: 'VerbNet.Br: semi-automatic construction of a domain independent verbal lexicon of Brazilian Portuguese' /}
+{param link: 'http://143.107.183.175:21380/portlex/index.php/en/projects/verbnetbringl' /}
 {param anchorname: 'verbnet' /}
 {param title: 'Verbnet.BR' /}
 {param corpus: $verbnet /}
 {/call}
 
 {call showcorpus}
+{param description: 'VerbOcean: a broad-coverage semantic network of verbs' /}
+{param link: 'http://demo.patrickpantel.com/demos/verbocean/' /}
 {param anchorname: 'verbocean' /}
 {param title: 'VerbOcean translated' /}
 {param corpus: $verbocean /}
 {/call}
 
 {call showcorpus}
+{param description: 'Portal da L&iacute;ngua Portuguesa: um reposit&oacute;rio organizado de recursos lingu&iacute;sticos' /}
+{param link: 'http://www.portaldalinguaportuguesa.org/' /}
 {param anchorname: 'portal' /}
-{param title: 'Portal da Língua Portuguesa (verbos)' /}
+{param title: 'Portal da L&iacute;ngua Portuguesa (verbos)' /}
 {param corpus: $portal /}
 {/call}
 
 {call showcorpus}
+{param description: 'Propbank.BR: anota&ccedil;&atilde;o de pap&eacute;is sem&acirc;nticos em um corpus do portugu&ecirc;s do Brasil' /}
+{param link: 'http://143.107.183.175:21380/portlex/index.php/en/projetos/propbankbr' /}
 {param anchorname: 'propbank' /}
 {param title: 'PropBank (todos os verbos)' /}
 {param corpus: $propbank /}
 {/call}
 
 {call showcorpus}
+{param description: 'Propbank.BR: anota&ccedil;&atilde;o de pap&eacute;is sem&acirc;nticos em um corpus do portugu&ecirc;s do Brasil' /}
+{param link: 'http://143.107.183.175:21380/portlex/index.php/en/projetos/propbankbr' /}
 {param anchorname: 'propbanktranslated' /}
 {param title: 'PropBank Translated (todos os verbos)' /}
 {param corpus: $propbanktranslated /}
 {/call}
 
 {call showcorpus}
+{param description: 'O Corpus do Portugu&ecirc;s' /}
+{param link: 'http://www.corpusdoportugues.org/' /}
 {param anchorname: 'thousand' /}
 {param title: '999 most common verbs' /}
 {param corpus: $thousandcv /}
@@ -154,6 +190,8 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {/call}
 
 {call showcorpus}
+{param description: 'Portuguese Swadesh List' /}
+{param link: 'https://archive.org/download/rosettaproject_por_swadesh-1' /}
 {param anchorname: 'swadesh' /}
 {param title: 'Swadesh list' /}
 {param corpus: $swadesh /}
