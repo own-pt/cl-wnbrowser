@@ -107,3 +107,6 @@
 
 (defun get-all-verb-ids ()
   (get-all-cached-ids-by-type :verb))
+
+;; (source-vertices #'get-all-noun-ids #'supersenseOf)
+;; (source-vertices #'get-all-verb-ids #'supersenseOf)

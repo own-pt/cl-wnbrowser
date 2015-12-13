@@ -41,13 +41,11 @@
   (mapcan (lambda (r)
             (copy-list (getf (get-cached-document id) r))) relations))
 
-(defun hypernyms (id)
-  "Return only the hypernym edges."
-  (selected-relations id '(:|wn30_hypernymOf|)))
+(defun supersenseOf (id)
+  (selected-relations id '(:|wn30_hypernymOf| :|wn30_hasInstance|)))
 
-(defun hyponyms (id)
-  "Return only the hyponyms edges."
-  (selected-relations id '(:|wn30_hyponymOf|)))
+(defun subsenseOf (id)
+  (selected-relations id '(:|wn30_hyponymOf| :|wn30_instanceOf|)))
 
 (defun all-bidirectional-relations (id)
   "Return all bidirectional edges spanning from vertex.  Meaning, if
