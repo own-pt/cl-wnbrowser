@@ -100,6 +100,7 @@ function callVoteUp(suggestion_id, callback)
       function(jqXHR, status)
       {
         pending = false;
+	if (callback) callback(null);
       },
       success:
       function(data, status, jqXHR)
@@ -123,6 +124,7 @@ function callVoteDown(suggestion_id, callback)
       function(jqXHR, status)
       {
         pending = false;
+	if (callback) callback(null);
       },
       success:
       function(data, status, jqXHR)
@@ -146,11 +148,11 @@ function callDeleteVote(vote_id, callback)
       function(jqXHR, status)
       {
         pending = false;
+        if (callback) callback(null); 
       },
       success:
       function(data, status)
       {
-        if (callback) callback(data, status); 
       }
     });
   }
@@ -227,6 +229,7 @@ function votedown(suggestion_id)
       update(suggestion_id, -1, 0);
       press(button_down);
       update(suggestion_id, 0, -1);
+
       callDeleteVote(
         vote_id,
         function(data,status)
