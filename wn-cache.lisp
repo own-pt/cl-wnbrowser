@@ -18,6 +18,15 @@
 (defun verb? (doc)
   (member "VerbSynset" (getf doc :|rdf_type|) :test #'equal))
 
+(defun adj? (doc)
+  (member "AdjectiveSynset" (getf doc :|rdf_type|) :test #'equal))
+
+(defun adv? (doc)
+  (member "AdverbSynset" (getf doc :|rdf_type|) :test #'equal))
+
+(defun noun? (doc)
+  (member "NounSynset" (getf doc :|rdf_type|) :test #'equal))
+
 (defun get-en-words (doc)
   (getf doc :|word_en|))
 
@@ -76,3 +85,25 @@
 
 (defun get-all-cached-ids ()
   (hash-table-keys *wn*))
+
+(defun get-all-cached-ids-by-type (type)
+  (let ((predicate-function 
+	 (case type
+	   (:adj #'adj?)
+	   (:adv #'adv?) 
+	   (:verb #'verb?) 
+	   (:noun #'noun?))))
+    (remove-if-not (lambda (id)
+		     (funcall predicate-function (get-cached-document id))) (get-all-cached-ids))))
+
+(defun get-all-noun-ids ()
+  (get-all-cached-ids-by-type :noun))
+
+(defun get-all-adv-ids ()
+  (get-all-cached-ids-by-type :adv))
+
+(defun get-all-adj-ids ()
+  (get-all-cached-ids-by-type :adj))
+
+(defun get-all-verb-ids ()
+  (get-all-cached-ids-by-type :verb))

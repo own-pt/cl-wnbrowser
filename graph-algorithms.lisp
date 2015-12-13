@@ -41,6 +41,14 @@
   (mapcan (lambda (r)
             (copy-list (getf (get-cached-document id) r))) relations))
 
+(defun hypernyms (id)
+  "Return only the hypernym edges."
+  (selected-relations id '(:|wn30_hypernymOf|)))
+
+(defun hyponyms (id)
+  "Return only the hyponyms edges."
+  (selected-relations id '(:|wn30_hyponymOf|)))
+
 (defun all-bidirectional-relations (id)
   "Return all bidirectional edges spanning from vertex.  Meaning, if
   there is an edge from ID to ID' but not from ID' to ID, then ID' is
@@ -48,6 +56,20 @@
   (remove-if (lambda (r)
                (not (member id (all-relations r) :test #'equal)))
              (all-relations id)))
+
+(defun source-vertices (vertex-source-fn edge-source-fn)
+  "Return all source vertices that aren't isolated"
+  (let ((vertices (funcall vertex-source-fn)))
+    (multiple-value-bind (in-fn out-fn)
+	(degrees vertices edge-source-fn)
+      (mapcar (lambda (v)
+		(list :id v
+		      :gloss (car (getf (get-cached-document v) :|gloss_en|))))
+	      (remove-if-not (lambda (v)
+			       (and 
+				(> (funcall out-fn v) 0)
+				(= (funcall in-fn v) 0)))
+			     vertices)))))
 
 (defun isolated-vertices ()
   (let ((vertices (get-all-cached-ids))
