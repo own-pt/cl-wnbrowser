@@ -108,3 +108,9 @@
                    (lambda (c)
                      (when (> (length c) 2)
                        (push c *clique-cache*)))))
+
+(defun source-senses (type)
+  (source-vertices (lambda () (get-all-cached-ids-by-type type)) #'supersenseOf))
+
+;; (source-vertices #'get-all-noun-ids #'supersenseOf)
+;; (source-vertices #'get-all-verb-ids #'supersenseOf)
