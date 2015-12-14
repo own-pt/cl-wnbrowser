@@ -20,7 +20,7 @@
 	 (get-suggestion-words (suggestions)
 	   (dolist (suggestion suggestions)
 	     (let ((synset-id (getf suggestion :|doc_id|)))
-	       (push synset-id (gethash (getf suggestion :|params|)
+	       (push synset-id (gethash (trim (getf suggestion :|params|))
 					*words-pt-suggestions*))))))
     (setf *words-pt-suggestions* (make-hash-table :test #'equal :size 200000))
     (setf *words-en-wn* (make-hash-table :test #'equal :size 150000))
