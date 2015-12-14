@@ -41,6 +41,12 @@
   (mapcan (lambda (r)
             (copy-list (getf (get-cached-document id) r))) relations))
 
+(defun supersenseOf (id)
+  (selected-relations id '(:|wn30_hypernymOf| :|wn30_hasInstance|)))
+
+(defun subsenseOf (id)
+  (selected-relations id '(:|wn30_hyponymOf| :|wn30_instanceOf|)))
+
 (defun all-bidirectional-relations (id)
   "Return all bidirectional edges spanning from vertex.  Meaning, if
   there is an edge from ID to ID' but not from ID' to ID, then ID' is
@@ -48,6 +54,20 @@
   (remove-if (lambda (r)
                (not (member id (all-relations r) :test #'equal)))
              (all-relations id)))
+
+(defun source-vertices (vertex-source-fn edge-source-fn)
+  "Return all source vertices that aren't isolated"
+  (let ((vertices (funcall vertex-source-fn)))
+    (multiple-value-bind (in-fn out-fn)
+	(degrees vertices edge-source-fn)
+      (mapcar (lambda (v)
+		(list :id v
+		      :gloss (car (getf (get-cached-document v) :|gloss_en|))))
+	      (remove-if-not (lambda (v)
+			       (and 
+				(> (funcall out-fn v) 0)
+				(= (funcall in-fn v) 0)))
+			     vertices)))))
 
 (defun isolated-vertices ()
   (let ((vertices (get-all-cached-ids))
@@ -88,3 +108,9 @@
                    (lambda (c)
                      (when (> (length c) 2)
                        (push c *clique-cache*)))))
+
+(defun source-senses (type)
+  (source-vertices (lambda () (get-all-cached-ids-by-type type)) #'supersenseOf))
+
+;; (source-vertices #'get-all-noun-ids #'supersenseOf)
+;; (source-vertices #'get-all-verb-ids #'supersenseOf)
