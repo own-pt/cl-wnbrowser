@@ -1,0 +1,58 @@
+#+Title: Instalação cl-wnbrowser
+
+* Iniciar o solr
+
+#+BEGIN_SRC bash
+CD $SOLRHOME
+bin/solr -f
+#+END_SRC
+
+* Iniciar a pt-api
+
+  Se nao possui o node.js deve-se antes instala-lo para rodar o
+  comando npm:
+  https://github.com/nodejs/node-v0.x-archive/wiki/Installing-Node.js-via-package-manager
+
+  para garantir que todos os pacotes requeridos para o java script
+  estao instalados: $ npm install
+
+  roda a applicacao que ira interagir com o solr:
+
+  $ node app.js
+
+  verificar em https://localhost:3000 deve aparecer:
+
+  #+BEGIN_EXAMPLE
+    {
+      "version": "41-solr",
+      "has_key": false,
+      "date": "2015-10-21T13:02:32.752Z"
+    }
+  #+END_EXAMPLE
+
+* Clonar o repo graph algorithms
+
+  $ git clone https://github.com/fcbr/graph-algorithms.git
+
+* Clonar o repo  wnbrowser
+
+  $ git clone  https://github.com/own-pt/cl-wnbrowser.git
+
+* Quicklisp
+
+  $ ln -s /path/to/cloned/repo/graph-algorithms graph-algorithms
+  $ ln -s /path/to/cloned/repo/cl-wnbrowser
+
+* Copiar secrets-template.lisp para secrets.lisp no cl-wnbrowser
+
+  $ mv secrets-template.lisp secrets.lisp
+
+* Load no cl-wnbrowser e inicializacao do servidor
+
+  > (ql:quickload :cl-wnbrowser-bluemix)
+  > (in-package :cl-wnbrowser)
+  > (start-server 8040)
+
+* Expandir arquivo targz(base de dados) dentro do diretorio solr/server/solr
+
+  ??
