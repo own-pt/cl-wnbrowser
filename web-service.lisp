@@ -420,6 +420,7 @@
 	 :synsetcandidates (check-synset-candidates)
 	 :verbnetgold (check-verbnet-gold)
          :dhbb (check-dhbb)
+         :dizer (check-dizer)
          :swadesh (check-swadesh)
          :propbank (check-propbank)
          :propbanktranslated (check-propbank-translated)

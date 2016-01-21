@@ -31,6 +31,7 @@
 
 (defun init-corpora ()
   (cache-words)
+  (load-dizer)
   (load-verbnet)
   (load-synset-candidates)
   (load-thousand-common-verbs)
@@ -59,6 +60,7 @@
 (defparameter *verbnet-gold* nil)
 (defparameter *verbocean* nil)
 (defparameter *dhbb* nil)
+(defparameter *dizer* nil)
 (defparameter *swadesh* nil)
 (defparameter *dhbb-stats* nil)
 (defparameter *intersection* nil)
@@ -93,6 +95,10 @@
       (let ((trimmed-line (trim line)))
         (when (> (length trimmed-line) 0)
           (setf (gethash (string-downcase (trim line)) hashtable) nil))))))
+
+(defun load-dizer ()
+  (setf *dizer* (make-hash-table :test #'equal))
+  (load-simple-corpus  (merge-pathnames "corpora/DIZER_Bianca_Moura-Neves.txt" *basedir*) *dizer*))
 
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
@@ -185,7 +191,7 @@
 	(push s synsets)))
     synsets))
 
-(defun check-corpus (corpus &optional stats)
+(defun check-corpus (corpus &optional stats (lf :verb))
   (when corpus
     (let ((result nil)
           (total 0)
@@ -209,6 +215,9 @@
 
 (defun check-portal-da-lingua-portuguesa ()
   (check-corpus *portal-da-lingua-portuguesa*))
+
+(defun check-dizer ()
+  (check-corpus *dizer*))
 
 (defun check-verbnet ()
   (check-corpus *verbnet*))
