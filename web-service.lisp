@@ -416,6 +416,7 @@
 	 :verbnetgold (check-verbnet-gold)
          :dhbb (check-dhbb)
          :dizer (check-dizer)
+         :compex (check-compex)
          :swadesh (check-swadesh)
          :propbank (check-propbank)
          :propbanktranslated (check-propbank-translated)

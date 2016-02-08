@@ -49,8 +49,10 @@
   (load-verbos-dg-cleaned)
   (load-nomlex-floating)
   (load-nomlex-floating-translated)
+  (load-compex)
   (load-portal-da-lingua-portuguesa))
 
+(defparameter *compex* nil)
 (defparameter *portal-alta-freq* nil)  
 (defparameter *portal-da-lingua-portuguesa* nil)
 (defparameter *verbnet* nil)
@@ -133,6 +135,10 @@
   (setf *dhbb-stats* (make-hash-table :test #'equal))
   (load-frequency (merge-pathnames "corpora/dhbb-freq.csv" *basedir*) *dhbb-stats*)
   (load-complex-corpus (merge-pathnames "corpora/verbos-DHBB.csv" *basedir*) *dhbb*))
+
+(defun load-compex ()
+  (setf *compex* (make-hash-table :test #'equal :size 500))
+  (load-complex-corpus (merge-pathnames "corpora/compex-en-pt.csv" *basedir*) *compex*))
 
 (defun load-portal-da-lingua-portuguesa ()
   (setf *portal-da-lingua-portuguesa* (make-hash-table :test #'equal :size 15000))
@@ -233,6 +239,9 @@
 
 (defun check-dhbb ()
   (check-corpus *dhbb* *dhbb-stats*))
+
+(defun check-compex ()
+  (check-corpus *compex*))
 
 (defun check-verbocean ()
   (check-corpus *verbocean*))
