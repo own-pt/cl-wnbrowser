@@ -407,9 +407,9 @@
                               :relations
                               (mapcar #'make-keyword (hash-table-keys selected))))))
 
-(hunchentoot:define-easy-handler (get-prototypes-verbs-handler 
-                                  :uri "/wn/prototypes/verbs") (text)
-  (cl-wnbrowser.templates:verbs
+(hunchentoot:define-easy-handler (get-prototypes-corpora-handler 
+                                  :uri "/wn/prototypes/corpora") (text)
+  (cl-wnbrowser.templates:corpora
    (list :portal (check-portal-da-lingua-portuguesa)
 	 :verbnet (check-verbnet)
 	 :synsetcandidates (check-synset-candidates)

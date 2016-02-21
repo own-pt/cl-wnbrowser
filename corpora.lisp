@@ -25,7 +25,7 @@
     (setf *words-pt-suggestions* (make-hash-table :test #'equal :size 200000))
     (setf *words-en-wn* (make-hash-table :test #'equal :size 150000))
     (setf *words-pt-wn* (make-hash-table :test #'equal :size 150000))
-    (mapc #'get-synset-words (remove-if-not #'verb? (hash-table-values *wn*)))
+    (mapc #'get-synset-words (hash-table-values *wn*))
     (mapc #'get-suggestion-words (hash-table-values *word-suggestions*))
     t))
 
@@ -190,14 +190,28 @@
 			   (> (mk-string-metrics:norm-damerau-levenshtein x word) .9))
 			 (hash-table-keys *words-pt-suggestions*))))
 
-(defun get-possible-synsets (pt-word corpus)
-  (let ((synsets nil))
+(defun lf-test (lf)
+  (case lf
+    (:all #'identity)
+    (:verb #'verb?)
+    (:adjective #'adj?)
+    (:adverb #'adv?)
+    (:noun #'noun?)))
+
+(defun get-possible-synsets (pt-word corpus lf)
+  (let ((synsets nil)
+	(test (lf-test lf)))
     (dolist (en-word (gethash pt-word corpus))
-      (dolist (s (gethash en-word *words-en-wn*))
+      (dolist (s (remove-if-not test (gethash en-word *words-en-wn*)))
 	(push s synsets)))
     synsets))
 
-(defun check-corpus (corpus &optional stats (lf :verb))
+(defun test-word (word lf)
+  (let ((synsets (gethash word *words-pt-wn*))
+	(test (lf-test lf)))
+    (not (null (remove-if-not test synsets)))))
+    
+(defun check-corpus (corpus &key stats lf)
   (when corpus
     (let ((result nil)
           (total 0)
@@ -207,74 +221,73 @@
         (incf total)
         (if (gethash word *words-pt-suggestions*)
             (incf in-suggestions)
-            (if (gethash word *words-pt-wn*)
+            (if (test-word word lf)
                 (incf in-wn)
-                (let ((word-info (list :word word :synsets (get-possible-synsets word corpus))))
+                (let ((word-info (list :word word :synsets (get-possible-synsets word corpus lf))))
                   (when stats
                     (setf word-info 
                           (append (list :count (gethash word stats 0)) word-info)))
                   (push word-info result)))))
       (when stats
         (setf result (sort result #'> :key (lambda (x) (getf x :count)))))
-      (list :total total :totalwn in-wn :totalsuggestions in-suggestions :words result)))
-)
+      (list :total total :totalwn in-wn :totalsuggestions in-suggestions :words result))))
 
 (defun check-portal-da-lingua-portuguesa ()
-  (check-corpus *portal-da-lingua-portuguesa*))
+  (check-corpus *portal-da-lingua-portuguesa* :lf :verb))
 
 (defun check-dizer ()
-  (check-corpus *dizer*))
+  (check-corpus *dizer* :lf :verb))
 
 (defun check-verbnet ()
-  (check-corpus *verbnet*))
+  (check-corpus *verbnet* :lf :verb))
 
 (defun check-synset-candidates ()
-  (check-corpus *synset-candidates*))
+  (check-corpus *synset-candidates* :lf :verb))
 
 (defun check-thousand-common-verbs ()
-  (check-corpus *thousand-common-verbs*))
+  (check-corpus *thousand-common-verbs* :lf :verb))
 
 (defun check-verbnet-gold ()
-  (check-corpus *verbnet-gold*))
+  (check-corpus *verbnet-gold* :lf :verb))
 
 (defun check-dhbb ()
-  (check-corpus *dhbb* *dhbb-stats*))
+  (check-corpus *dhbb* :stats *dhbb-stats* :lf :verb))
 
 (defun check-compex ()
-  (check-corpus *compex*))
+  (check-corpus *compex* :lf :verb))
 
 (defun check-verbocean ()
-  (check-corpus *verbocean*))
+  (check-corpus *verbocean* :lf :verb))
 
 (defun check-swadesh ()
-  (check-corpus *swadesh*))
+  (check-corpus *swadesh* :lf :all))
 
 (defun check-pt-ud ()
-  (check-corpus *pt-ud* *pt-ud-stats*))
+  (check-corpus *pt-ud* :stats *pt-ud-stats* :lf :verb))
 
 (defun check-intersection ()
-  (check-corpus *intersection*))
+  (check-corpus *intersection* :lf :verb))
 
 (defun check-propbank ()
-  (check-corpus *propbank*))
+  (check-corpus *propbank* :lf :verb))
 
 (defun check-propbank-translated ()
-  (check-corpus *propbank-translated*))
+  (check-corpus *propbank-translated* :lf :verb))
 
 (defun check-pt-ud-cleaned ()
-  (check-corpus *pt-ud-cleaned* *pt-ud-stats*))
+  (check-corpus *pt-ud-cleaned* :stats *pt-ud-stats* :lf :verb))
 
 (defun check-verbos-dg ()
-  (check-corpus *verbos-dg*))
+  (check-corpus *verbos-dg* :lf :verb))
 
 (defun check-verbos-dg-cleaned ()
-  (check-corpus *verbos-dg-cleaned*))
+  (check-corpus *verbos-dg-cleaned* :lf :verb))
 
 (defun check-nomlex-floating ()
-  (check-corpus *nomlex-floating*))
+  (check-corpus *nomlex-floating* :lf :verb))
 
 (defun check-portal-alta-freq ()
-  (check-corpus *portal-alta-freq*))
+  (check-corpus *portal-alta-freq* :lf :verb))
 
 (defun check-nomlex-floating-translated ()
-  (check-corpus *nomlex-floating-translated*))
+  (check-corpus *nomlex-floating-translated* :lf :verb))

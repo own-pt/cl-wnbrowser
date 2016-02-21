@@ -22,15 +22,23 @@
   (member "Nominalization" (getf doc :|rdf_type|) :test #'equal))
 
 (defun verb? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "VerbSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun adj? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "AdjectiveSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun adv? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "AdverbSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun noun? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "NounSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun get-en-words (doc)

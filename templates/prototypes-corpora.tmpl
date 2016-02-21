@@ -3,13 +3,13 @@
 {namespace cl-wnbrowser.Templates}
 
 {template navigation}
-[ <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#nomlexfloatingtranslated">Nomlex/floating (translated)</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> | <a href="#propbank">PropBank (todos os verbos)</a> | <a href="#propbanktranslated">PropBank Translated (todos os verbos)</a> | <a href="#thousand">999 most common verbs</a> | <a href="#portalaltafreq">Portal alta freq. (verbos)</a> | <a href="#intersection">Intersection DHBB-NOMLEX</a> | <a href="#candidates">Synset candidates</a> | <a href="#swadesh">Swadesh list</a> | <a href="#dizer">Dizer</a> | <a href="#compex">compex</a> ]
+[ verbos: <a href="#nomlexfloating">Nomlex/floating</a> | <a href="#nomlexfloatingtranslated">Nomlex/floating (translated)</a> | <a href="#verbosdgcleaned">PorPopular/DG/Cleaned</a> | <a href="#verbosdg">PorPopular/DG</a> | <a href="#ptudcleaned">UD/cleaned (PT)</a> | <a href="#ptud">UD (PT)</a> | <a href="#dhbb">dhbb</a> | <a href="#verbnetgold">verbnet (gold)</a> | <a href="#verbnet">verbnet</a>  | <a href="#verbocean">verbocean</a> | <a href="#portal">portal/pt</a> | <a href="#propbank">PropBank (todos os verbos)</a> | <a href="#propbanktranslated">PropBank Translated (todos os verbos)</a> | <a href="#thousand">999 most common verbs</a> | <a href="#portalaltafreq">Portal alta freq. (verbos)</a> | <a href="#intersection">Intersection DHBB-NOMLEX</a> | <a href="#candidates">Synset candidates</a> | <a href="#dizer">Dizer</a> | <a href="#compex">compex</a> ] [ todos: <a href="#swadesh">Swadesh list</a> ]
 {/template}
 
 {template showcorpus}
 {call navigation /}
 <a name="{$anchorname}"></a>
-<h2>{$title|noAutoescape}</h2>
+<h3>{$title|noAutoescape}</h2>
 
 {if isNonnull($description)}
 <p><i>{$description|noAutoescape}</i> 
@@ -44,7 +44,7 @@
 {/if}
 {/template}
 
-{template verbs}
+{template corpora}
 
 <html>
 <head>
@@ -58,6 +58,8 @@ mas que ainda n&atilde;o foram inclu&iacute;das na OWN-PT.
 
 Se um corpus tiver tradu&ccedil;&atilde;o em ing&ecirc;s, listamos
 tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
+
+<h2>Verbos</h2>
 
 {call showcorpus}
 {param anchorname: 'nomlexfloating' /}
@@ -190,14 +192,6 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {/call}
 
 {call showcorpus}
-{param description: 'Portuguese Swadesh List' /}
-{param link: 'https://archive.org/download/rosettaproject_por_swadesh-1' /}
-{param anchorname: 'swadesh' /}
-{param title: 'Swadesh list' /}
-{param corpus: $swadesh /}
-{/call}
-
-{call showcorpus}
 {param description: 'O discurso relatado: da tradu&ccedil;&atilde;o &agrave; descri&ccedil;&atilde;o do portugu&ecirc;s (Bianca Freitas / Cl&aacute;udia Freitas)' /}
 {param anchorname: 'dizer' /}
 {param title: 'Dizer' /}
@@ -209,6 +203,16 @@ tamb&eacute;m os synsets que cont&eacute;m a palavra traduzida.</p>
 {param anchorname: 'compex' /}
 {param title: 'Compex' /}
 {param corpus: $compex /}
+{/call}
+
+<h2>Todos os tipos</h2>
+
+{call showcorpus}
+{param description: 'Portuguese Swadesh List' /}
+{param link: 'https://archive.org/download/rosettaproject_por_swadesh-1' /}
+{param anchorname: 'swadesh' /}
+{param title: 'Swadesh list' /}
+{param corpus: $swadesh /}
 {/call}
 
 </body>
