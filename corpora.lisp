@@ -67,9 +67,15 @@
 (defparameter *dhbb-stats* nil)
 (defparameter *intersection* nil)
 (defparameter *thousand-common-verbs* nil)
-(defparameter *pt-ud* nil)
-(defparameter *pt-ud-stats* nil)
-(defparameter *pt-ud-cleaned* nil)
+(defparameter *pt-ud-verb* nil)
+(defparameter *pt-ud-verb-stats* nil)
+(defparameter *pt-ud-noun* nil)
+(defparameter *pt-ud-noun-stats* nil)
+(defparameter *pt-ud-adj* nil)
+(defparameter *pt-ud-adj-stats* nil)
+(defparameter *pt-ud-adv* nil)
+(defparameter *pt-ud-adv-stats* nil)
+(defparameter *pt-ud-verb-cleaned* nil)
 (defparameter *verbos-dg* nil)
 (defparameter *verbos-dg-cleaned* nil)
 (defparameter *nomlex-floating* nil)
@@ -145,10 +151,29 @@
   (load-simple-corpus (merge-pathnames "corpora/portal-da-lingua-pt.txt" *basedir*) *portal-da-lingua-portuguesa*))
 
 (defun load-pt-ud ()
-  (setf *pt-ud* (make-hash-table :test #'equal :size 15000))
-  (setf *pt-ud-stats* (make-hash-table :test #'equal :size 15000))
-  (load-frequency (merge-pathnames "corpora/pt-ud-freq.csv" *basedir*) *pt-ud-stats*)
-  (load-simple-corpus (merge-pathnames "corpora/pt-ud.txt" *basedir*) *pt-ud*))
+  (setf *pt-ud-verb* (make-hash-table :test #'equal :size 15000))
+  (setf *pt-ud-verb-stats* (make-hash-table :test #'equal :size 15000))
+
+  (setf *pt-ud-noun* (make-hash-table :test #'equal :size 15000))
+  (setf *pt-ud-noun-stats* (make-hash-table :test #'equal :size 15000))
+
+  (setf *pt-ud-adv* (make-hash-table :test #'equal :size 15000))
+  (setf *pt-ud-adv-stats* (make-hash-table :test #'equal :size 15000))
+
+  (setf *pt-ud-adj* (make-hash-table :test #'equal :size 15000))
+  (setf *pt-ud-adj-stats* (make-hash-table :test #'equal :size 15000))
+
+  (load-frequency (merge-pathnames "corpora/pt-ud-VERB-freq.csv" *basedir*) *pt-ud-verb-stats*)
+  (load-simple-corpus (merge-pathnames "corpora/pt-ud-VERB.txt" *basedir*) *pt-ud-verb*)
+
+  (load-frequency (merge-pathnames "corpora/pt-ud-ADJ-freq.csv" *basedir*) *pt-ud-adj-stats*)
+  (load-simple-corpus (merge-pathnames "corpora/pt-ud-ADJ.txt" *basedir*) *pt-ud-adj*)
+
+  (load-frequency (merge-pathnames "corpora/pt-ud-NOUN-freq.csv" *basedir*) *pt-ud-noun-stats*)
+  (load-simple-corpus (merge-pathnames "corpora/pt-ud-NOUN.txt" *basedir*) *pt-ud-noun*)
+
+  (load-frequency (merge-pathnames "corpora/pt-ud-ADV-freq.csv" *basedir*) *pt-ud-adv-stats*)
+  (load-simple-corpus (merge-pathnames "corpora/pt-ud-ADV.txt" *basedir*) *pt-ud-adv*))
 
 (defun load-intersection ()
   (setf *intersection* (make-hash-table :test #'equal :size 15000))
@@ -163,8 +188,8 @@
   (load-translated-corpus (merge-pathnames "corpora/propbank-todos-os-verbos.csv" *basedir*) *propbank-translated*))
 
 (defun load-pt-ud-cleaned ()
-  (setf *pt-ud-cleaned* (make-hash-table :test #'equal :size 15000))
-  (load-translated-corpus (merge-pathnames "corpora/pt-ud-cleaned.csv" *basedir*) *pt-ud-cleaned*))
+  (setf *pt-ud-verb-cleaned* (make-hash-table :test #'equal :size 15000))
+  (load-translated-corpus (merge-pathnames "corpora/pt-ud-VERB-cleaned.csv" *basedir*) *pt-ud-verb-cleaned*))
 
 (defun load-verbos-dg ()
   (setf *verbos-dg* (make-hash-table :test #'equal :size 15000))
@@ -262,8 +287,17 @@
 (defun check-swadesh ()
   (check-corpus *swadesh* :lf :all))
 
-(defun check-pt-ud ()
-  (check-corpus *pt-ud* :stats *pt-ud-stats* :lf :verb))
+(defun check-pt-ud-verb ()
+  (check-corpus *pt-ud-verb* :stats *pt-ud-verb-stats* :lf :verb))
+
+(defun check-pt-ud-noun ()
+  (check-corpus *pt-ud-noun* :stats *pt-ud-noun-stats* :lf :noun))
+
+(defun check-pt-ud-adj ()
+  (check-corpus *pt-ud-adj* :stats *pt-ud-adj-stats* :lf :adjective))
+
+(defun check-pt-ud-adv ()
+  (check-corpus *pt-ud-adv* :stats *pt-ud-adv-stats* :lf :adverb))
 
 (defun check-intersection ()
   (check-corpus *intersection* :lf :verb))
@@ -275,7 +309,7 @@
   (check-corpus *propbank-translated* :lf :verb))
 
 (defun check-pt-ud-cleaned ()
-  (check-corpus *pt-ud-cleaned* :stats *pt-ud-stats* :lf :verb))
+  (check-corpus *pt-ud-verb-cleaned* :stats *pt-ud-verb-stats* :lf :verb))
 
 (defun check-verbos-dg ()
   (check-corpus *verbos-dg* :lf :verb))
