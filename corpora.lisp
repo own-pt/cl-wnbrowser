@@ -75,7 +75,7 @@
 (defparameter *nomlex-floating* nil)
 (defparameter *nomlex-floating-translated* nil)
 
-(defun load-complex-corpus (filename hashtable)
+(defun load-translated-corpus (filename hashtable)
   (fare-csv:with-rfc4180-csv-syntax ()
     (dolist (row (fare-csv:read-csv-file filename :external-format :utf-8))
       (let ((pt (trim (string-downcase (first row))))
@@ -104,11 +104,11 @@
 
 (defun load-verbnet ()
   (setf *verbnet* (make-hash-table :test #'equal :size 15000))
-  (load-complex-corpus  (merge-pathnames "corpora/verbnet.br.csv" *basedir*) *verbnet*))
+  (load-translated-corpus  (merge-pathnames "corpora/verbnet.br.csv" *basedir*) *verbnet*))
 
 (defun load-synset-candidates ()
   (setf *synset-candidates* (make-hash-table :test #'equal :size 100))
-  (load-complex-corpus  (merge-pathnames "corpora/synset-candidates.csv" *basedir*) *synset-candidates*))
+  (load-translated-corpus  (merge-pathnames "corpora/synset-candidates.csv" *basedir*) *synset-candidates*))
 
 (defun load-thousand-common-verbs ()
   (setf *thousand-common-verbs* (make-hash-table :test #'equal :size 1000))
@@ -124,21 +124,21 @@
 
 (defun load-verbocean ()
   (setf *verbocean* (make-hash-table :test #'equal :size 15000))
-  (load-complex-corpus (merge-pathnames "corpora/verbocean-translated.csv" *basedir*) *verbocean*))
+  (load-translated-corpus (merge-pathnames "corpora/verbocean-translated.csv" *basedir*) *verbocean*))
 
 (defun load-swadesh ()
   (setf *swadesh* (make-hash-table :test #'equal :size 320))
-  (load-complex-corpus (merge-pathnames "corpora/swadesh.csv" *basedir*) *swadesh*))
+  (load-translated-corpus (merge-pathnames "corpora/swadesh.csv" *basedir*) *swadesh*))
 
 (defun load-dhbb ()
   (setf *dhbb* (make-hash-table :test #'equal :size 15000))
   (setf *dhbb-stats* (make-hash-table :test #'equal))
   (load-frequency (merge-pathnames "corpora/dhbb-freq.csv" *basedir*) *dhbb-stats*)
-  (load-complex-corpus (merge-pathnames "corpora/verbos-DHBB.csv" *basedir*) *dhbb*))
+  (load-translated-corpus (merge-pathnames "corpora/verbos-DHBB.csv" *basedir*) *dhbb*))
 
 (defun load-compex ()
   (setf *compex* (make-hash-table :test #'equal :size 500))
-  (load-complex-corpus (merge-pathnames "corpora/compex-en-pt.csv" *basedir*) *compex*))
+  (load-translated-corpus (merge-pathnames "corpora/compex-en-pt.csv" *basedir*) *compex*))
 
 (defun load-portal-da-lingua-portuguesa ()
   (setf *portal-da-lingua-portuguesa* (make-hash-table :test #'equal :size 15000))
@@ -160,11 +160,11 @@
 
 (defun load-propbank-translated ()
   (setf *propbank-translated* (make-hash-table :test #'equal :size 15000))
-  (load-complex-corpus (merge-pathnames "corpora/propbank-todos-os-verbos.csv" *basedir*) *propbank-translated*))
+  (load-translated-corpus (merge-pathnames "corpora/propbank-todos-os-verbos.csv" *basedir*) *propbank-translated*))
 
 (defun load-pt-ud-cleaned ()
   (setf *pt-ud-cleaned* (make-hash-table :test #'equal :size 15000))
-  (load-complex-corpus (merge-pathnames "corpora/pt-ud-cleaned.csv" *basedir*) *pt-ud-cleaned*))
+  (load-translated-corpus (merge-pathnames "corpora/pt-ud-cleaned.csv" *basedir*) *pt-ud-cleaned*))
 
 (defun load-verbos-dg ()
   (setf *verbos-dg* (make-hash-table :test #'equal :size 15000))
@@ -172,7 +172,7 @@
 
 (defun load-verbos-dg-cleaned ()
   (setf *verbos-dg-cleaned* (make-hash-table :test #'equal :size 15000))
-  (load-complex-corpus (merge-pathnames "corpora/verbos-dg-cleaned.csv" *basedir*) *verbos-dg-cleaned*))
+  (load-translated-corpus (merge-pathnames "corpora/verbos-dg-cleaned.csv" *basedir*) *verbos-dg-cleaned*))
 
 (defun load-nomlex-floating ()
   (setf *nomlex-floating* (make-hash-table :test #'equal :size 15000))
@@ -180,7 +180,7 @@
 
 (defun load-nomlex-floating-translated ()
   (setf *nomlex-floating-translated* (make-hash-table :test #'equal :size 15000))
-  (load-complex-corpus (merge-pathnames "corpora/verbos-nomlex-floating.csv" *basedir*) *nomlex-floating-translated*))
+  (load-translated-corpus (merge-pathnames "corpora/verbos-nomlex-floating.csv" *basedir*) *nomlex-floating-translated*))
 
 (defun get-similar-words (word)
   (append (remove-if-not (lambda (x)
