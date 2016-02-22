@@ -1,3 +1,9 @@
+;; -*- mode: common-lisp -*-
+
+;; Copyright (c) 2015,2016 The OpenWordNet-PT project
+;; This program and the accompanying materials are made available
+;; under the terms described in the LICENSE file.
+
 (in-package :cl-wnbrowser)
 
 (defparameter *gloss-suggestions* nil)
@@ -16,15 +22,23 @@
   (member "Nominalization" (getf doc :|rdf_type|) :test #'equal))
 
 (defun verb? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "VerbSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun adj? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "AdjectiveSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun adv? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "AdverbSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun noun? (doc)
+  (when (not (listp doc))
+    (setf doc (get-cached-document doc)))
   (member "NounSynset" (getf doc :|rdf_type|) :test #'equal))
 
 (defun get-en-words (doc)

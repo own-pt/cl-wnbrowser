@@ -1,6 +1,6 @@
 ;; -*- mode: common-lisp -*-
 
-;; Copyright (c) 2015 The OpenWordNet-PT project
+;; Copyright (c) 2015,2016 The OpenWordNet-PT project
 ;; This program and the accompanying materials are made available
 ;; under the terms described in the LICENSE file.
 
@@ -407,23 +407,23 @@
                               :relations
                               (mapcar #'make-keyword (hash-table-keys selected))))))
 
-(hunchentoot:define-easy-handler (get-prototypes-fod-handler 
-                                  :uri "/wn/prototypes/flngod") (text)
-  (cl-wnbrowser.templates:fod
-   (list :text text :freeling (if text (call-freeling text) nil))))
-
-(hunchentoot:define-easy-handler (get-prototypes-verbs-handler 
-                                  :uri "/wn/prototypes/verbs") (text)
-  (cl-wnbrowser.templates:verbs
+(hunchentoot:define-easy-handler (get-prototypes-corpora-handler 
+                                  :uri "/wn/prototypes/corpora") (text)
+  (cl-wnbrowser.templates:corpora
    (list :portal (check-portal-da-lingua-portuguesa)
 	 :verbnet (check-verbnet)
 	 :synsetcandidates (check-synset-candidates)
 	 :verbnetgold (check-verbnet-gold)
          :dhbb (check-dhbb)
+         :dizer (check-dizer)
+         :compex (check-compex)
          :swadesh (check-swadesh)
          :propbank (check-propbank)
          :propbanktranslated (check-propbank-translated)
-         :ptud (check-pt-ud)
+         :ptudv (check-pt-ud-verb)
+         :ptudn (check-pt-ud-noun)
+         :ptuda (check-pt-ud-adj)
+         :ptudr (check-pt-ud-adv)
          :intersection (check-intersection)
          :thousandcv (check-thousand-common-verbs)
          :portalaltafreq (check-portal-alta-freq)
