@@ -61,3 +61,8 @@ bin/solr -f
 * Expandir arquivo targz(base de dados) dentro do diretorio solr/server/solr
 
   ??
+* Testing
+
+#+BEGIN_SRC sh
+wget -q --spider --mirror http://localhost:8040/wn/search
+#+END_SRC
