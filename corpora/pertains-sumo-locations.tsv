@@ -20,23 +20,16 @@
 03042986-a	Anguillan	adj.pert	GeopoliticalArea@	08708742-n	Anguilla	noun.location	GeopoliticalArea@	
 02927803-a	anti-American	adj.pert	nil	09044862-n	America	noun.location	UnitedStates=	x
 03043667-a	Antiguan	adj.pert	Island@	08709945-n	Antigua	noun.location	Island@	
-02630695-a	antipodal	adj.pert	GeographicArea+	08631750-n	antipodes	noun.location	GeographicArea+	x
-02630695-a	antipodean	adj.pert	GeographicArea+	08631750-n	antipodes	noun.location	GeographicArea+	x
-02633696-a	apogean	adj.pert	AstronomicalBody+	08495420-n	apogee	noun.location	Region+	
 02635395-a	Appalachian	adj.pert	GeographicArea+	08493493-n	Appalachia	noun.location	GeographicArea@	
 03044566-a	Arabian	adj.pert	LandArea@	08847694-n	Arabia	noun.location	LandArea@	
 02637182-a	Aramaean	adj.pert	nil	09033813-n	Aram	noun.location	Nation@	
 02637182-a	Aramean	adj.pert	nil	09033813-n	Aram	noun.location	Nation@	
-02639193-a	archdiocesan	adj.pert	ReligiousOrganization+	08550862-n	archdiocese	noun.location	GeopoliticalArea+	x
-02640503-a	areal	adj.pert	GeographicArea=	08497294-n	area	noun.location	GeographicArea+	x
 02966972-a	Argentine	adj.pert	Nation@	08711974-n	Argentina	noun.location	Argentina=	
 02966972-a	Argentinian	adj.pert	Nation@	08711974-n	Argentina	noun.location	Argentina=	
 03017788-a	Argive	adj.pert	City@	08786660-n	Argos	noun.location	City@	
 02625648-a	Armenian	adj.pert	nil	09017526-n	Armenia	noun.location	Armenia=	
 02977465-a	Assamese	adj.pert	StateOrProvince@	08902097-n	Assam	noun.location	StateOrProvince@	
 02972499-a	Athenian	adj.pert	City@	08785343-n	Athens	noun.location	City@	
-02831736-a	atmospheric	adj.pert	Region+	08499057-n	atmosphere	noun.location	EarthsAtmosphere+	x
-02831736-a	atmospherical	adj.pert	Region+	08499057-n	atmosphere	noun.location	EarthsAtmosphere+	x
 03017286-a	Attic	adj.pert	City@	08786283-n	Attica	noun.location	LandArea@	
 02650425-a	Australasian	adj.pert	GeographicArea@	08836165-n	Australasia	noun.location	LandArea@	
 02961099-a	Austrian	adj.pert	Nation@	08845555-n	Austria	noun.location	Austria=	
@@ -48,19 +41,13 @@
 02962659-a	Baltic	adj.pert	GeopoliticalArea@	09012101-n	Baltic_State	noun.location	Nation+	
 03046349-a	Bangladeshi	adj.pert	Nation@	08848731-n	Bangladesh	noun.location	Bangladesh=	
 03047188-a	Barbadian	adj.pert	Nation@	08755214-n	Barbados	noun.location	LandArea@	
-02659733-a	basilar	adj.pert	PositionalAttribute+	08511777-n	base	noun.location	Object+	x
-02659733-a	basilary	adj.pert	PositionalAttribute+	08511777-n	base	noun.location	Object+	x
 02969775-a	Bavarian	adj.pert	StateOrProvince@	08771596-n	Bavaria	noun.location	StateOrProvince@	
 02660940-a	Belarusian	adj.pert	nil	09011151-n	Belarus	noun.location	Belarus=	
 02960507-a	Belgian	adj.pert	Nation@	08849753-n	Belgium	noun.location	Belgium=	
 03047714-a	Bengali	adj.pert	LandArea@	08710535-n	Bengal	noun.location	LandArea@	
 03047898-a	Beninese	adj.pert	Nation@	08759420-n	Benin	noun.location	Benin=	
-02661574-a	benthal	adj.pert	bottom+	08578517-n	benthos	noun.location	GeographicArea@	
-02661574-a	benthic	adj.pert	bottom+	08578517-n	benthos	noun.location	GeographicArea@	
-02661574-a	benthonic	adj.pert	bottom+	08578517-n	benthos	noun.location	GeographicArea@	
 03048046-a	Bermudan	adj.pert	Nation@	08710678-n	Bermuda	noun.location	LandArea@	
 03048204-a	Bhutanese	adj.pert	Nation@	08852209-n	Bhutan	noun.location	Bhutan=	
-03132360-a	bizonal	adj.pert	GeographicArea+	08509442-n	zone	noun.location	GeographicArea+	x
 03017468-a	Boeotian	adj.pert	GeopoliticalArea@	08789243-n	Boeotia	noun.location	LandArea@	
 02667426-a	Bohemian	adj.pert	nil	08758882-n	Bohemia	noun.location	GeographicArea@	
 02967485-a	Bolivian	adj.pert	Nation@	08852843-n	Bolivia	noun.location	Bolivia=	
@@ -87,7 +74,6 @@
 02843959-a	Caucasian	adj.pert	GeographicArea@	08519624-n	Caucasus	noun.location	LandArea@	
 02843959-a	Caucasic	adj.pert	GeographicArea@	08519624-n	Caucasus	noun.location	LandArea@	
 03004196-a	Central_American	adj.pert	LandArea@	08735705-n	Central_America	noun.location	LandArea@	
-02688131-a	centroidal	adj.pert	ShapeAttribute+	08523217-n	centroid	noun.location	Region+	x
 03118413-a	Ceylonese	adj.pert	Nation@	08718962-n	Ceylon	noun.location	Island@	
 03054743-a	Chadian	adj.pert	Nation@	08720037-n	Chad	noun.location	Chad=	
 02690613-a	Chaldaean	adj.pert	nil	08917881-n	Chaldea	noun.location	GeographicArea@	
@@ -97,18 +83,14 @@
 02693802-a	Chian	adj.pert	Island@	08782976-n	Chios	noun.location	Island@	
 02965985-a	Chilean	adj.pert	Nation@	08720481-n	Chile	noun.location	Chile=	
 02964782-a	Chinese	adj.pert	Nation@	08730550-n	China	noun.location	GeopoliticalArea@	
-02697329-a	civic	adj.pert	City=	08540903-n	city	noun.location	GeographicArea+	x
 02967618-a	Colombian	adj.pert	Nation@	08732116-n	Colombia	noun.location	Colombia=	
-02700918-a	communal	adj.pert	GeopoliticalArea+	08541609-n	commune	noun.location	County+	x
 03056115-a	Congolese	adj.pert	LandArea@	08734385-n	Congo	noun.location	DemocraticRepublicOfTheCongo=	
-02886406-a	continental	adj.pert	GeopoliticalArea@	09048460-n	Colony	noun.location	LandArea+	
 02886263-a	Continental	adj.pert	Europe@	08696737-n	Continent	noun.location	Continent=	
 02704686-a	corinthian	adj.pert	nil	08786432-n	Corinth	noun.location	City@	
 02704344-a	Cornish	adj.pert	nil	08881398-n	Cornwall	noun.location	LandArea@	
 03025252-a	Corsican	adj.pert	Island@	08941895-n	Corsica	noun.location	LandArea@	
 03056693-a	Costa_Rican	adj.pert	Nation@	08736107-n	Costa_Rica	noun.location	CostaRica=	
 02964107-a	Croatian	adj.pert	GeopoliticalArea@	08815858-n	Croatia	noun.location	Croatia=	
-02943631-a	cross-sectional	adj.pert	Collection+	08548065-n	cross_section	noun.location	Region+	x
 02969591-a	Cuban	adj.pert	Nation@	08750334-n	Cuba	noun.location	Cuba=	
 03058754-a	Cyprian	adj.pert	GeopoliticalArea@	08756735-n	Cyprus	noun.location	Island@	
 03058754-a	Cypriot	adj.pert	GeopoliticalArea@	08756735-n	Cyprus	noun.location	Island@	
@@ -120,12 +102,10 @@
 02960338-a	Danish	adj.pert	Nation@	08761244-n	Denmark	noun.location	Denmark=	
 03060601-a	Delphian	adj.pert	City@	08786855-n	Delphi	noun.location	City@	
 03060601-a	Delphic	adj.pert	City@	08786855-n	Delphi	noun.location	City@	
-02871449-a	diocesan	adj.pert	GeopoliticalArea+	08550966-n	diocese	noun.location	GeopoliticalArea+	
 03017659-a	Dipylon	adj.pert	GeopoliticalArea@	08785958-n	Dipylon_gate	noun.location	StationaryArtifact@	
 03061762-a	Djiboutian	adj.pert	Nation@	08762495-n	Djibouti	noun.location	Djibouti=	
 03062595-a	Dominican	adj.pert	Nation@	08752021-n	Dominican_Republic	noun.location	DominicanRepublic=	
 02847207-a	Dorian	adj.pert	nil	08783444-n	Doris	noun.location	CognitiveAgent@	
-02715047-a	dumpy	adj.pert	SubjectiveAssessmentAttribute+	08560027-n	dump	noun.location	LandArea+	x
 02960686-a	Dutch	adj.pert	Nation@	08949093-n	Netherlands	noun.location	Netherlands=	
 02941957-a	East_African	adj.pert	nil	08699426-n	East_Africa	noun.location	GeographicArea@	
 02957699-a	East_German	adj.pert	Nation@	08768647-n	East_Germany	noun.location	Nation@	
@@ -133,21 +113,14 @@
 03046349-a	East_Pakistani	adj.pert	Nation@	08848731-n	Bangladesh	noun.location	Bangladesh=	
 02966324-a	Ecuadorian	adj.pert	Nation@	08776687-n	Ecuador	noun.location	Ecuador=	
 02971469-a	Egyptian	adj.pert	Nation@	08897065-n	Egypt	noun.location	Egypt=	
-02720042-a	empyreal	adj.pert	Region+	08521267-n	empyrean	noun.location	Region@	x
-02720042-a	empyrean	adj.pert	Region+	08521267-n	empyrean	noun.location	Region@	x
 03003344-a	English	adj.pert	UnitedKingdom=	08871007-n	England	noun.location	UnitedKingdom=	
-02871575-a	eparchial	adj.pert	GeopoliticalArea+	08551296-n	eparchy	noun.location	GeopoliticalArea+	x
 02715677-a	Ephesian	adj.pert	nil	08788326-n	Ephesus	noun.location	City@	
-02929637-a	equatorial	adj.pert	GeographicArea+	08568719-n	equator	noun.location	Region@	x
-02721762-a	equinoctial	adj.pert	GeographicArea+	08568719-n	equator	noun.location	Region@	x
 03064520-a	Eritrean	adj.pert	StateOrProvince@	08777544-n	Eritrea	noun.location	Eritrea=	
 02723158-a	Estonian	adj.pert	Nation@	09012297-n	Estonia	noun.location	Estonia=	
 03064693-a	Ethiopian	adj.pert	Nation@	08778061-n	Ethiopia	noun.location	Ethiopia=	
-02725058-a	facial	adj.pert	nil	08510666-n	face	noun.location	Object+	x
 03065969-a	Fijian	adj.pert	Nation@	08779149-n	Fiji	noun.location	Fiji=	
 03066180-a	Filipino	adj.pert	Nation@	08981244-n	Philippines	noun.location	Philippines=	
 02959553-a	Finnish	adj.pert	Nation@	08779504-n	Finland	noun.location	Finland=	
-02871229-a	firmamental	adj.pert	Region+	08521267-n	firmament	noun.location	Region@	x
 03066448-a	Flemish	adj.pert	LandArea@	08849549-n	Flanders	noun.location	Nation@	
 02904916-a	Florentine	adj.pert	City@	08812166-n	Florence	noun.location	City@	
 02958392-a	French	adj.pert	Nation@	08929922-n	France	noun.location	France=	
@@ -173,7 +146,6 @@
 02971311-a	Glaswegian	adj.pert	City@	08892971-n	Glasgow	noun.location	City@	
 03016202-a	Grecian	adj.pert	Nation@	08780881-n	Greece	noun.location	Greece=	
 03016202-a	Greek	adj.pert	Nation@	08780881-n	Greece	noun.location	Greece=	
-03070230-a	greenside	adj.pert	PositionalAttribute+	08579780-n	green	noun.location	PuttingGreen=	x
 03070697-a	Grenadian	adj.pert	Nation@	08946909-n	Grenada	noun.location	Island@	
 03071022-a	Guatemalan	adj.pert	Nation@	08737041-n	Guatemala	noun.location	Guatemala=	
 03071201-a	Guinean	adj.pert	Nation@	08947319-n	Guinea	noun.location	Guinea=	
@@ -184,25 +156,19 @@
 02739085-a	Hebridean	adj.pert	Island+	08893223-n	Hebrides	noun.location	LandArea@	
 03016202-a	Hellenic	adj.pert	Nation@	08780881-n	Greece	noun.location	Greece=	
 02971672-a	Hindustani	adj.pert	LandArea@	08902422-n	Hindustan	noun.location	LandArea@	
-03072673-a	hiplength	adj.pert	nil	08583682-n	hipline	noun.location	LengthMeasure+	x
-03072673-a	hiplength	adj.pert	nil	08583554-n	hipline	noun.location	LineFormation+	x
 03072028-a	Hispaniolan	adj.pert	Island@	08751317-n	Haiti	noun.location	Island@	
-02742844-a	home	adj.pert	inhabits+	08490199-n	home	noun.location	Region+	x
 02969241-a	Honduran	adj.pert	Nation@	08737716-n	Honduras	noun.location	Honduras=	
 02961505-a	Hungarian	adj.pert	Nation@	08952190-n	Hungary	noun.location	Hungary=	
 02958714-a	Iberian	adj.pert	LandArea@	08984567-n	Iberia	noun.location	LandArea@	
 03074173-a	Icelandic	adj.pert	Nation@	08953324-n	Iceland	noun.location	Iceland=	
 02928347-a	Indian	adj.pert	LandArea@	08900535-n	India	noun.location	India=	
 02972194-a	Indonesian	adj.pert	Nation@	08907606-n	Indonesia	noun.location	Indonesia=	
-02859053-a	infernal	adj.pert	SubjectiveStrongNegativeAttribute+	08582837-n	inferno	noun.location	Region+	x
-02705138-a	intertidal	adj.pert	GeographicArea+	08596076-n	littoral	noun.location	LandArea+	x
 02751177-a	Ionian	adj.pert	nil	08786283-n	Attica	noun.location	LandArea@	
 02750948-a	Ionic	adj.pert	Building+	09042924-n	Ionia	noun.location	LandArea@	
 03075470-a	Iraki	adj.pert	Nation@	08913434-n	Iraq	noun.location	Iraq=	
 03075191-a	Iranian	adj.pert	Nation@	08910668-n	Iran	noun.location	Iran=	
 03075470-a	Iraqi	adj.pert	Nation@	08913434-n	Iraq	noun.location	Iraq=	
 03003744-a	Irish	adj.pert	Ireland=	08859173-n	Ireland	noun.location	Island@	
-02902658-a	isothermic	adj.pert	nil	08590172-n	isotherm	noun.location	Icon+	x
 02972925-a	Israeli	adj.pert	Nation@	08792548-n	Israel	noun.location	Israel=	
 02957066-a	Italian	adj.pert	Nation@	08801678-n	Italy	noun.location	Italy=	
 03076432-a	Jamaican	adj.pert	Nation@	08753933-n	Jamaica	noun.location	Jamaica=	
@@ -224,7 +190,6 @@
 03079627-a	Laotian	adj.pert	Nation@	08956760-n	Laos	noun.location	Laos=	
 03080238-a	Latin	adj.pert	GeopoliticalArea@	08806735-n	Latium	noun.location	LandArea@	
 02754995-a	Latin-American	adj.pert	LandArea@	09022831-n	Latin_America	noun.location	LandArea@	
-02904780-a	latitudinal	adj.pert	LengthMeasure+	08595531-n	latitude	noun.location	PlaneAngleMeasure+	x
 02962818-a	Latvian	adj.pert	Nation@	09013074-n	Latvia	noun.location	Latvia=	
 03080619-a	Lebanese	adj.pert	Nation@	08957381-n	Lebanon	noun.location	Lebanon=	
 03080862-a	Levantine	adj.pert	LandArea@	08915159-n	Levant	noun.location	LandArea@	
@@ -232,10 +197,7 @@
 03081160-a	Libyan	adj.pert	Nation@	08959683-n	Libya	noun.location	Libya=	
 03081328-a	Liechtensteiner	adj.pert	Nation@	08960548-n	Liechtenstein	noun.location	Liechtenstein=	
 02962961-a	Lithuanian	adj.pert	Nation@	09013830-n	Lithuania	noun.location	Lithuania=	
-02888659-a	littoral	adj.pert	LandArea+	08596076-n	littoral	noun.location	LandArea+	x
 03081813-a	Liverpudlian	adj.pert	City@	08877382-n	Liverpool	noun.location	PortCity@	
-02756346-a	local	adj.pert	Local=	08641113-n	locality	noun.location	Neighborhood+	x
-02830345-a	longitudinal	adj.pert	LengthMeasure+	08596668-n	longitude	noun.location	Region+	x
 02958844-a	Lusitanian	adj.pert	LandArea@	09166304-n	Lusitania	noun.location	LandArea@	
 02960832-a	Luxembourgian	adj.pert	Nation@	08960987-n	Luxembourg	noun.location	Luxembourg=	
 03082125-a	Luxemburger	adj.pert	City@	08961402-n	Luxemburg	noun.location	City@	
@@ -257,7 +219,6 @@
 03084759-a	Mauritian	adj.pert	Nation@	08967484-n	Mauritius	noun.location	Mauritius=	
 03084759-a	Mauritian	adj.pert	Nation@	08967329-n	Mauritius	noun.location	Island@	
 02863959-a	Melanesian	adj.pert	nil	08836630-n	Melanesia	noun.location	LandArea@	
-02763824-a	meridional	adj.pert	GeographicArea+	08598823-n	meridian	noun.location	Region+	x
 03026902-a	Mexican	adj.pert	Nation@	08740875-n	Mexico	noun.location	Mexico=	
 02626379-a	Middle_Eastern	adj.pert	nil	08791167-n	Middle_East	noun.location	LandArea@	
 02970576-a	Milanese	adj.pert	City@	08809165-n	Milan	noun.location	MilanItaly=	
@@ -295,9 +256,7 @@
 03093379-a	Olympian	adj.pert	LandArea@	08790953-n	Olympia	noun.location	LandArea@	
 03093379-a	Olympic	adj.pert	LandArea@	08790953-n	Olympia	noun.location	LandArea@	
 03093551-a	Omani	adj.pert	Nation@	08975106-n	Oman	noun.location	Oman=	
-02979285-a	orbital	adj.pert	Motion+	08612049-n	orbit	noun.location	Transitway+	x
 02970241-a	Ottoman	adj.pert	nil	09038597-n	Ottoman_Empire	noun.location	GeopoliticalArea@	
-03095372-a	outdoor	adj.pert	GeographicArea+	08613733-n	outdoors	noun.location	Outdoors+	x
 03095588-a	Oxonian	adj.pert	City@	08877807-n	Oxford	noun.location	City+	
 03095964-a	Pakistani	adj.pert	Nation@	08975902-n	Pakistan	noun.location	Pakistan=	
 02974615-a	Palestinian	adj.pert	GeopoliticalArea@	08798771-n	Palestine	noun.location	LandArea@	
@@ -305,27 +264,20 @@
 03096269-a	Papuan	adj.pert	EthnicGroup@	08844923-n	Papua	noun.location	Island@	
 02967179-a	Paraguayan	adj.pert	Nation@	08978343-n	Paraguay	noun.location	Paraguay=	
 03023449-a	Parisian	adj.pert	City@	08932568-n	Paris	noun.location	ParisFrance=	
-02871695-a	parochial	adj.pert	ReligiousOrganization+	08615001-n	parish	noun.location	GeopoliticalArea+	x
 03096931-a	Parthian	adj.pert	Nation@	08978821-n	Parthia	noun.location	Nation@	
 02879947-a	Peloponnesian	adj.pert	GeographicArea@	08790495-n	Peloponnesus	noun.location	LandArea@	
 02966154-a	Peruvian	adj.pert	Nation@	08979054-n	Peru	noun.location	Peru=	
 03066180-a	Philippine	adj.pert	Nation@	08981244-n	Philippines	noun.location	Philippines=	
 03099392-a	Philistine	adj.pert	nil	08799706-n	Philistia	noun.location	GeographicArea@	
 02776931-a	Phoenician	adj.pert	nil	08919693-n	Phoenicia	noun.location	Nation@	
-03143374-a	point-of-sale	adj.pert	Selling+	08620061-n	point	noun.location	Region+	x
-02838005-a	polar	adj.pert	PositionalAttribute+	08620881-n	pole	noun.location	GeographicArea+	x
 02961258-a	Polish	adj.pert	Nation@	08982587-n	Poland	noun.location	Poland=	
 02961396-a	Polynesian	adj.pert	nil	08841667-n	Polynesia	noun.location	LandArea@	
 02959007-a	Portuguese	adj.pert	Nation@	08984788-n	Portugal	noun.location	Portugal=	
-02782715-a	positional	adj.pert	PositionalAttribute=	08621598-n	position	noun.location	Entity+	x
-03102723-a	prefectural	adj.pert	GeopoliticalArea+	08626947-n	prefecture	noun.location	GeopoliticalArea+	x
 02927944-a	pro-American	adj.pert	nil	09044862-n	America	noun.location	UnitedStates=	x
 02761831-a	provencal	adj.pert	nil	08944960-n	Provence	noun.location	StateOrProvince@	
-02785874-a	provincial	adj.pert	StateOrProvince+	08654360-n	province	noun.location	StateOrProvince=	x
 03104149-a	Prussian	adj.pert	GeopoliticalArea@	08775784-n	Prussia	noun.location	Nation@	
 03107596-a	Qatari	adj.pert	Nation@	08986905-n	Qatar	noun.location	Qatar=	
 02977320-a	Quebecois	adj.pert	nil	08829071-n	Quebec	noun.location	StateOrProvince@	
-02871858-a	regional	adj.pert	located+	08630985-n	region	noun.location	GeographicArea+	x
 02788779-a	Rhodesian	adj.pert	nil	09167101-n	Rhodesia	noun.location	Zimbabwe=	
 03112046-a	romaic	adj.pert	Nation@	08780881-n	Greece	noun.location	Greece=	
 02921325-a	Roman	adj.pert	City@	08806897-n	Rome	noun.location	City@	
@@ -333,7 +285,6 @@
 02962272-a	Roumanian	adj.pert	Nation@	08813978-n	Romania	noun.location	Romania=	
 03112486-a	Ruandan	adj.pert	Nation@	08815046-n	Rwanda	noun.location	Rwanda=	
 02962272-a	Rumanian	adj.pert	Nation@	08813978-n	Romania	noun.location	Romania=	
-02790726-a	rural	adj.pert	Rural=	08644722-n	country	noun.location	GeographicArea+	x
 02957276-a	Russian	adj.pert	Russia=	09003284-n	Russia	noun.location	Nation@	
 03112486-a	Rwandan	adj.pert	Nation@	08815046-n	Rwanda	noun.location	Rwanda=	
 03112615-a	Sabahan	adj.pert	GeographicArea@	08964288-n	Sabah	noun.location	LandArea@	
@@ -350,7 +301,6 @@
 03024647-a	Scotch	adj.pert	GeopoliticalArea@	08890097-n	Scotland	noun.location	Nation@	
 03024647-a	Scots	adj.pert	GeopoliticalArea@	08890097-n	Scotland	noun.location	Nation@	
 03024647-a	Scottish	adj.pert	GeopoliticalArea@	08890097-n	Scotland	noun.location	Nation@	
-02943771-a	sectional	adj.pert	part+	08648153-n	section	noun.location	Region+	x
 03116043-a	Senegalese	adj.pert	Nation@	08995862-n	Senegal	noun.location	Senegal=	
 02963942-a	Serbian	adj.pert	GeopoliticalArea@	08816969-n	Serbia	noun.location	LandArea@	
 03116517-a	Seychellois	adj.pert	LandArea@	08996483-n	Seychelles	noun.location	Seychelles=	
@@ -372,15 +322,9 @@
 02972690-a	Spartan	adj.pert	City@	08787240-n	Sparta	noun.location	City@	
 03118413-a	Sri_Lankan	adj.pert	Nation@	08718962-n	Ceylon	noun.location	Island@	
 02804777-a	sub-Saharan	adj.pert	nil	09172283-n	Sahara	noun.location	LandArea@	
-02804139-a	subarctic	adj.pert	GeographicArea+	08496798-n	Arctic_Circle	noun.location	Region+	x
-02979443-a	suborbital	adj.pert	Motion+	08612049-n	orbit	noun.location	Transitway+	x
-02929216-a	subtropic	adj.pert	GeographicArea+	08674344-n	subtropics	noun.location	GeographicArea+	x
-02929216-a	subtropical	adj.pert	GeographicArea+	08674344-n	subtropics	noun.location	GeographicArea+	x
-02804590-a	suburban	adj.pert	Suburban=	08554440-n	suburb	noun.location	Suburban+	x
 03121212-a	Sudanese	adj.pert	Nation@	09029457-n	Sudan	noun.location	Sudan=	
 03121573-a	Sumatran	adj.pert	Island@	08908954-n	Sumatra	noun.location	Island@	
 02805331-a	Sumerian	adj.pert	GeopoliticalArea@	08918248-n	Sumer	noun.location	LandArea@	
-02805490-a	superficial	adj.pert	superficialPart+	08660339-n	surface	noun.location	Region+	x
 03121723-a	Swazi	adj.pert	Nation@	09031233-n	Swaziland	noun.location	Swaziland=	
 02959720-a	Swedish	adj.pert	Nation@	08765890-n	Sweden	noun.location	Sweden=	
 02960975-a	Swiss	adj.pert	Nation@	09031653-n	Switzerland	noun.location	Switzerland=	
@@ -391,7 +335,6 @@
 02963404-a	Tajikistani	adj.pert	nil	09020961-n	Tajikistan	noun.location	Tajikistan=	
 03123013-a	Tanzanian	adj.pert	Nation@	09034550-n	Tanzania	noun.location	Tanzania=	
 02809010-a	Tasmanian	adj.pert	Island@	08834123-n	Tasmania	noun.location	StateOrProvince@	
-02812482-a	territorial	adj.pert	GeopoliticalArea+	08552138-n	territory	noun.location	LandArea+	x
 03124392-a	Texan	adj.pert	StateOrProvince@	09141526-n	Texas	noun.location	Texas=	
 03116651-a	Thai	adj.pert	Nation@	09036452-n	Thailand	noun.location	Thailand=	
 02813437-a	Theban	adj.pert	nil	08789076-n	Thebes	noun.location	City@	
@@ -402,10 +345,8 @@
 03125370-a	Tobagonian	adj.pert	Island@	08756052-n	Tobago	noun.location	Island@	
 03125505-a	Togolese	adj.pert	Nation@	08759986-n	Togo	noun.location	Togo=	
 03125643-a	Tongan	adj.pert	Nation@	09037133-n	Tonga	noun.location	Tonga=	
-02838470-a	transpolar	adj.pert	PositionalAttribute+	08620881-n	pole	noun.location	GeographicArea+	x
 03126175-a	Trinidadian	adj.pert	Island@	08755852-n	Trinidad	noun.location	Island@	
 03126638-a	Trojan	adj.pert	City@	08788887-n	Troy	noun.location	City@	
-02929500-a	tropical	adj.pert	nil	08675145-n	tropic	noun.location	Region+	x
 03127197-a	Tunisian	adj.pert	City@	09037838-n	Tunis	noun.location	City@	
 03127030-a	Tunisian	adj.pert	Nation@	09037394-n	Tunisia	noun.location	Tunisia=	
 03023852-a	Turkish	adj.pert	Nation@	09039411-n	Turkey	noun.location	Turkey=	
@@ -415,12 +356,10 @@
 02971007-a	Tyrolese	adj.pert	LandArea@	08846135-n	Tyrol	noun.location	StateOrProvince@	
 03127583-a	Ugandan	adj.pert	Nation@	09043052-n	Uganda	noun.location	Uganda=	
 02963665-a	Ukrainian	adj.pert	nil	09014979-n	Ukraine	noun.location	Ukraine=	
-02821071-a	urban	adj.pert	Urban=	08524735-n	city	noun.location	City=	x
 02967333-a	Uruguayan	adj.pert	Nation@	09160295-n	Uruguay	noun.location	Uruguay=	
 02963810-a	Uzbekistani	adj.pert	nil	09022265-n	Uzbekistan	noun.location	Uzbekistan=	
 02970820-a	Venetian	adj.pert	City@	08813264-n	Venice	noun.location	PortCity@	
 02966656-a	Venezuelan	adj.pert	Nation@	09161803-n	Venezuela	noun.location	Venezuela=	
-02871957-a	vicinal	adj.pert	GeographicArea+	08641113-n	vicinity	noun.location	Neighborhood+	x
 02971192-a	Viennese	adj.pert	City@	08846324-n	Vienna	noun.location	City@	
 03129222-a	Vietnamese	adj.pert	EthnicGroup@	09163192-n	Vietnam	noun.location	Vietnam=	
 03037093-a	Washingtonian	adj.pert	StateOrProvince@	09152944-n	Washington	noun.location	Washington=	
@@ -433,6 +372,4 @@
 03131116-a	Zairean	adj.pert	Nation@	08734385-n	Zaire	noun.location	DemocraticRepublicOfTheCongo=	
 03131116-a	Zairese	adj.pert	Nation@	08734385-n	Zaire	noun.location	DemocraticRepublicOfTheCongo=	
 03131331-a	Zambian	adj.pert	Nation@	09165613-n	Zambia	noun.location	Zambia=	
-03131633-a	zenithal	adj.pert	PositionalAttribute+	08684769-n	zenith	noun.location	Region+	
 03131750-a	Zimbabwean	adj.pert	Nation@	09167101-n	Zimbabwe	noun.location	Zimbabwe=	
-03132560-a	zodiacal	adj.pert	AstronomicalBody+	08685188-n	zodiac	noun.location	Region@	x
