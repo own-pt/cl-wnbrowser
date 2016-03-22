@@ -427,7 +427,6 @@
 03037236-a	Washingtonian	adj.pert	City@	09070793-n	Washington	noun.location	WashingtonDC=	
 03130073-a	Welsh	adj.pert	GeopoliticalArea@	08894456-n	Wales	noun.location	Nation@	
 03042249-a	West_African	adj.pert	nil	09178310-n	West_Africa	noun.location	GeographicArea@	
-synset1	word1	lex file1	sumo1	synset2	word2	lex file2	sumo2	
 03130962-a	Yemeni	adj.pert	Nation@	09164561-n	Yemen	noun.location	Yemen=	
 02962013-a	Yugoslav	adj.pert	Nation@	08816236-n	Yugoslavia	noun.location	SerbiaAndMontenegro=	
 02962013-a	Yugoslavian	adj.pert	Nation@	08816236-n	Yugoslavia	noun.location	SerbiaAndMontenegro=	
