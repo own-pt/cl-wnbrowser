@@ -10,8 +10,7 @@
                          :split-sequence :local-time :graph-algorithms :fare-csv
                          :cl-fad :trivial-shell :mk-string-metrics
                          :alexandria :cl-csv :cl-ppcre :parse-number)
-    :components (
-		 (:file "packages")
+    :components ((:file "packages")
 		 (:file "utils")
                  (:file "secrets")
                  (:file "wn-cache")
@@ -25,5 +24,4 @@
 		 (:file "templates"     :depends-on ("constants"))
 		 (:file "agraph"        :depends-on ("constants"))
                  (:file "corpora"       :depends-on ("ownpt-api"))
-		 (:file "web-service"   :depends-on ("secrets" "templates" "ownpt-api" "github"))
-))
+		 (:file "web-service"   :depends-on ("secrets" "templates" "ownpt-api" "github"))))
