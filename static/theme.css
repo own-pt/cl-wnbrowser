@@ -68,6 +68,16 @@ input.search {
     margin: 3px; 
 }
 
+#search-box { 
+    padding: 10px; 
+    margin: 40px 10px 10px 40px;
+    width: 300px;
+}
+
+div#content {
+    margin: 15px 15px 15px 15px;
+}
+
 .breadcrumb { 
     margin-left: 30px;
     font: 12px Segoe UI, Verdana, Sans-Serif; 
@@ -178,4 +188,11 @@ div.status {
 div.already-voted {
     display:inline;
     color: green;
+}
+
+img#logo{
+    float:right;
+    width:20%;
+    height:20%;
+    margin:20px 20px 0px 20px;
 }

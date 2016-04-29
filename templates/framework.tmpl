@@ -11,14 +11,18 @@
   </head>
    
   <body>
-    <h1><a href="/wn/">OpenWordnet-PT</a></h1>
+ <div id="content">
+   <a href="/wn/"> 
+     <img src="/wn/st/ownbw.png" alt="Open Wordnet Logo" id="logo">
+   </a> 
     <form action="search" method="get">
-      <input type="text" name="term" value="{$term}" />
-      <input type="submit" value="Search" />
+      <input id="search-box" class="search" type="text" name="term" value="{$term}"/>
+      <input class="search" type="submit" value="Search" />
     </form>
 {/template}
 
 {template footer}
+    </div>
   </body>
 </html>
 {/template}
