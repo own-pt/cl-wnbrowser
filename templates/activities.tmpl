@@ -12,7 +12,11 @@
   </head>
    
   <body>
-    <h1><a href="/wn/">OpenWordnet-PT</a></h1>
+    <div id="content">
+      <a href="/wn/"> 
+	<img src="/wn/st/ownbw.png" alt="Open Wordnet Logo" id="logo">
+      </a> 
+      
     {literal}
     <script>
       function toggle_visibility(id) 
@@ -70,10 +74,10 @@
     {/literal}
     <p>
     <form id="form" action="search-activities" method="get">
-      <input type="text" name="term" value="{$term}" />
+      <input id="search-box" type="text" name="term" value="{$term}" />
       <input type="hidden" name="sf" value="{$sf}" />
       <input type="hidden" name="so" value="{$so}" />
-      <input type="submit" value="Search" />
+      <input class="search" type="submit" value="Search" />
     </form>
     </p>
 
