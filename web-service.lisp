@@ -6,7 +6,7 @@
 
 (in-package :cl-wnbrowser)
 
-;;; (setq hunchentoot:*show-lisp-errors-p* t)
+(setq hunchentoot:*show-lisp-errors-p* t)
 
 (defun get-previous (n &optional (step 10))
   (- n step))
@@ -74,7 +74,7 @@
           (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
 	  (fq_rdftype :parameter-type 'list)
-	  (fq_lexfile :parameter-type 'list))
+	  (fq_lexfile :parameter-type 'list) sexp)
   (disable-caching)
   (setf (hunchentoot:session-value :term) term)
   (if (is-synset-id term)
@@ -111,11 +111,11 @@
 				:limit limit/i
 				:start start/i :numfound num-found
 				:facets facets :documents documents))))
-	(if (string-equal "application/json" (hunchentoot:header-in* :accept))
+	(if (string-equal "yes" sexp)
 	    (progn
-	      (setf (hunchentoot:content-type*) "application/json")
+	      (setf (hunchentoot:content-type*) "application/sexp")
 	      (with-output-to-string (s)
-		(yason:encode-plist result s)))
+		(print result s)))
 	    (progn
 	      (setf (hunchentoot:content-type*) "text/html")
 	      (if error
@@ -134,7 +134,7 @@
 	  (fq_status :parameter-type 'list)
 	  (fq_doc_type :parameter-type 'list)
           (fq_provenance :parameter-type 'list)
-          (fq_user :parameter-type 'list))
+          (fq_user :parameter-type 'list) sexp)
   (disable-caching)
   (multiple-value-bind
         (documents num-found facets error)
@@ -180,11 +180,11 @@
                                      :start start/i :numfound num-found
                                      :facets facets
                                      :documents documents)))))
-      (if (string-equal "application/json" (hunchentoot:header-in* :accept))
+      (if (string-equal "yes" sexp)
           (progn
-            (setf (hunchentoot:content-type*) "application/json")
+            (setf (hunchentoot:content-type*) "application/sexp")
             (with-output-to-string (s)
-              (yason:encode-plist result s)))
+              (print result s)))
           (progn
             (setf (hunchentoot:session-value :term) term)
             (setf (hunchentoot:content-type*) "text/html")
@@ -192,7 +192,7 @@
                 (cl-wnbrowser.templates:activities result)))))))
 
 (hunchentoot:define-easy-handler (get-synset-handler
-				  :uri "/wn/synset") (id debug)
+				  :uri "/wn/synset") (id debug sexp)
   (disable-caching)
   (let* ((synset (get-synset id))
          (suggestions (get-suggestions id))
@@ -200,11 +200,11 @@
          (request-uri (hunchentoot:request-uri*))
 	 (term (hunchentoot:session-value :term))
 	 (ids (hunchentoot:session-value :ids)))
-    (if (string-equal "application/json" (hunchentoot:header-in* :accept))
+    (if (string-equal "yes" sexp)
 	  (progn
-	    (setf (hunchentoot:content-type*) "application/json")
+	    (setf (hunchentoot:content-type*) "application/sexp")
 	    (with-output-to-string (s)
-	      (yason:encode-plist (list :comments comments :suggestions suggestions :synset synset) s)))
+              (print (list :comments comments :suggestions suggestions :synset synset) s)))
 	  (progn
 	    (when (not (string-equal (lastcar ids) id))
 	      (setf (hunchentoot:session-value :ids) (append ids (list id))))

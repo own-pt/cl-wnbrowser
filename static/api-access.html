@@ -2,7 +2,7 @@
 <body>
 <h1>API access to OWN-PT</h1>
 
-Three URLs in this site also serve back JSON documents instead of HTML if you pass the header <tt>Accept: application/json</tt>.  They are:
+Three URLs in this site also serve back JSON documents instead of HTML if you pass parameter <tt>sexp=yes</tt>.  They are:
 
 <ul>
 <li>Document search: http://wnpt.brlcloud.com/wn/search</li>
@@ -13,9 +13,9 @@ Three URLs in this site also serve back JSON documents instead of HTML if you pa
 All the parameters accepted via browser are also recognized via web service call.  Examples:
 
 <pre>
-curl -H "Accept: application/json" http://wnpt.brlcloud.com/wn/search?term=carro
+curl http://wnpt.brlcloud.com/wn/search?term=carro&amp;sexp=yes
 
-curl -H "Accept: application/json" http://wnpt.brlcloud.com/wn/synset?id=03538300-n
+curl http://wnpt.brlcloud.com/wn/synset?id=03538300-n&amp;sexp=yes
 </pre>
 
 <p>[<a href="/wn/prototypes">back</a>]</p>
