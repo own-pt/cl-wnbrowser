@@ -136,12 +136,24 @@
     
     <div class="navigation">
       
-      {if $previous >= 0}
+    {if $previous >= 0}
 	<span class="txtPrev">
-	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo; Previous</a>
+	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo;&nbsp;Previous</a>
 	</span>
 	{/if}
-
+    {for $f in range(max(0, floor($previous/$limit) - 4), 
+    min(ceiling($numfound/$limit), ceiling($next/$limit) + 5))}
+    <a href="#" onclick="javascript:jumpto({$f * $limit}); return false;"> 
+    {if floor($next/$limit) - 1 == $f}
+    <span style="color: #FF8C00;"> 
+        {$f + 1}
+    </span> 
+    {else}
+    {$f + 1}
+    {/if}
+    </a>
+    &nbsp;
+    {/for}
 	{if $next < $numfound}
         <span class="txtNext">
 	  <a href="#" onclick="javascript:jumpto({$next}); return false;">Next &raquo;</a>
