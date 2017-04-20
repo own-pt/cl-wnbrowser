@@ -40,7 +40,7 @@ returns the first entry in word_en."
            (cons "limit" limit)))
     (when drilldown drilldown))))
 
-(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl (api "search-documents"))
+(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl num-pages (api "search-documents"))
   (call-rest-method
    api
    :parameters (get-search-query-plist term drilldown limit start sort-field sort-order fl)))
@@ -199,12 +199,13 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun execute-search (term &key drilldown api start limit sf so fl)
+(defun execute-search (term &key drilldown api start limit sf so fl num-pages)
   (let* ((result (execute-search-query term
                                          :drilldown drilldown
                                          :api api
                                          :start start
                                          :limit limit
+                                         :num-pages num-pages
                                          :sort-field sf
                                          :fl fl
                                          :sort-order so))

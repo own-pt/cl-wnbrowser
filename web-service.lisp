@@ -69,7 +69,7 @@
   (cl-wnbrowser.templates:stats (list :stats (get-statistics))))
 
 (hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
-    (term start debug limit
+    (term start debug limit num-pages
 	  (fq_frame :parameter-type 'list)
           (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
@@ -80,7 +80,7 @@
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
-	    (documents num-found facets error)
+	     (documents num-found facets error)
           (execute-search
            (preprocess-term term)
            :drilldown (make-drilldown :rdf-type fq_rdftype
@@ -92,6 +92,7 @@
            :start start :limit limit)
 	(let* ((start/i (if start (parse-integer start) 0))
 	       (limit/i (if limit (parse-integer limit) 10))
+         (num-pages/i (if num-pages (parse-integer num-pages) 5))
 	       (request-uri (hunchentoot:request-uri*))
 	      (result (if error 
 			  (list :error error :term term)
@@ -110,7 +111,7 @@
 				:next (get-next start/i limit/i)
 				:limit limit/i
 				:start start/i :numfound num-found
-				:facets facets :documents documents))))
+				:facets facets :documents documents :numpages num-pages/i))))
 	(if (string-equal "yes" sexp)
 	    (progn
 	      (setf (hunchentoot:content-type*) "application/sexp")
