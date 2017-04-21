@@ -52,6 +52,7 @@
       <input type="hidden" name="term" value="{$term}"/>
       <input type="hidden" name="start" value="{$start}"/>
       <input type="hidden" name="limit" value="{$limit}"/>
+      <input type="hidden" name="num-pages" value="{$numpages}"/>
       {if isNonnull($facets.rdf_type)}
       <div class="facettype" onclick="toggle_visibility('rdf-type-collapsible')">RDF Type:</div>
 
@@ -131,17 +132,35 @@
       document.forms.formfacet['start'].value=s;
       document.forms.formfacet.submit();
       }
+      function jumptonextpage(s, n)
+      {
+      document.forms.formfacet['num-pages'].value=n;
+      document.forms.formfacet['start'].value=s;
+      document.forms.formfacet.submit();
+      }
     </script>
     {/literal}
     
     <div class="navigation">
       
-      {if $previous >= 0}
+    {if $previous >= 0}
 	<span class="txtPrev">
-	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo; Previous</a>
+	  <a href="#" onclick="javascript:jumpto({$previous}); return false;">&laquo;&nbsp;Previous</a>
 	</span>
 	{/if}
-
+    {for $f in range(max(0, floor($previous/$limit) - $numpages + 1), 
+    min(ceiling($numfound/$limit), ceiling($next/$limit) + $numpages))}
+    <a href="#" onclick="javascript:jumptonextpage({$f * $limit}, {$numpages} ); return false;"> 
+    {if floor($next/$limit) - 1 == $f}
+    <span style="color: #FF8C00;"> 
+        {$f + 1}
+    </span> 
+    {else}
+    {$f + 1}
+    {/if}
+    </a>
+    &nbsp;
+    {/for}
 	{if $next < $numfound}
         <span class="txtNext">
 	  <a href="#" onclick="javascript:jumpto({$next}); return false;">Next &raquo;</a>
