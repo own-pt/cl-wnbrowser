@@ -357,29 +357,29 @@
 (hunchentoot:define-easy-handler (get-prototypes-isolated-vertices-handler :uri "/wn/prototypes/isolated-vertices") ()
   (cl-wnbrowser.templates:isolated-vertices (list :vertices (isolated-vertices))))
 
-(hunchentoot:define-easy-handler (get-prototypes-dijkstra-handler 
-                                  :uri "/wn/prototypes/dijkstra-w") (w1 w2 (selected :parameter-type 'hash-table))
-  (cl-wnbrowser.templates:dijkstra
-   (list :mode "words" 
-         :relations *relations* 
-         :selected selected
-         :w1 w1
-         :w2 w2
-         :paths (search-paths w1 w2 :mode :words 
-                              :relations 
-                              (mapcar #'make-keyword (hash-table-keys selected))))))
+;; (hunchentoot:define-easy-handler (get-prototypes-dijkstra-handler 
+;;                                   :uri "/wn/prototypes/dijkstra-w") (w1 w2 (selected :parameter-type 'hash-table))
+;;   (cl-wnbrowser.templates:dijkstra
+;;    (list :mode "words" 
+;;          :relations *relations* 
+;;          :selected selected
+;;          :w1 w1
+;;          :w2 w2
+;;          :paths (search-paths w1 w2 :mode :words 
+;;                               :relations 
+;;                               (mapcar #'make-keyword (hash-table-keys selected))))))
 
-(hunchentoot:define-easy-handler (get-prototypes-dijkstra-ss-handler 
-                                  :uri "/wn/prototypes/dijkstra-s") (w1 w2 (selected :parameter-type 'hash-table))
-  (cl-wnbrowser.templates:dijkstra
-   (list :mode "synsets" 
-         :relations *relations* 
-         :selected selected
-         :w1 w1
-         :w2 w2
-         :paths (search-paths w1 w2 :mode :synsets 
-                              :relations
-                              (mapcar #'make-keyword (hash-table-keys selected))))))
+;; (hunchentoot:define-easy-handler (get-prototypes-dijkstra-ss-handler 
+;;                                   :uri "/wn/prototypes/dijkstra-s") (w1 w2 (selected :parameter-type 'hash-table))
+;;   (cl-wnbrowser.templates:dijkstra
+;;    (list :mode "synsets" 
+;;          :relations *relations* 
+;;          :selected selected
+;;          :w1 w1
+;;          :w2 w2
+;;          :paths (search-paths w1 w2 :mode :synsets 
+;;                               :relations
+;;                               (mapcar #'make-keyword (hash-table-keys selected))))))
 
 (hunchentoot:define-easy-handler (get-prototypes-corpora-handler 
                                   :uri "/wn/prototypes/corpora") (text)
