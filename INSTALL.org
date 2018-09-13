@@ -2,10 +2,11 @@
 
 * Iniciar o solr
 
-#+BEGIN_SRC bash
-CD $SOLRHOME
-bin/solr -f
-#+END_SRC
+Instalação SOLR 7.4.0  via
+
+https://medium.com/@Alibaba_Cloud/how-to-install-apache-solr-on-ubuntu-16-04-d3cc20eae27b
+
+solr no wnpt instalado em /opt/solr e iniciado como serviço Ubuntu.
 
 * Iniciar a own-pt-api
 
