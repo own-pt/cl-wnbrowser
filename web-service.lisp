@@ -341,7 +341,7 @@
   (let ((access-token (get-access-token code))
         (request-uri (when destination (hunchentoot:url-decode destination))))
     (setf (hunchentoot:session-value :login) (get-user-login (get-user access-token)))
-    (if (cl-strings:starts-with request-uri "http://wnpt.sl.res.ibm.com/wn/") 
+    (if (cl-strings:starts-with request-uri "/wn/") 
         (hunchentoot:redirect request-uri)
         (hunchentoot:redirect "/wn/"))))
 
