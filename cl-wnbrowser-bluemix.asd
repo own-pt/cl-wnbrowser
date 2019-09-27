@@ -9,11 +9,13 @@
     :depends-on (:drakma :flexi-streams :hunchentoot :yason :closure-template
                          :split-sequence :local-time :graph-algorithms :fare-csv
                          :cl-fad :trivial-shell :mk-string-metrics :cl-strings
-                         :alexandria :cl-csv :cl-ppcre :parse-number)
+                         :alexandria :cl-csv :cl-ppcre :parse-number :clesc
+			 :uuid)
     :components ((:file "packages")
 		 (:file "utils")
                  (:file "secrets")
                  (:file "wn-cache")
+		 (:file "backend")
                  (:file "graph-algorithms" :depends-on ("wn-cache"))
                  (:file "phrases"       :depends-on ("wn-cache"))
                  (:file "wn-analysis"   :depends-on ("wn-cache"))

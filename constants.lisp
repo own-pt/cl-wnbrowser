@@ -36,3 +36,5 @@
   (merge-pathnames-as-file *queries-directory* #p"by-lexfile.query"))
 (defparameter *query/by-pos-pt*
   (merge-pathnames-as-file *queries-directory* #p"by-pos-pt.query"))
+
+(defparameter *backend* 'es)

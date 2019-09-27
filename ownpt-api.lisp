@@ -6,26 +6,6 @@
 
 (in-package :cl-wnbrowser)
 
-(defun get-synset-word-en (id)
-  "Returns the FIRST entry in the word_en property for the given SYNSET-ID"
-  (car (getf (get-synset id) :|word_en|)))
-
-(defun get-synset-word (id)
-  "If the synset has word_pt entries, returns the first one; otherwise
-returns the first entry in word_en."
-  (let* ((synset (get-synset id))
-         (word-pt (car (getf synset :|word_pt|)))
-         (word-en (car (getf synset :|word_en|))))
-    (if word-pt word-pt word-en)))
-
-(defun get-synset-gloss (id)
-  "If the synset has word_pt entries, returns the first one; otherwise
-returns the first entry in word_en."
-  (let* ((synset (get-synset id))
-         (gloss-pt (car (getf synset :|gloss_pt|)))
-         (gloss-en (car (getf synset :|gloss_en|))))
-    (if gloss-pt gloss-pt gloss-en)))
-
 (defun get-search-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove
    nil
@@ -60,7 +40,7 @@ returns the first entry in word_en."
    (format nil "reject-suggestion/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
 
-(defun delete-comment (id)
+(defmethod delete-comment ((backend (eql 'own-api)) id)
   (call-rest-method
    (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
@@ -74,7 +54,7 @@ returns the first entry in word_en."
                      (cons "key" *ownpt-api-key*)
                      (cons "user" login))))
 
-(defun add-comment (id doc-type text login)
+(defmethod add-comment ((backend (eql 'own-api)) id doc-type text login)
   (call-rest-method 
    (format nil "add-comment/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "doc_type" doc-type)
@@ -82,10 +62,10 @@ returns the first entry in word_en."
                      (cons "key" *ownpt-api-key*)
                      (cons "user" login))))
 
-(defun get-suggestions (id)
+(defmethod get-suggestions ((backend (eql 'own-api)) id)
   (get-docs (call-rest-method (format nil "get-suggestions/~a" id))))
 
-(defun get-comments (id)
+(defmethod get-comments ((backend (eql 'own-api)) id)
   (get-docs (call-rest-method (format nil "get-comments/~a" id))))
 
 (defun delete-vote (id)
@@ -230,7 +210,7 @@ LEX-FILE."
         (mapcar (lambda (s) (getf s :|doc_id|)) (get-docs result))
         nil)))
 
-(defun get-synset (id)
+(defmethod get-synset ((backend (eql 'own-api)) id)
   (get-document-by-id "synset" id))
 
 (defun get-nomlex (id)
@@ -269,16 +249,15 @@ LEX-FILE."
       obj)))
   
 (defun call-rest-method (method &key parameters)
-    (let ((octets (drakma:http-request
-                   (format nil "~a/~a" *ownpt-api-uri* method)
-                   :parameters parameters
-		   :external-format-out :utf-8
-                   :method :get
-                   :connection-timeout 120
-                   :want-stream nil)))
-      (yason:parse
-       (flexi-streams:octets-to-string octets :external-format :utf-8)
-                   :object-as :plist
-                   :object-key-fn #'make-keyword)))
+  (let ((octets (drakma:http-request
+                 (format nil "~a/~a" *ownpt-api-uri* method)
+                 :parameters parameters
+		 :external-format-out :utf-8
+                 :method :get
+                 :connection-timeout 120
+                 :want-stream nil)))
+    (yason:parse
+     (flexi-streams:octets-to-string octets :external-format :utf-8)
+     :object-as :plist :object-key-fn #'make-keyword)))
 
   
