@@ -22,7 +22,6 @@
 		 (:file "constants"     :depends-on ("packages"))
                  (:file "github"        :depends-on ("constants"))
 		 (:file "ownpt-api"     :depends-on ("utils" "constants"))
-                 (:file "sense-tagging" :depends-on ("ownpt-api"))
 		 (:file "templates"     :depends-on ("constants"))
 		 (:file "agraph"        :depends-on ("constants"))
                  (:file "corpora"       :depends-on ("ownpt-api"))

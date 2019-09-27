@@ -164,7 +164,6 @@ in dealing with checkboxes."
        ("isauthorizedvote" #'is-authorized-to-vote)
        ("isself" #'is-self)
        ("prettydate" #'pretty-print-iso-date)
-       ("solrencode" #'solr-encode)
        ("checked" #'checked)
        ("nchecked" (lambda (term list) (checked term list :test #'eq)))
        ("isarray" #'is-array)

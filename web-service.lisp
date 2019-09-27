@@ -285,7 +285,6 @@
 ;;           (format nil "invalid login")))))
 
 ;; comments
-
 (hunchentoot:define-easy-handler
     (process-comment-handler :uri "/wn/process-comment") (id doc_type text return-uri)
   (let ((login (hunchentoot:session-value :login)))
@@ -309,7 +308,6 @@
           (format nil "invalid login")))))
 
 ;; votes
-
 (hunchentoot:define-easy-handler
     (vote-up-handler :uri "/wn/vote-up") (id)
   (let ((login (hunchentoot:session-value :login)))
@@ -330,8 +328,9 @@
         (with-output-to-string (s)
           (yason:encode-plist (list :result "not-authorized") s)))))
 
-(hunchentoot:define-easy-handler (delete-vote-handler
-				  :uri "/wn/delete-vote") (id)
+
+(hunchentoot:define-easy-handler
+    (delete-vote-handler :uri "/wn/delete-vote") (id)
   (let ((login (hunchentoot:session-value :login)))
     (when login
       (delete-vote *backend* id))
@@ -340,7 +339,6 @@
       (yason:encode-plist (list :result "Done") s))))
 
 ;; github callback
-
 (hunchentoot:define-easy-handler
     (github-callback-handler :uri "/wn/callback") (code destination)
   (let ((access-token (get-access-token code))
