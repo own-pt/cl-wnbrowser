@@ -1,5 +1,7 @@
 (in-package :cl-wnbrowser)
 
+;; generics to used as backend
+
 (defgeneric get-synset (backend id))
 
 (defgeneric get-suggestions (backend id))
@@ -9,7 +11,28 @@
 (defgeneric add-comment (backend id doc_type text login))
 
 (defgeneric delete-comment (backend id))
-;;;
+
+(defgeneric add-suggestion (backend id doc_type type params login))
+
+(defgeneric delete-suggestion (backend id))
+
+(defgeneric accept-suggestion (backend id))
+
+(defgeneric reject-suggestion (backend id))
+
+(defgeneric delete-vote (backend id))
+
+(defgeneric add-vote (backend id user value))
+
+;; ES aux
+
+(defun now ()
+  "It returns the number of milliseconds elapsed since January 1,
+1970, 00:00:00 UTC."
+  (let ((timestamp (local-time:now)))
+    (+
+     (* 1000 (local-time:timestamp-to-unix timestamp))
+     (local-time:timestamp-millisecond timestamp))))
 
 (defun get-synset-word-en (id)
   "Returns the FIRST entry in the word_en property for the given SYNSET-ID"
@@ -30,23 +53,6 @@ returns the first entry in word_en."
          (gloss-pt (car (getf synset :|gloss_pt|)))
          (gloss-en (car (getf synset :|gloss_en|))))
     (if gloss-pt gloss-pt gloss-en)))
-
-;;;
-(defmethod get-synset ((backend (eql 'es)) id)
-  (let ((yason:*parse-object-as* :plist)
-	(yason:*parse-object-key-fn* #'make-keyword))
-    (getf (clesc:es/get "wn" "_doc" id) ':|_source|)))
-
-(defmethod get-suggestions ((backend (eql 'es)) id)
-  (let* ((yason:*parse-object-as* :plist)
-	 (yason:*parse-object-key-fn* #'make-keyword)
-	 (hits (getf
-		(getf (clesc:es/search "suggestion" :terms `(("doc_id" ,id)
-							     ("type" "suggestion")))
-		      :|hits|)
-		:|hits|))
-	 (suggestions (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
-    (mapcar #'sugestion+votes suggestions)))
 
 
 (defun sugestion+votes (suggestion)
@@ -78,6 +84,24 @@ returns the first entry in word_en."
 			 :|votes| (:|positive| ,positive :|negative| ,negative :|total| ,total
 				    :|positive_votes| ,positive-votes :|negative_votes| ,negative-votes))))))
 
+;;; ES backend
+
+(defmethod get-synset ((backend (eql 'es)) id)
+  (let ((yason:*parse-object-as* :plist)
+	(yason:*parse-object-key-fn* #'make-keyword))
+    (getf (clesc:es/get "wn" "_doc" id) ':|_source|)))
+
+(defmethod get-suggestions ((backend (eql 'es)) id)
+  (let* ((yason:*parse-object-as* :plist)
+	 (yason:*parse-object-key-fn* #'make-keyword)
+	 (hits (getf
+		(getf (clesc:es/search "suggestion" :terms `(("doc_id" ,id)
+							     ("type" "suggestion")))
+		      :|hits|)
+		:|hits|))
+	 (suggestions (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
+    (mapcar #'sugestion+votes suggestions)))
+
 (defmethod get-comments ((backend (eql 'es)) id)
   (let* ((yason:*parse-object-as* :plist)
 	 (yason:*parse-object-key-fn* #'make-keyword)
@@ -89,14 +113,7 @@ returns the first entry in word_en."
 	 (comments (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
     comments))
 
-
-(defun now ()
-  (let ((timestamp (local-time:now)))
-    (+ (* 86400000 (+ 11017 (local-time:day-of timestamp)))
-       (* 1000 (local-time:sec-of timestamp))
-       (local-time:nsec-of timestamp))))
-
-
+;; comments
 (defmethod add-comment ((backend (eql 'es)) synset-id doc_type text login)
   (let* ((id (print-object (uuid:make-v4-uuid) nil))
 	 (comment (alexandria:alist-hash-table
@@ -113,4 +130,71 @@ returns the first entry in word_en."
 		     ("id" . ,id)))))
     (clesc:es/add "suggestion" "suggestion" comment :id id)))
 
-(defmethod defmethod add-comment ((backend (eql 'es)) id))
+
+(defmethod delete-comment ((backend (eql 'es)) id)
+  (clesc:es/delete "suggestion" "suggestion" id))
+
+;; suggestions
+(defmethod add-suggestion ((backend (eql 'es)) synset-id doc-type suggestion-type params login)
+  (let* ((suggestion-id (print-object (uuid:make-v4-uuid) nil))
+	 (db "wnproposedchanges")
+	 (provenance "web")
+	 (type "suggestion")
+	 (value (format nil "~a(~a)" suggestion-type params))
+	 (suggestion (alexandria:alist-hash-table
+		      `(("date" . ,(now))
+			("doc_id" . ,synset-id)
+			("doc_type" . ,doc-type)
+			("type" . ,type)
+			("action" . ,suggestion-type)
+			("params" . ,params)
+			("user" . ,login)
+			("status" . "new") ;; new accepted not-accepted committed
+			("provenance" . ,provenance)
+			("id" . ,suggestion-id)))))
+    (clesc:es/add "suggestion" "suggestion" suggestion :id suggestion-id)
+    (register-audit db "add-suggestion" synset-id type value login provenance)))
+
+(defmethod delete-suggestion ((backend (eql 'es)) id)
+  (clesc:es/delete "suggestion" "suggestion" id))
+
+;; audit
+(defun register-audit (db action doc-id field value user provenance)
+  (let* ((audit-id (print-object (uuid:make-v4-uuid) nil))
+	 (audit (alexandria:alist-hash-table
+		 `(("date" . ,(now))
+		   ("db" . ,db)
+		   ("action" . ,action)
+		   ("doc_id" . ,doc-id)
+		   ("field" . ,field)
+		   ("value" . ,value)
+		   ("user" . ,user)
+		   ("provenance" . ,provenance)
+		   ("id" . ,audit-id)))))
+    (clesc:es/add "audit" "audit" audit :id audit-id)))
+
+
+;; vote
+(defmethod add-vote ((backend (eql 'es)) suggestion-id user value)
+  (let* ((yason:*parse-object-as* :plist)
+	 (yason:*parse-object-key-fn* #'make-keyword)
+	 (user-votes (getf
+		      (getf (clesc:es/search "votes" :terms `(("suggestion_id" ,suggestion-id) ("user" ,user)))
+			    :|hits|)
+		      :|hits|)))
+    (if user-votes
+	'("error" "user-already-voted")
+	(let* ((vote-id (print-object (uuid:make-v4-uuid) nil))
+	       (db "wnvotes")
+	       (vote (alexandria:alist-hash-table
+		      `(("id" . ,vote-id)
+			("date" . ,(now))
+			("suggestion_id" . ,suggestion-id)
+			("user" . ,user)
+			("value" . ,value)))))
+	  (clesc:es/add "votes" "votes" vote :id vote-id)
+	  (register-audit db "add-vote" suggestion-id "vote" value user "web")
+	  `("status" "vote-added" "id" ,vote-id)))))
+
+(defmethod delete-vote ((backend (eql 'es)) id)
+  (clesc:es/delete "votes" "votes" id))

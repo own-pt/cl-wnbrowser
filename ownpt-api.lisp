@@ -6,6 +6,9 @@
 
 (in-package :cl-wnbrowser)
 
+
+;; own-api aux
+
 (defun get-search-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove
    nil
@@ -24,60 +27,6 @@
   (call-rest-method
    api
    :parameters (get-search-query-plist term drilldown limit start sort-field sort-order fl)))
-
-(defun delete-suggestion (id)
-  (call-rest-method
-   (format nil "delete-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun accept-suggestion (id)
-  (call-rest-method
-   (format nil "accept-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun reject-suggestion (id)
-  (call-rest-method
-   (format nil "reject-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defmethod delete-comment ((backend (eql 'own-api)) id)
-  (call-rest-method
-   (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun add-suggestion (id doc-type type param login)
-  (call-rest-method 
-   (format nil "add-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "doc_type" doc-type)
-                     (cons "suggestion_type" type)
-                     (cons "params" param)
-                     (cons "key" *ownpt-api-key*)
-                     (cons "user" login))))
-
-(defmethod add-comment ((backend (eql 'own-api)) id doc-type text login)
-  (call-rest-method 
-   (format nil "add-comment/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "doc_type" doc-type)
-                     (cons "text" text)
-                     (cons "key" *ownpt-api-key*)
-                     (cons "user" login))))
-
-(defmethod get-suggestions ((backend (eql 'own-api)) id)
-  (get-docs (call-rest-method (format nil "get-suggestions/~a" id))))
-
-(defmethod get-comments ((backend (eql 'own-api)) id)
-  (get-docs (call-rest-method (format nil "get-comments/~a" id))))
-
-(defun delete-vote (id)
-  (call-rest-method (format nil "delete-vote/~a" id)
-                    :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun add-vote (id user value)
-  (call-rest-method (format nil "add-vote/~a" id)
-                    :parameters (list
-                                 (cons "user" user)
-                                 (cons "value" (format nil "~a" value))
-                                 (cons "key" *ownpt-api-key*))))
     
 (defun get-document-by-id (doctype id)
   (call-rest-method (format nil "~a/~a" doctype (drakma:url-encode id :utf-8))))
@@ -210,9 +159,6 @@ LEX-FILE."
         (mapcar (lambda (s) (getf s :|doc_id|)) (get-docs result))
         nil)))
 
-(defmethod get-synset ((backend (eql 'own-api)) id)
-  (get-document-by-id "synset" id))
-
 (defun get-nomlex (id)
   (get-document-by-id "nomlex" id))
 
@@ -233,7 +179,9 @@ LEX-FILE."
   (call-rest-method "statistics"))
 
 (defun call-rest-method/stream (method &key parameters)
-  "Alternative to CALL-REST-METHOD that uses a stream; this is more memory efficient, but it may cause problems if YASON:PARSE takes too long to parse the stream and the stream may be cut due to timeout."
+  "Alternative to CALL-REST-METHOD that uses a stream; this is more
+memory efficient, but it may cause problems if YASON:PARSE takes too
+long to parse the stream and the stream may be cut due to timeout."
     (let* ((stream (drakma:http-request
                    (format nil "~a/~a" *ownpt-api-uri* method)
                    :parameters parameters
@@ -261,3 +209,69 @@ LEX-FILE."
      :object-as :plist :object-key-fn #'make-keyword)))
 
   
+;;; own-api backend
+
+(defmethod get-synset ((backend (eql 'own-api)) id)
+  (get-document-by-id "synset" id))
+
+(defmethod delete-suggestion ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "delete-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+(defmethod accept-suggestion ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "accept-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod reject-suggestion ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "reject-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod delete-comment ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod add-suggestion ((backend (eql 'own-api)) id doc-type type param login)
+  (call-rest-method 
+   (format nil "add-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "doc_type" doc-type)
+                     (cons "suggestion_type" type)
+                     (cons "params" param)
+                     (cons "key" *ownpt-api-key*)
+                     (cons "user" login))))
+
+
+(defmethod add-comment ((backend (eql 'own-api)) id doc-type text login)
+  (call-rest-method 
+   (format nil "add-comment/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "doc_type" doc-type)
+                     (cons "text" text)
+                     (cons "key" *ownpt-api-key*)
+                     (cons "user" login))))
+
+
+(defmethod get-suggestions ((backend (eql 'own-api)) id)
+  (get-docs (call-rest-method (format nil "get-suggestions/~a" id))))
+
+
+(defmethod get-comments ((backend (eql 'own-api)) id)
+  (get-docs (call-rest-method (format nil "get-comments/~a" id))))
+
+
+(defmethod delete-vote ((backend (eql 'own-api)) id)
+  (call-rest-method (format nil "delete-vote/~a" id)
+                    :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod add-vote ((backend (eql 'own-api)) id user value)
+  (call-rest-method (format nil "add-vote/~a" id)
+                    :parameters (list
+                                 (cons "user" user)
+                                 (cons "value" (format nil "~a" value))
+                                 (cons "key" *ownpt-api-key*))))

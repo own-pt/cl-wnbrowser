@@ -192,8 +192,8 @@
 ;;             (if error (process-error (list :error error :term term))
 ;;                 (cl-wnbrowser.templates:activities result)))))))
 
-(hunchentoot:define-easy-handler (get-synset-handler
-				  :uri "/wn/synset") (id debug sexp)
+(hunchentoot:define-easy-handler
+    (get-synset-handler :uri "/wn/synset") (id debug sexp)
   (disable-caching)
   (let* ((synset (get-synset *backend* id))
          (suggestions (get-suggestions *backend* id))
@@ -240,27 +240,27 @@
 ;; 	    :nomlex nomlex)
 ;;       nomlex))))
 
-;; (hunchentoot:define-easy-handler (process-suggestion-handler
-;; 				  :uri "/wn/process-suggestion") (id doc_type type params return-uri)
-;;   (let ((login (hunchentoot:session-value :login)))
-;;     (if login
-;;         (progn
-;;           (add-suggestion id doc_type type params login)
-;;           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
-;;         (progn
-;;           (setf (hunchentoot:content-type*) "text/html")
-;;           (format nil "invalid login")))))
+(hunchentoot:define-easy-handler
+    (process-suggestion-handler :uri "/wn/process-suggestion") (id doc_type type params return-uri)
+  (let ((login (hunchentoot:session-value :login)))
+    (if login
+        (progn
+          (add-suggestion *backend* id doc_type type params login)
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
+        (progn
+          (setf (hunchentoot:content-type*) "text/html")
+          (format nil "invalid login")))))
 
-;; (hunchentoot:define-easy-handler (delete-suggestion-handler
-;; 				  :uri "/wn/delete-suggestion") (id return-uri)
-;;   (let ((login (hunchentoot:session-value :login)))
-;;     (if login
-;;         (progn
-;;           (delete-suggestion id)
-;;           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
-;;         (progn
-;;           (setf (hunchentoot:content-type*) "text/html")
-;;           (format nil "invalid login")))))
+(hunchentoot:define-easy-handler (delete-suggestion-handler
+				  :uri "/wn/delete-suggestion") (id return-uri)
+  (let ((login (hunchentoot:session-value :login)))
+    (if login
+        (progn
+          (delete-suggestion *backend* id)
+          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
+        (progn
+          (setf (hunchentoot:content-type*) "text/html")
+          (format nil "invalid login")))))
 
 ;; (hunchentoot:define-easy-handler (accept-suggestion-handler
 ;; 				  :uri "/wn/accept-suggestion") (id return-uri)
@@ -308,34 +308,38 @@
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
-;; (hunchentoot:define-easy-handler (vote-up-handler
-;; 				  :uri "/wn/vote-up") (id)
-;;   (let ((login (hunchentoot:session-value :login)))
-;;     (setf (hunchentoot:content-type*) "application/json")
-;;     (if login
-;;         (with-output-to-string (s)
-;;           (yason:encode-plist (add-vote id login 1) s))
-;;         (with-output-to-string (s)
-;;           (yason:encode-plist (list :result "not-authorized") s)))))
+;; votes
 
-;; (hunchentoot:define-easy-handler (vote-down-handler
-;; 				  :uri "/wn/vote-down") (id)
-;;   (let ((login (hunchentoot:session-value :login)))
-;;     (setf (hunchentoot:content-type*) "application/json")
-;;     (if login
-;;         (with-output-to-string (s)
-;;           (yason:encode-plist (add-vote id login -1) s))
-;;         (with-output-to-string (s)
-;;           (yason:encode-plist (list :result "not-authorized") s)))))
+(hunchentoot:define-easy-handler
+    (vote-up-handler :uri "/wn/vote-up") (id)
+  (let ((login (hunchentoot:session-value :login)))
+    (setf (hunchentoot:content-type*) "application/json")
+    (if login
+        (with-output-to-string (s)
+          (yason:encode-plist (add-vote *backend* id login 1) s))
+        (with-output-to-string (s)
+          (yason:encode-plist (list :result "not-authorized") s)))))
 
-;; (hunchentoot:define-easy-handler (delete-vote-handler
-;; 				  :uri "/wn/delete-vote") (id)
-;;   (let ((login (hunchentoot:session-value :login)))
-;;     (when login
-;;       (delete-vote id))
-;;     (setf (hunchentoot:content-type*) "application/json")
-;;     (with-output-to-string (s)
-;;       (yason:encode-plist (list :result "Done") s))))
+(hunchentoot:define-easy-handler
+    (vote-down-handler :uri "/wn/vote-down") (id)
+  (let ((login (hunchentoot:session-value :login)))
+    (setf (hunchentoot:content-type*) "application/json")
+    (if login
+        (with-output-to-string (s)
+          (yason:encode-plist (add-vote *backend* id login -1) s))
+        (with-output-to-string (s)
+          (yason:encode-plist (list :result "not-authorized") s)))))
+
+(hunchentoot:define-easy-handler (delete-vote-handler
+				  :uri "/wn/delete-vote") (id)
+  (let ((login (hunchentoot:session-value :login)))
+    (when login
+      (delete-vote *backend* id))
+    (setf (hunchentoot:content-type*) "application/json")
+    (with-output-to-string (s)
+      (yason:encode-plist (list :result "Done") s))))
+
+;; github callback
 
 (hunchentoot:define-easy-handler
     (github-callback-handler :uri "/wn/callback") (code destination)
