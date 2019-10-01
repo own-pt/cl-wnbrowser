@@ -211,7 +211,7 @@ returns the first entry in word_en."
 			  (when lex-file (mapcar (lambda (x) `("wn30_lexicographerFile" ,x))  lex-file))
 			  (when word-count-pt (mapcar (lambda (x) `("word_count_pt" ,x))  word-count-pt))
 			  (when word-count-en (mapcar (lambda (x) `("word_count_en" ,x))  word-count-en))
-			  (when frame (mapcar (lambda (x) `("wn_frame" ,x))  frame))))
+			  (when frame (mapcar (lambda (x) `("wn30_frame" ,x))  frame))))
 	 (result (clesc:es/search "wn"
 				  :text (unless (equal "all" search-field) term)
 				  :search-field (unless (equal "all" search-field) search-field)
@@ -227,7 +227,7 @@ returns the first entry in word_en."
 	 (facets (mapcar #'(lambda (buckets)
 	 		     (if (listp buckets)
 	 			 (mapcar (lambda (bucket)
-					   (list :|name| (getf bucket :|key|)
+					   (list :|name| (format nil "~a" (getf bucket :|key|))
 	 					 :|count| (getf  bucket :|doc_count|)))
 					 (getf buckets :|buckets|))
 	 			 buckets))
