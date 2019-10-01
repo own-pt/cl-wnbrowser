@@ -215,7 +215,7 @@
 	    (setf (hunchentoot:content-type*) "text/html")
 	    (process-synset
 	     (append (list
-		      :search_field search_field
+		      :original-id id
 		      :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
 		      :term term
 		      :callbackuri (make-callback-uri request-uri)
@@ -225,7 +225,8 @@
 		      :suggestions suggestions
 		      :githubid *github-client-id*
 		      :synset synset)
-		     synset))))))
+		     synset
+		     (list :search_field search_field)))))))
 
 ;; (hunchentoot:define-easy-handler (get-nomlex-handler
 ;; 				  :uri "/wn/nomlex") (id debug term)
