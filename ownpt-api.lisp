@@ -128,25 +128,6 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun execute-search (term &key drilldown api start limit sf so fl num-pages)
-  (let* ((result (execute-search-query term
-                                         :drilldown drilldown
-                                         :api api
-                                         :start start
-                                         :limit limit
-                                         :num-pages num-pages
-                                         :sort-field sf
-                                         :fl fl
-                                         :sort-order so))
-	 (success (request-successful? result)))
-    (if success
-	(values
-	 (get-docs result)
-	 (get-num-found result)
-	 (get-facet-fields result)
-	 nil)
-	(values nil nil nil (get-error-reason result)))))
-
 (defun get-synset-ids (term drilldown start limit)
   (let* ((result (execute-search-query term
                                          :drilldown drilldown
@@ -275,3 +256,30 @@ long to parse the stream and the stream may be cut due to timeout."
                                  (cons "user" user)
                                  (cons "value" (format nil "~a" value))
                                  (cons "key" *ownpt-api-key*))))
+
+
+(defmethod execute-search ((backend (eql 'own-api)) term  &key search-field rdf-type lex-file word-count-pt word-count-en
+						      frame start limit sf so fl num-pages)
+  (let* ((drilldown (make-drilldown :rdf-type rdf-type
+                                    :lex-file lex-file
+                                    :frame frame
+                                    :word-count-pt word-count-pt
+                                    :word-count-en word-count-en))
+	 (api "search-documents")
+	 (result (execute-search-query term
+                                       :drilldown drilldown
+                                       :api api
+                                       :start start
+                                       :limit limit
+                                       :num-pages num-pages
+                                       :sort-field sf
+                                       :fl fl
+                                       :sort-order so))
+	 (success (request-successful? result)))
+    (if success
+	(values
+	 (get-docs result)
+	 (get-num-found result)
+	 (get-facet-fields result)
+	 nil)
+	(values nil nil nil (get-error-reason result)))))

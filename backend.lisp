@@ -24,6 +24,9 @@
 
 (defgeneric add-vote (backend id user value))
 
+(defgeneric execute-search (backend term &key search-field rdf-type lex-file word-count-pt word-count-en
+			     frame start limit sf so fl num-pages))
+
 ;; ES aux
 
 (defun now ()
@@ -198,3 +201,35 @@ returns the first entry in word_en."
 
 (defmethod delete-vote ((backend (eql 'es)) id)
   (clesc:es/delete "votes" "votes" id))
+
+;; search
+(defmethod execute-search ((backend (eql 'es)) term &key search-field rdf-type lex-file word-count-pt word-count-en
+						      frame start limit sf so fl num-pages) ;; TODO: use sf, so, fl 
+  (let* ((yason:*parse-object-as* :plist)
+	 (yason:*parse-object-key-fn* #'make-keyword)
+	 (filters (append (when rdf-type (mapcar (lambda (x) `("rdf_type" ,x))  rdf-type))
+			  (when lex-file (mapcar (lambda (x) `("wn30_lexicographerFile" ,x))  lex-file))
+			  (when word-count-pt (mapcar (lambda (x) `("word_count_pt" ,x))  word-count-pt))
+			  (when word-count-en (mapcar (lambda (x) `("word_count_en" ,x))  word-count-en))
+			  (when frame (mapcar (lambda (x) `("wn_frame" ,x))  frame))))
+	 (result (clesc:es/search "wn"
+				  :text (unless (equal "all" search-field) term)
+				  :search-field (unless (equal "all" search-field) search-field)
+				  :string (if (equal "all" search-field) term)
+				  :size limit :terms filters :from start
+				  :facets '("rdf_type" "wn30_lexicographerFile" "wn30_frame"
+					    "word_count_pt" "word_count_en")))
+	 (hits-1 (getf result :|hits|))
+	 (hits-2 (getf hits-1 :|hits|))
+	 (docs (mapcar (lambda (hit) (getf hit :|_source|)) hits-2))
+	 (total (getf hits-1 :|total|))
+	 (aggregations (getf result :|aggregations|))
+	 (facets (mapcar #'(lambda (buckets)
+	 		     (if (listp buckets)
+	 			 (mapcar (lambda (bucket)
+					   (list :|name| (getf bucket :|key|)
+	 					 :|count| (getf  bucket :|doc_count|)))
+					 (getf buckets :|buckets|))
+	 			 buckets))
+	 		 aggregations)))
+    (values docs total facets nil)))

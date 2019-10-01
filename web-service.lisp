@@ -69,7 +69,7 @@
 ;;   (cl-wnbrowser.templates:stats (list :stats (get-statistics))))
 
 (hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
-    (term start debug limit num-pages
+    (term search_field start debug limit num-pages
 	  (fq_frame :parameter-type 'list)
           (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
@@ -77,18 +77,20 @@
 	  (fq_lexfile :parameter-type 'list) sexp)
   (disable-caching)
   (setf (hunchentoot:session-value :term) term)
+  (setf (hunchentoot:session-value :search_field) search_field)
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
 	     (documents num-found facets error)
           (execute-search
+	   *backend*
            (preprocess-term term)
-           :drilldown (make-drilldown :rdf-type fq_rdftype
-                                      :lex-file fq_lexfile
-                                      :frame fq_frame
-                                      :word-count-pt fq_word_count_pt
-                                      :word-count-en fq_word_count_en)
-           :api "search-documents"
+	   :search-field search_field
+           :rdf-type fq_rdftype
+           :lex-file fq_lexfile
+           :frame fq_frame
+           :word-count-pt fq_word_count_pt
+           :word-count-en fq_word_count_en
            :start start :limit limit)
 	(let* ((start/i (if start (parse-integer start) 0))
 	       (limit/i (if limit (parse-integer limit) 10))
@@ -96,7 +98,7 @@
 	       (request-uri (hunchentoot:request-uri*))
 	      (result (if error 
 			  (list :error error :term term)
-			  (list :debug debug :term term
+			  (list :debug debug :term term :search_field search_field
 				:githubid *github-client-id*
 				:login (hunchentoot:session-value :login)
 				:callbackuri (make-callback-uri request-uri)
@@ -200,7 +202,8 @@
          (comments (get-comments *backend* id))
          (request-uri (hunchentoot:request-uri*))
 	 (term (hunchentoot:session-value :term))
-	 (ids (hunchentoot:session-value :ids)))
+	 (ids (hunchentoot:session-value :ids))
+	 (search_field (hunchentoot:session-value :search_field)))
     (if (string-equal "yes" sexp)
 	  (progn
 	    (setf (hunchentoot:content-type*) "application/sexp")
@@ -212,7 +215,7 @@
 	    (setf (hunchentoot:content-type*) "text/html")
 	    (process-synset
 	     (append (list
-                      :original-id id
+		      :search_field search_field
 		      :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
 		      :term term
 		      :callbackuri (make-callback-uri request-uri)

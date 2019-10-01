@@ -15,7 +15,17 @@
    <a href="/wn/"> 
      <img src="/wn/st/ownbw.png" alt="Open Wordnet Logo" id="logo">
    </a> 
-    <form action="search" method="get">
+   <form action="search" method="get">
+     <span>
+       <select class="search_field" id="search_field" name="search_field" title="Targeted search options">
+	 <option value="all" {if $search_field == 'all'}selected{/if}>all
+         </option>
+	 <option value="word_en" {if $search_field == 'word_en'}selected{/if}>word_en</option>
+         <option value="word_pt" {if $search_field == 'word_pt'}selected{/if}>word_pt</option>
+	 <option value="gloss_en" {if $search_field == 'gloss_en'}selected{/if}>gloss_en</option>
+	 <option value="gloss_pt" {if $search_field == 'gloss_pt'}selected{/if}>gloss_pt</option>
+       </select>
+	</span>
       <input id="search-box" class="search" type="text" name="term" value="{$term}"/>
       <input class="search" type="submit" value="Search" />
     </form>
