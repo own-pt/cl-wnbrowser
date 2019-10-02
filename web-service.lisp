@@ -58,11 +58,6 @@
 
 (defun disable-caching ()
   (hunchentoot:no-cache))
-
-(defun preprocess-term (term)
-  (cond ((= 0 (length term)) "*:*")
-        ((string-equal term "*") "*:*")
-        (t term)))
  
 ;; (hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
 ;;   (disable-caching)
@@ -127,72 +122,72 @@
 		    (hunchentoot:delete-session-value :ids)
 		    (process-results result)))))))))
 		  
-;; (hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
-;;     (term start debug sf so
-;;           (fq_sum_votes :parameter-type 'list)
-;;           (fq_num_votes :parameter-type 'list)
-;; 	  (fq_type :parameter-type 'list)
-;; 	  (fq_tag :parameter-type 'list)
-;; 	  (fq_action :parameter-type 'list)
-;; 	  (fq_status :parameter-type 'list)
-;; 	  (fq_doc_type :parameter-type 'list)
-;;           (fq_provenance :parameter-type 'list)
-;;           (fq_user :parameter-type 'list) sexp)
-;;   (disable-caching)
-;;   (multiple-value-bind
-;;         (documents num-found facets error)
-;;       (execute-search
-;;        (preprocess-term term)
-;;        :drilldown (make-drilldown-activity
-;;                    :sum_votes fq_sum_votes
-;;                    :num_votes fq_num_votes
-;;                    :type fq_type
-;;                    :tag fq_tag
-;;                    :action fq_action
-;;                    :status fq_status
-;;                    :doc_type fq_doc_type
-;;                    :provenance fq_provenance
-;;                    :user fq_user)
-;;        :api "search-activities" :start start
-;;        :limit "25" :sf sf :so so)
+(hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
+    (term start debug sf so
+          (fq_sum_votes :parameter-type 'list)
+          (fq_num_votes :parameter-type 'list)
+	  (fq_type :parameter-type 'list)
+	  (fq_tag :parameter-type 'list)
+	  (fq_action :parameter-type 'list)
+	  (fq_status :parameter-type 'list)
+	  (fq_doc_type :parameter-type 'list)
+          (fq_provenance :parameter-type 'list)
+          (fq_user :parameter-type 'list) sexp)
+  (disable-caching)
+  (multiple-value-bind
+        (documents num-found facets error)
+      (search-activities
+       *backend*
+       term
+       :sum_votes fq_sum_votes
+       :num_votes fq_num_votes
+       :type fq_type
+       :tags fq_tag
+       :action fq_action
+       :status fq_status
+       :doc_type fq_doc_type
+       :provenance fq_provenance
+       :user fq_user
+       :start start
+       :limit "25" :sf sf :so so)
 
-;;     (let* ((start/i (if start (parse-integer start) 0))
-;;            (request-uri (hunchentoot:request-uri*))
-;;            (result (if error (list :error error :term term)
-;;                        (append (get-login)
-;;                                (list :debug debug
-;;                                      :info (get-root)
-;;                                      :term term
-;;                                      :githubid *github-client-id*
-;;                                      :login (hunchentoot:session-value :login)
-;;                                      :callbackuri (make-callback-uri request-uri)
-;;                                      :returnuri request-uri
-;;                                      :fq_type fq_type
-;;                                      :fq_num_votes fq_num_votes
-;;                                      :fq_sum_votes fq_sum_votes
-;;                                      :fq_tag fq_tag
-;;                                      :fq_action fq_action
-;;                                      :fq_status fq_status
-;;                                      :fq_doc_type fq_doc_type
-;;                                      :fq_user fq_user
-;;                                      :fq_provenance fq_provenance
-;;                                      :previous (get-previous start/i)
-;;                                      :next (get-next start/i 25)
-;;                                      :so so
-;;                                      :sf sf
-;;                                      :start start/i :numfound num-found
-;;                                      :facets facets
-;;                                      :documents documents)))))
-;;       (if (string-equal "yes" sexp)
-;;           (progn
-;;             (setf (hunchentoot:content-type*) "application/sexp")
-;;             (with-output-to-string (s)
-;;               (print result s)))
-;;           (progn
-;;             (setf (hunchentoot:session-value :term) term)
-;;             (setf (hunchentoot:content-type*) "text/html")
-;;             (if error (process-error (list :error error :term term))
-;;                 (cl-wnbrowser.templates:activities result)))))))
+    (let* ((start/i (if start (parse-integer start) 0))
+           (request-uri (hunchentoot:request-uri*))
+           (result (if error (list :error error :term term)
+                       (append (get-login)
+                               (list :debug debug
+                                     :info (get-root)
+                                     :term term
+                                     :githubid *github-client-id*
+                                     :login (hunchentoot:session-value :login)
+                                     :callbackuri (make-callback-uri request-uri)
+                                     :returnuri request-uri
+                                     :fq_type fq_type
+                                     :fq_num_votes fq_num_votes
+                                     :fq_sum_votes fq_sum_votes
+                                     :fq_tag fq_tag
+                                     :fq_action fq_action
+                                     :fq_status fq_status
+                                     :fq_doc_type fq_doc_type
+                                     :fq_user fq_user
+                                     :fq_provenance fq_provenance
+                                     :previous (get-previous start/i)
+                                     :next (get-next start/i 25)
+                                     :so so
+                                     :sf sf
+                                     :start start/i :numfound num-found
+                                     :facets facets
+                                     :documents documents)))))
+      (if (string-equal "yes" sexp)
+          (progn
+            (setf (hunchentoot:content-type*) "application/sexp")
+            (with-output-to-string (s)
+              (print result s)))
+          (progn
+            (setf (hunchentoot:session-value :term) term)
+            (setf (hunchentoot:content-type*) "text/html")
+            (if error (process-error (list :error error :term term))
+                (cl-wnbrowser.templates:activities result)))))))
 
 (hunchentoot:define-easy-handler
     (get-synset-handler :uri "/wn/synset") (id debug sexp)

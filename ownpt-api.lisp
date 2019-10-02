@@ -9,6 +9,11 @@
 
 ;; own-api aux
 
+(defun preprocess-term (term)
+  (cond ((= 0 (length term)) "*:*")
+        ((string-equal term "*") "*:*")
+        (t term)))
+
 (defun get-search-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove
    nil
@@ -23,7 +28,7 @@
            (cons "limit" limit)))
     (when drilldown drilldown))))
 
-(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl num-pages (api "search-documents"))
+(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl (api "search-documents"))
   (call-rest-method
    api
    :parameters (get-search-query-plist term drilldown limit start sort-field sort-order fl)))
@@ -258,8 +263,8 @@ long to parse the stream and the stream may be cut due to timeout."
                                  (cons "key" *ownpt-api-key*))))
 
 
-(defmethod execute-search ((backend (eql 'own-api)) term  &key search-field rdf-type lex-file word-count-pt word-count-en
-						      frame start limit sf so fl num-pages)
+(defmethod execute-search ((backend (eql 'own-api)) term &key search-field rdf-type lex-file word-count-pt word-count-en
+						      frame start limit)
   (let* ((drilldown (make-drilldown :rdf-type rdf-type
                                     :lex-file lex-file
                                     :frame frame
@@ -270,10 +275,36 @@ long to parse the stream and the stream may be cut due to timeout."
                                        :drilldown drilldown
                                        :api api
                                        :start start
+                                       :limit limit))
+	 (success (request-successful? result)))
+    (if success
+	(values
+	 (get-docs result)
+	 (get-num-found result)
+	 (get-facet-fields result)
+	 nil)
+	(values nil nil nil (get-error-reason result)))))
+
+(defmethod search-activities ((backend (eql 'own-api)) term
+			      &key sum_votes num_votes type tags action status
+				doc_type provenance user start limit so sf)
+  (let* ((drilldown (make-drilldown-activity
+                     :sum_votes sum_votes
+                     :num_votes num_votes
+                     :type type
+                     :tag tags
+                     :action action
+                     :status status
+                     :doc_type doc_type
+                     :provenance provenance
+                     :user user))
+	 (api "search-activities")
+	 (result (execute-search-query (preprocess-term term)
+                                       :drilldown drilldown
+                                       :api api
+                                       :start start
                                        :limit limit
-                                       :num-pages num-pages
                                        :sort-field sf
-                                       :fl fl
                                        :sort-order so))
 	 (success (request-successful? result)))
     (if success
@@ -283,3 +314,6 @@ long to parse the stream and the stream may be cut due to timeout."
 	 (get-facet-fields result)
 	 nil)
 	(values nil nil nil (get-error-reason result)))))
+
+
+

@@ -25,7 +25,10 @@
 (defgeneric add-vote (backend id user value))
 
 (defgeneric execute-search (backend term &key search-field rdf-type lex-file word-count-pt word-count-en
-			     frame start limit sf so fl num-pages))
+					   frame start limit))
+
+(defgeneric search-activities (backend term &key sum_votes num_votes type tags action status
+					      doc_type provenance user start limit so sf))
 
 ;; ES aux
 
@@ -87,6 +90,12 @@ returns the first entry in word_en."
 			 :|votes| (:|positive| ,positive :|negative| ,negative :|total| ,total
 				    :|positive_votes| ,positive-votes :|negative_votes| ,negative-votes))))))
 
+(defun get-tags (str)
+  (mappend #'(lambda (x)
+		(cond ((starts-with #\# x) (list (concatenate 'string "HASH" (subseq x 1))))
+		      ((starts-with #\@ x) (list (concatenate 'string "AT" (subseq x 1))))))
+	    (cl-ppcre:split "[\\s\.\,\"\'\:\;]+" str)))
+
 ;;; ES backend
 
 (defmethod get-synset ((backend (eql 'es)) id)
@@ -129,7 +138,7 @@ returns the first entry in word_en."
 		     ("params" . ,text)
 		     ("status" . "new")
 		     ("provenance" . "web")
-		     ;; ("tags" . (localGetTags params)) TODO
+		     ("tags" . (get-tags params))
 		     ("id" . ,id)))))
     (clesc:es/add "suggestion" "suggestion" comment :id id)))
 
@@ -204,14 +213,15 @@ returns the first entry in word_en."
 
 ;; search
 (defmethod execute-search ((backend (eql 'es)) term &key search-field rdf-type lex-file word-count-pt word-count-en
-						      frame start limit sf so fl num-pages) ;; TODO: use sf, so, fl 
+						      frame start limit)
   (let* ((yason:*parse-object-as* :plist)
 	 (yason:*parse-object-key-fn* #'make-keyword)
-	 (filters (append (when rdf-type (mapcar (lambda (x) `("rdf_type" ,x))  rdf-type))
-			  (when lex-file (mapcar (lambda (x) `("wn30_lexicographerFile" ,x))  lex-file))
-			  (when word-count-pt (mapcar (lambda (x) `("word_count_pt" ,x))  word-count-pt))
-			  (when word-count-en (mapcar (lambda (x) `("word_count_en" ,x))  word-count-en))
-			  (when frame (mapcar (lambda (x) `("wn30_frame" ,x))  frame))))
+	 (filters (append
+		   (when rdf-type (mapcar (lambda (x) `("rdf_type" ,x))  rdf-type))
+		   (when lex-file (mapcar (lambda (x) `("wn30_lexicographerFile" ,x))  lex-file))
+		   (when word-count-pt (mapcar (lambda (x) `("word_count_pt" ,x))  word-count-pt))
+		   (when word-count-en (mapcar (lambda (x) `("word_count_en" ,x))  word-count-en))
+		   (when frame (mapcar (lambda (x) `("wn30_frame" ,x))  frame))))
 	 (result (clesc:es/search "wn"
 				  :text (unless (equal "all" search-field) term)
 				  :search-field (unless (equal "all" search-field) search-field)
@@ -219,6 +229,44 @@ returns the first entry in word_en."
 				  :size limit :terms filters :from start
 				  :facets '("rdf_type" "wn30_lexicographerFile" "wn30_frame"
 					    "word_count_pt" "word_count_en")))
+	 (hits-1 (getf result :|hits|))
+	 (hits-2 (getf hits-1 :|hits|))
+	 (docs (mapcar (lambda (hit) (getf hit :|_source|)) hits-2))
+	 (total (getf hits-1 :|total|))
+	 (aggregations (getf result :|aggregations|))
+	 (facets (mapcar #'(lambda (buckets)
+	 		     (if (listp buckets)
+	 			 (mapcar (lambda (bucket)
+					   (list :|name| (format nil "~a" (getf bucket :|key|))
+	 					 :|count| (getf  bucket :|doc_count|)))
+					 (getf buckets :|buckets|))
+	 			 buckets))
+	 		 aggregations)))
+    (values docs total facets nil)))
+
+(defmethod search-activities ((backend (eql 'es)) term
+			      &key sum_votes num_votes type tags action status
+				doc_type provenance user start limit so sf)
+  (let* ((yason:*parse-object-as* :plist)
+	 (yason:*parse-object-key-fn* #'make-keyword)
+	 (filters (append
+		   (when sum_votes (mapcar (lambda (x) `("sum_votes" ,x)) sum_votes))
+		   (when num_votes (mapcar (lambda (x) `("vote_score" ,x)) num_votes))
+		   (when type (mapcar (lambda (x) `("type" ,x)) type))
+		   (when tags (mapcar (lambda (x) `("tags" ,x)) tags))
+		   (when action (mapcar (lambda (x) `("action" ,x)) action))
+		   (when status (mapcar (lambda (x) `("status" ,x)) status))
+		   (when doc_type (mapcar (lambda (x) `("doc_type" ,x)) doc_type))
+		   (when provenance (mapcar (lambda (x) `("provenance" ,x)) provenance))
+		   (when user (mapcar (lambda (x) `("user" ,x)) user))))
+	 (sort   (if (not (emptyp sf)) `((,sf ,(if (equal so "") "desc" so))) '(("date" "desc"))))
+	 (result (clesc:es/search "suggestion"
+				  :text term ; (unless (equal "all" search-field) term)
+				  ; :search-field (unless (equal "all" search-field) search-field)
+				  ; :string (if (equal "all" search-field) term)
+				  :size limit :terms filters :from start :fields-order sort
+				  :facets '("type" "action" "status" "doc_type" "user"
+					    "provenance" "tags" "sum_votes" "vote_score")))
 	 (hits-1 (getf result :|hits|))
 	 (hits-2 (getf hits-1 :|hits|))
 	 (docs (mapcar (lambda (hit) (getf hit :|_source|)) hits-2))
