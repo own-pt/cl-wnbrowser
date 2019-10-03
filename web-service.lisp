@@ -156,7 +156,7 @@
            (result (if error (list :error error :term term)
                        (append (get-login)
                                (list :debug debug
-                                     :info (get-root)
+                                     :info (when (equal 'own-api *backend*) (get-root))
                                      :term term
                                      :githubid *github-client-id*
                                      :login (hunchentoot:session-value :login)

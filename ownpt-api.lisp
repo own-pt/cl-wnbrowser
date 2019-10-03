@@ -314,6 +314,3 @@ long to parse the stream and the stream may be cut due to timeout."
 	 (get-facet-fields result)
 	 nil)
 	(values nil nil nil (get-error-reason result)))))
-
-
-
