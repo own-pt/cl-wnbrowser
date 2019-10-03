@@ -23,7 +23,7 @@
 
   (let* ((vcap (yason:parse (heroku-getenv "VCAP_APPLICATION")))
 	 (url (car (gethash "application_uris" vcap))))
-    (setf cl-wnbrowser::*base-url* (format nil "http://~a/" url)))
+    (setf cl-wnbrowser::*base-url* (format nil "~a" url)))
 
   (setf cl-wnbrowser::*basedir* "/home/vcap/app/")
   (setf cl-wnbrowser::*github-client-id* (heroku-getenv "GITHUB_CLIENT_ID"))
