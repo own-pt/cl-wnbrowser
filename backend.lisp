@@ -262,7 +262,7 @@ returns the first entry in word_en."
 	 (sort   (if (not (emptyp sf)) `((,sf ,(if (equal so "") "desc" so))) '(("date" "desc"))))
 	 (result (clesc:es/search "suggestion"
 				  :text term ; (unless (equal "all" search-field) term)
-				  ; :search-field (unless (equal "all" search-field) search-field)
+				  :search-field "params"
 				  ; :string (if (equal "all" search-field) term)
 				  :size limit :terms filters :from start :fields-order sort
 				  :facets '("type" "action" "status" "doc_type" "user"
