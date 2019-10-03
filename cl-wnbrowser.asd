@@ -4,7 +4,7 @@
 ;; This program and the accompanying materials are made available
 ;; under the terms of the LICENSE file.
 
-(asdf:defsystem #:cl-wnbrowser-bluemix
+(asdf:defsystem #:cl-wnbrowser
     :serial t
     :depends-on (:drakma :flexi-streams :hunchentoot :yason :closure-template
                          :split-sequence :local-time :graph-algorithms :fare-csv
@@ -14,15 +14,10 @@
     :components ((:file "packages")
 		 (:file "utils")
                  (:file "secrets")
-                 (:file "wn-cache")
 		 (:file "backend")
-                 (:file "graph-algorithms" :depends-on ("wn-cache"))
-                 (:file "phrases"       :depends-on ("wn-cache"))
-                 (:file "wn-analysis"   :depends-on ("wn-cache"))
 		 (:file "constants"     :depends-on ("packages"))
                  (:file "github"        :depends-on ("constants"))
-		 (:file "ownpt-api"     :depends-on ("utils" "constants"))
+		 (:file "ownpt-api"     :depends-on ("backend" "utils" "constants"))
 		 (:file "templates"     :depends-on ("constants"))
 		 (:file "agraph"        :depends-on ("constants"))
-                 (:file "corpora"       :depends-on ("ownpt-api"))
-		 (:file "web-service"   :depends-on ("secrets" "templates" "ownpt-api" "github"))))
+		 (:file "web-service"   :depends-on ("secrets" "templates" "ownpt-api" "backend" "github"))))

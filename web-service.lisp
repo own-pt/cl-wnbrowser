@@ -59,10 +59,6 @@
 (defun disable-caching ()
   (hunchentoot:no-cache))
  
-;; (hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
-;;   (disable-caching)
-;;   (cl-wnbrowser.templates:stats (list :stats (get-statistics))))
-
 (hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
     (term search_field start debug limit num-pages
 	  (fq_frame :parameter-type 'list)
@@ -346,69 +342,6 @@
     (if (cl-strings:starts-with request-uri "/wn/") 
         (hunchentoot:redirect request-uri)
         (hunchentoot:redirect "/wn/"))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-handler :uri "/wn/prototypes") ()
-;;   (cl-wnbrowser.templates:prototypes))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-analysis-handler :uri "/wn/prototypes/analysis") ()
-;;   (cl-wnbrowser.templates:gloss-analysis (evaluate-glosses)))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/phrases") ()
-;;   (cl-wnbrowser.templates:phrases (list :phrases (generate-all-hypernym-phrases))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-isolated-vertices-handler :uri "/wn/prototypes/isolated-vertices") ()
-;;   (cl-wnbrowser.templates:isolated-vertices (list :vertices (isolated-vertices))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-dijkstra-handler 
-;;                                   :uri "/wn/prototypes/dijkstra-w") (w1 w2 (selected :parameter-type 'hash-table))
-;;   (cl-wnbrowser.templates:dijkstra
-;;    (list :mode "words" 
-;;          :relations *relations* 
-;;          :selected selected
-;;          :w1 w1
-;;          :w2 w2
-;;          :paths (search-paths w1 w2 :mode :words 
-;;                               :relations 
-;;                               (mapcar #'make-keyword (hash-table-keys selected))))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-dijkstra-ss-handler 
-;;                                   :uri "/wn/prototypes/dijkstra-s") (w1 w2 (selected :parameter-type 'hash-table))
-;;   (cl-wnbrowser.templates:dijkstra
-;;    (list :mode "synsets" 
-;;          :relations *relations* 
-;;          :selected selected
-;;          :w1 w1
-;;          :w2 w2
-;;          :paths (search-paths w1 w2 :mode :synsets 
-;;                               :relations
-;;                               (mapcar #'make-keyword (hash-table-keys selected))))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-corpora-handler 
-;;                                   :uri "/wn/prototypes/corpora") (text)
-;;   (cl-wnbrowser.templates:corpora
-;;    (list :portal (check-portal-da-lingua-portuguesa)
-;; 	 :verbnet (check-verbnet)
-;; 	 :synsetcandidates (check-synset-candidates)
-;; 	 :verbnetgold (check-verbnet-gold)
-;;          :dhbb (check-dhbb)
-;;          :dizer (check-dizer)
-;;          :compex (check-compex)
-;;          :swadesh (check-swadesh)
-;;          :propbank (check-propbank)
-;;          :propbanktranslated (check-propbank-translated)
-;;          :ptudv (check-pt-ud-verb)
-;;          :ptudn (check-pt-ud-noun)
-;;          :ptuda (check-pt-ud-adj)
-;;          :ptudr (check-pt-ud-adv)
-;;          :intersection (check-intersection)
-;;          :thousandcv (check-thousand-common-verbs)
-;;          :portalaltafreq (check-portal-alta-freq)
-;;          :ptudcleaned (check-pt-ud-cleaned)
-;;          :verbosdg (check-verbos-dg)
-;;          :verbosdgcleaned (check-verbos-dg-cleaned)
-;; 	 :nomlexfloating (check-nomlex-floating)
-;; 	 :nomlexfloatingtranslated (check-nomlex-floating-translated)
-;; 	 :verbocean (check-verbocean))))
 
 (defun publish-static-content (dir)
   (push (hunchentoot:create-folder-dispatcher-and-handler

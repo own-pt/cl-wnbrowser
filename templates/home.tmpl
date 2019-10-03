@@ -141,11 +141,9 @@
     
     <p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a>
       | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a>
-      | <a href="http://wnpt.brlcloud.com:10035/repositories/wn30" target="_blank">SPARQL Endpoint</a>
       | <a href="https://github.com/own-pt/openWordnet-PT/" target="_blank">Download</a>      
       | <a href="search-activities">Activity</a>
-      | <a href="stats">Statistics</a>  |
-      {if isNonnull($login)}
+      | {if isNonnull($login)}
       <b>{$login}</b>
       {else}
       <a href="https://github.com/login/oauth/authorize?client_id={$githubid}">Login</a>
