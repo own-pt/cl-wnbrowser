@@ -53,23 +53,14 @@
    (append
     (get-login)
     (list
-     :info (get-root)
+     :info (when (equal 'own-api *backend*) (get-root))
      :githubid *github-client-id*))))
 
 (defun disable-caching ()
   (hunchentoot:no-cache))
-
-(defun preprocess-term (term)
-  (cond ((= 0 (length term)) "*:*")
-        ((string-equal term "*") "*:*")
-        (t term)))
  
-(hunchentoot:define-easy-handler (get-stats-handler :uri "/wn/stats") ()
-  (disable-caching)
-  (cl-wnbrowser.templates:stats (list :stats (get-statistics))))
-
 (hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
-    (term start debug limit num-pages
+    (term search_field start debug limit num-pages
 	  (fq_frame :parameter-type 'list)
           (fq_word_count_pt :parameter-type 'list)
 	  (fq_word_count_en :parameter-type 'list)
@@ -77,18 +68,20 @@
 	  (fq_lexfile :parameter-type 'list) sexp)
   (disable-caching)
   (setf (hunchentoot:session-value :term) term)
+  (setf (hunchentoot:session-value :search_field) search_field)
   (if (is-synset-id term)
       (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
       (multiple-value-bind
 	     (documents num-found facets error)
           (execute-search
+	   *backend*
            (preprocess-term term)
-           :drilldown (make-drilldown :rdf-type fq_rdftype
-                                      :lex-file fq_lexfile
-                                      :frame fq_frame
-                                      :word-count-pt fq_word_count_pt
-                                      :word-count-en fq_word_count_en)
-           :api "search-documents"
+	   :search-field search_field
+           :rdf-type fq_rdftype
+           :lex-file fq_lexfile
+           :frame fq_frame
+           :word-count-pt fq_word_count_pt
+           :word-count-en fq_word_count_en
            :start start :limit limit)
 	(let* ((start/i (if start (parse-integer start) 0))
 	       (limit/i (if limit (parse-integer limit) 10))
@@ -96,12 +89,12 @@
 	       (request-uri (hunchentoot:request-uri*))
 	      (result (if error 
 			  (list :error error :term term)
-			  (list :debug debug :term term
+			  (list :debug debug :term term :search_field search_field
 				:githubid *github-client-id*
 				:login (hunchentoot:session-value :login)
 				:callbackuri (make-callback-uri request-uri)
 				:returnuri request-uri
-				:info (get-root)
+				:info (when (equal 'own-api *backend*) (get-root))
 				:fq_frame fq_frame
 				:fq_rdftype fq_rdftype
 				:fq_lexfile fq_lexfile
@@ -139,27 +132,27 @@
   (disable-caching)
   (multiple-value-bind
         (documents num-found facets error)
-      (execute-search
-       (preprocess-term term)
-       :drilldown (make-drilldown-activity
-                   :sum_votes fq_sum_votes
-                   :num_votes fq_num_votes
-                   :type fq_type
-                   :tag fq_tag
-                   :action fq_action
-                   :status fq_status
-                   :doc_type fq_doc_type
-                   :provenance fq_provenance
-                   :user fq_user)
-       :api "search-activities" :start start
+      (search-activities
+       *backend*
+       term
+       :sum_votes fq_sum_votes
+       :num_votes fq_num_votes
+       :type fq_type
+       :tags fq_tag
+       :action fq_action
+       :status fq_status
+       :doc_type fq_doc_type
+       :provenance fq_provenance
+       :user fq_user
+       :start start
        :limit "25" :sf sf :so so)
 
     (let* ((start/i (if start (parse-integer start) 0))
            (request-uri (hunchentoot:request-uri*))
            (result (if error (list :error error :term term)
                        (append (get-login)
-                               (list :debug debug 
-                                     :info (get-root)
+                               (list :debug debug
+                                     :info (when (equal 'own-api *backend*) (get-root))
                                      :term term
                                      :githubid *github-client-id*
                                      :login (hunchentoot:session-value :login)
@@ -192,15 +185,16 @@
             (if error (process-error (list :error error :term term))
                 (cl-wnbrowser.templates:activities result)))))))
 
-(hunchentoot:define-easy-handler (get-synset-handler
-				  :uri "/wn/synset") (id debug sexp)
+(hunchentoot:define-easy-handler
+    (get-synset-handler :uri "/wn/synset") (id debug sexp)
   (disable-caching)
-  (let* ((synset (get-synset id))
-         (suggestions (get-suggestions id))
-         (comments (get-comments id))
+  (let* ((synset (get-synset *backend* id))
+         (suggestions (get-suggestions *backend* id))
+         (comments (get-comments *backend* id))
          (request-uri (hunchentoot:request-uri*))
 	 (term (hunchentoot:session-value :term))
-	 (ids (hunchentoot:session-value :ids)))
+	 (ids (hunchentoot:session-value :ids))
+	 (search_field (hunchentoot:session-value :search_field)))
     (if (string-equal "yes" sexp)
 	  (progn
 	    (setf (hunchentoot:content-type*) "application/sexp")
@@ -212,8 +206,7 @@
 	    (setf (hunchentoot:content-type*) "text/html")
 	    (process-synset
 	     (append (list
-		      :info (get-root)
-                      :original-id id
+		      :original-id id
 		      :ids (last (hunchentoot:session-value :ids) *breadcrumb-size*)
 		      :term term
 		      :callbackuri (make-callback-uri request-uri)
@@ -223,41 +216,31 @@
 		      :suggestions suggestions
 		      :githubid *github-client-id*
 		      :synset synset)
-		     synset))))))
+		     synset
+		     (list :search_field search_field)))))))
 
-(hunchentoot:define-easy-handler (get-nomlex-handler
-				  :uri "/wn/nomlex") (id debug term)
-  (setf (hunchentoot:content-type*) "text/html")
-  (disable-caching)
-  (let ((nomlex (get-nomlex id))
-	(term (hunchentoot:session-value :term)))
-    (process-nomlex
-     (append
-      (list :term term
-	    :info (get-root)
-	    :callbackuri (make-callback-uri (hunchentoot:request-uri*))
-	    :debug debug
-            :githubid *github-client-id*
-	    :nomlex nomlex)
-      nomlex))))
+;; (hunchentoot:define-easy-handler (get-nomlex-handler
+;; 				  :uri "/wn/nomlex") (id debug term)
+;;   (setf (hunchentoot:content-type*) "text/html")
+;;   (disable-caching)
+;;   (let ((nomlex (get-nomlex id))
+;; 	(term (hunchentoot:session-value :term)))
+;;     (process-nomlex
+;;      (append
+;;       (list :term term
+;; 	    :info (get-root)
+;; 	    :callbackuri (make-callback-uri (hunchentoot:request-uri*))
+;; 	    :debug debug
+;;             :githubid *github-client-id*
+;; 	    :nomlex nomlex)
+;;       nomlex))))
 
-(hunchentoot:define-easy-handler (process-suggestion-handler
-				  :uri "/wn/process-suggestion") (id doc_type type params return-uri)
+(hunchentoot:define-easy-handler
+    (process-suggestion-handler :uri "/wn/process-suggestion") (id doc_type type params return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (add-suggestion id doc_type type params login)
-          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
-        (progn
-          (setf (hunchentoot:content-type*) "text/html")
-          (format nil "invalid login")))))
-
-(hunchentoot:define-easy-handler (process-comment-handler
-				  :uri "/wn/process-comment") (id doc_type text return-uri)
-  (let ((login (hunchentoot:session-value :login)))
-    (if login
-        (progn
-          (add-comment id doc_type text login)
+          (add-suggestion *backend* id doc_type type params login)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
@@ -268,150 +251,106 @@
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (delete-suggestion id)
+          (delete-suggestion *backend* id)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
-(hunchentoot:define-easy-handler (accept-suggestion-handler
-				  :uri "/wn/accept-suggestion") (id return-uri)
+;; (hunchentoot:define-easy-handler (accept-suggestion-handler
+;; 				  :uri "/wn/accept-suggestion") (id return-uri)
+;;   (let ((login (hunchentoot:session-value :login)))
+;;     (if login
+;;         (progn
+;;           (accept-suggestion id)
+;;           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
+;;         (progn
+;;           (setf (hunchentoot:content-type*) "text/html")
+;;           (format nil "invalid login")))))
+
+;; (hunchentoot:define-easy-handler (reject-suggestion-handler
+;; 				  :uri "/wn/reject-suggestion") (id return-uri)
+;;   (let ((login (hunchentoot:session-value :login)))
+;;     (if login
+;;         (progn
+;;           (reject-suggestion id)
+;;           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
+;;         (progn
+;;           (setf (hunchentoot:content-type*) "text/html")
+;;           (format nil "invalid login")))))
+
+;; comments
+(hunchentoot:define-easy-handler
+    (process-comment-handler :uri "/wn/process-comment") (id doc_type text return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (accept-suggestion id)
+          (add-comment *backend* id doc_type text login)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
-(hunchentoot:define-easy-handler (reject-suggestion-handler
-				  :uri "/wn/reject-suggestion") (id return-uri)
+(hunchentoot:define-easy-handler
+    (delete-comment-handler :uri "/wn/delete-comment") (id return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (reject-suggestion id)
+          (delete-comment *backend* id)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))
 
-(hunchentoot:define-easy-handler (delete-comment-handler
-				  :uri "/wn/delete-comment") (id return-uri)
-  (let ((login (hunchentoot:session-value :login)))
-    (if login
-        (progn
-          (delete-comment id)
-          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
-        (progn
-          (setf (hunchentoot:content-type*) "text/html")
-          (format nil "invalid login")))))
-
-(hunchentoot:define-easy-handler (vote-up-handler
-				  :uri "/wn/vote-up") (id)
+;; votes
+(hunchentoot:define-easy-handler
+    (vote-up-handler :uri "/wn/vote-up") (id)
   (let ((login (hunchentoot:session-value :login)))
     (setf (hunchentoot:content-type*) "application/json")
     (if login
         (with-output-to-string (s)
-          (yason:encode-plist (add-vote id login 1) s))
+          (yason:encode-plist (add-vote *backend* id login 1) s))
         (with-output-to-string (s)
           (yason:encode-plist (list :result "not-authorized") s)))))
 
-(hunchentoot:define-easy-handler (vote-down-handler
-				  :uri "/wn/vote-down") (id)
+(hunchentoot:define-easy-handler
+    (vote-down-handler :uri "/wn/vote-down") (id)
   (let ((login (hunchentoot:session-value :login)))
     (setf (hunchentoot:content-type*) "application/json")
     (if login
         (with-output-to-string (s)
-          (yason:encode-plist (add-vote id login -1) s))
+          (yason:encode-plist (add-vote *backend* id login -1) s))
         (with-output-to-string (s)
           (yason:encode-plist (list :result "not-authorized") s)))))
 
-(hunchentoot:define-easy-handler (delete-vote-handler
-				  :uri "/wn/delete-vote") (id)
+
+(hunchentoot:define-easy-handler
+    (delete-vote-handler :uri "/wn/delete-vote") (id)
   (let ((login (hunchentoot:session-value :login)))
     (when login
-      (delete-vote id))
+      (delete-vote *backend* id))
     (setf (hunchentoot:content-type*) "application/json")
     (with-output-to-string (s)
       (yason:encode-plist (list :result "Done") s))))
 
-(hunchentoot:define-easy-handler (github-callback-handler
-				  :uri "/wn/callback") (code destination)
+;; github callback
+(hunchentoot:define-easy-handler
+    (github-callback-handler :uri "/wn/callback") (code destination)
   (let ((access-token (get-access-token code))
         (request-uri (when destination (hunchentoot:url-decode destination))))
     (setf (hunchentoot:session-value :login) (get-user-login (get-user access-token)))
-    (if request-uri
+    (if (cl-strings:starts-with request-uri "/wn/") 
         (hunchentoot:redirect request-uri)
         (hunchentoot:redirect "/wn/"))))
 
-(hunchentoot:define-easy-handler (get-prototypes-handler :uri "/wn/prototypes") ()
-  (cl-wnbrowser.templates:prototypes))
-
-(hunchentoot:define-easy-handler (get-prototypes-analysis-handler :uri "/wn/prototypes/analysis") ()
-  (cl-wnbrowser.templates:gloss-analysis (evaluate-glosses)))
-
-(hunchentoot:define-easy-handler (get-prototypes-phrases-handler :uri "/wn/prototypes/phrases") ()
-  (cl-wnbrowser.templates:phrases (list :phrases (generate-all-hypernym-phrases))))
-
-(hunchentoot:define-easy-handler (get-prototypes-isolated-vertices-handler :uri "/wn/prototypes/isolated-vertices") ()
-  (cl-wnbrowser.templates:isolated-vertices (list :vertices (isolated-vertices))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-dijkstra-handler 
-;;                                   :uri "/wn/prototypes/dijkstra-w") (w1 w2 (selected :parameter-type 'hash-table))
-;;   (cl-wnbrowser.templates:dijkstra
-;;    (list :mode "words" 
-;;          :relations *relations* 
-;;          :selected selected
-;;          :w1 w1
-;;          :w2 w2
-;;          :paths (search-paths w1 w2 :mode :words 
-;;                               :relations 
-;;                               (mapcar #'make-keyword (hash-table-keys selected))))))
-
-;; (hunchentoot:define-easy-handler (get-prototypes-dijkstra-ss-handler 
-;;                                   :uri "/wn/prototypes/dijkstra-s") (w1 w2 (selected :parameter-type 'hash-table))
-;;   (cl-wnbrowser.templates:dijkstra
-;;    (list :mode "synsets" 
-;;          :relations *relations* 
-;;          :selected selected
-;;          :w1 w1
-;;          :w2 w2
-;;          :paths (search-paths w1 w2 :mode :synsets 
-;;                               :relations
-;;                               (mapcar #'make-keyword (hash-table-keys selected))))))
-
-(hunchentoot:define-easy-handler (get-prototypes-corpora-handler 
-                                  :uri "/wn/prototypes/corpora") (text)
-  (cl-wnbrowser.templates:corpora
-   (list :portal (check-portal-da-lingua-portuguesa)
-	 :verbnet (check-verbnet)
-	 :synsetcandidates (check-synset-candidates)
-	 :verbnetgold (check-verbnet-gold)
-         :dhbb (check-dhbb)
-         :dizer (check-dizer)
-         :compex (check-compex)
-         :swadesh (check-swadesh)
-         :propbank (check-propbank)
-         :propbanktranslated (check-propbank-translated)
-         :ptudv (check-pt-ud-verb)
-         :ptudn (check-pt-ud-noun)
-         :ptuda (check-pt-ud-adj)
-         :ptudr (check-pt-ud-adv)
-         :intersection (check-intersection)
-         :thousandcv (check-thousand-common-verbs)
-         :portalaltafreq (check-portal-alta-freq)
-         :ptudcleaned (check-pt-ud-cleaned)
-         :verbosdg (check-verbos-dg)
-         :verbosdgcleaned (check-verbos-dg-cleaned)
-	 :nomlexfloating (check-nomlex-floating)
-	 :nomlexfloatingtranslated (check-nomlex-floating-translated)
-	 :verbocean (check-verbocean))))
-
-(defun start-server (&optional (port 4243))
+(defun publish-static-content (dir)
   (push (hunchentoot:create-folder-dispatcher-and-handler
 	 "/wn/st/"
-	 (merge-pathnames #p"static/" *basedir*)) hunchentoot:*dispatch-table*)
+	 (merge-pathnames #p"static/" dir))
+	hunchentoot:*dispatch-table*))
+
+(defun start-server (&optional (port 4243))
+  (publish-static-content *basedir*)
   (hunchentoot:start
    (make-instance 'hunchentoot:easy-acceptor
 		  :access-log-destination (merge-pathnames #p"wn.log" *basedir*)

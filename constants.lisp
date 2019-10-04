@@ -11,7 +11,7 @@
 (defparameter *basedir*
   (make-pathname :directory
 		 (pathname-directory
-		  (asdf:component-pathname (asdf:find-system '#:cl-wnbrowser-bluemix)))))
+		  (asdf:component-pathname (asdf:find-system '#:cl-wnbrowser)))))
 
 (defparameter *github-access-token-url* "https://github.com/login/oauth/access_token")
 
@@ -36,3 +36,5 @@
   (merge-pathnames-as-file *queries-directory* #p"by-lexfile.query"))
 (defparameter *query/by-pos-pt*
   (merge-pathnames-as-file *queries-directory* #p"by-pos-pt.query"))
+
+(defparameter *backend* 'es)

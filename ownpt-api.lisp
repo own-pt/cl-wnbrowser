@@ -6,25 +6,13 @@
 
 (in-package :cl-wnbrowser)
 
-(defun get-synset-word-en (id)
-  "Returns the FIRST entry in the word_en property for the given SYNSET-ID"
-  (car (getf (get-synset id) :|word_en|)))
 
-(defun get-synset-word (id)
-  "If the synset has word_pt entries, returns the first one; otherwise
-returns the first entry in word_en."
-  (let* ((synset (get-synset id))
-         (word-pt (car (getf synset :|word_pt|)))
-         (word-en (car (getf synset :|word_en|))))
-    (if word-pt word-pt word-en)))
+;; own-api aux
 
-(defun get-synset-gloss (id)
-  "If the synset has word_pt entries, returns the first one; otherwise
-returns the first entry in word_en."
-  (let* ((synset (get-synset id))
-         (gloss-pt (car (getf synset :|gloss_pt|)))
-         (gloss-en (car (getf synset :|gloss_en|))))
-    (if gloss-pt gloss-pt gloss-en)))
+(defun preprocess-term (term)
+  (cond ((= 0 (length term)) "*:*")
+        ((string-equal term "*") "*:*")
+        (t term)))
 
 (defun get-search-query-plist (q drilldown limit start sort-field sort-order fl)
   (remove
@@ -40,64 +28,10 @@ returns the first entry in word_en."
            (cons "limit" limit)))
     (when drilldown drilldown))))
 
-(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl num-pages (api "search-documents"))
+(defun execute-search-query (term &key drilldown limit sort-field sort-order (start 0) fl (api "search-documents"))
   (call-rest-method
    api
    :parameters (get-search-query-plist term drilldown limit start sort-field sort-order fl)))
-
-(defun delete-suggestion (id)
-  (call-rest-method
-   (format nil "delete-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun accept-suggestion (id)
-  (call-rest-method
-   (format nil "accept-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun reject-suggestion (id)
-  (call-rest-method
-   (format nil "reject-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun delete-comment (id)
-  (call-rest-method
-   (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun add-suggestion (id doc-type type param login)
-  (call-rest-method 
-   (format nil "add-suggestion/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "doc_type" doc-type)
-                     (cons "suggestion_type" type)
-                     (cons "params" param)
-                     (cons "key" *ownpt-api-key*)
-                     (cons "user" login))))
-
-(defun add-comment (id doc-type text login)
-  (call-rest-method 
-   (format nil "add-comment/~a" (drakma:url-encode id :utf-8))
-   :parameters (list (cons "doc_type" doc-type)
-                     (cons "text" text)
-                     (cons "key" *ownpt-api-key*)
-                     (cons "user" login))))
-
-(defun get-suggestions (id)
-  (get-docs (call-rest-method (format nil "get-suggestions/~a" id))))
-
-(defun get-comments (id)
-  (get-docs (call-rest-method (format nil "get-comments/~a" id))))
-
-(defun delete-vote (id)
-  (call-rest-method (format nil "delete-vote/~a" id)
-                    :parameters (list (cons "key" *ownpt-api-key*))))
-
-(defun add-vote (id user value)
-  (call-rest-method (format nil "add-vote/~a" id)
-                    :parameters (list
-                                 (cons "user" user)
-                                 (cons "value" (format nil "~a" value))
-                                 (cons "key" *ownpt-api-key*))))
     
 (defun get-document-by-id (doctype id)
   (call-rest-method (format nil "~a/~a" doctype (drakma:url-encode id :utf-8))))
@@ -199,25 +133,6 @@ LEX-FILE."
                                entry)))
 	     user))))
 
-(defun execute-search (term &key drilldown api start limit sf so fl num-pages)
-  (let* ((result (execute-search-query term
-                                         :drilldown drilldown
-                                         :api api
-                                         :start start
-                                         :limit limit
-                                         :num-pages num-pages
-                                         :sort-field sf
-                                         :fl fl
-                                         :sort-order so))
-	 (success (request-successful? result)))
-    (if success
-	(values
-	 (get-docs result)
-	 (get-num-found result)
-	 (get-facet-fields result)
-	 nil)
-	(values nil nil nil (get-error-reason result)))))
-
 (defun get-synset-ids (term drilldown start limit)
   (let* ((result (execute-search-query term
                                          :drilldown drilldown
@@ -229,9 +144,6 @@ LEX-FILE."
     (if success
         (mapcar (lambda (s) (getf s :|doc_id|)) (get-docs result))
         nil)))
-
-(defun get-synset (id)
-  (get-document-by-id "synset" id))
 
 (defun get-nomlex (id)
   (get-document-by-id "nomlex" id))
@@ -253,7 +165,9 @@ LEX-FILE."
   (call-rest-method "statistics"))
 
 (defun call-rest-method/stream (method &key parameters)
-  "Alternative to CALL-REST-METHOD that uses a stream; this is more memory efficient, but it may cause problems if YASON:PARSE takes too long to parse the stream and the stream may be cut due to timeout."
+  "Alternative to CALL-REST-METHOD that uses a stream; this is more
+memory efficient, but it may cause problems if YASON:PARSE takes too
+long to parse the stream and the stream may be cut due to timeout."
     (let* ((stream (drakma:http-request
                    (format nil "~a/~a" *ownpt-api-uri* method)
                    :parameters parameters
@@ -269,16 +183,134 @@ LEX-FILE."
       obj)))
   
 (defun call-rest-method (method &key parameters)
-    (let ((octets (drakma:http-request
-                   (format nil "~a/~a" *ownpt-api-uri* method)
-                   :parameters parameters
-		   :external-format-out :utf-8
-                   :method :get
-                   :connection-timeout 120
-                   :want-stream nil)))
-      (yason:parse
-       (flexi-streams:octets-to-string octets :external-format :utf-8)
-                   :object-as :plist
-                   :object-key-fn #'make-keyword)))
+  (let ((octets (drakma:http-request
+                 (format nil "~a/~a" *ownpt-api-uri* method)
+                 :parameters parameters
+		 :external-format-out :utf-8
+                 :method :get
+                 :connection-timeout 120
+                 :want-stream nil)))
+    (yason:parse
+     (flexi-streams:octets-to-string octets :external-format :utf-8)
+     :object-as :plist :object-key-fn #'make-keyword)))
 
   
+;;; own-api backend
+
+(defmethod get-synset ((backend (eql 'own-api)) id)
+  (get-document-by-id "synset" id))
+
+(defmethod delete-suggestion ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "delete-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+(defmethod accept-suggestion ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "accept-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod reject-suggestion ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "reject-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod delete-comment ((backend (eql 'own-api)) id)
+  (call-rest-method
+   (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod add-suggestion ((backend (eql 'own-api)) id doc-type type param login)
+  (call-rest-method 
+   (format nil "add-suggestion/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "doc_type" doc-type)
+                     (cons "suggestion_type" type)
+                     (cons "params" param)
+                     (cons "key" *ownpt-api-key*)
+                     (cons "user" login))))
+
+
+(defmethod add-comment ((backend (eql 'own-api)) id doc-type text login)
+  (call-rest-method 
+   (format nil "add-comment/~a" (drakma:url-encode id :utf-8))
+   :parameters (list (cons "doc_type" doc-type)
+                     (cons "text" text)
+                     (cons "key" *ownpt-api-key*)
+                     (cons "user" login))))
+
+
+(defmethod get-suggestions ((backend (eql 'own-api)) id)
+  (get-docs (call-rest-method (format nil "get-suggestions/~a" id))))
+
+
+(defmethod get-comments ((backend (eql 'own-api)) id)
+  (get-docs (call-rest-method (format nil "get-comments/~a" id))))
+
+
+(defmethod delete-vote ((backend (eql 'own-api)) id)
+  (call-rest-method (format nil "delete-vote/~a" id)
+                    :parameters (list (cons "key" *ownpt-api-key*))))
+
+
+(defmethod add-vote ((backend (eql 'own-api)) id user value)
+  (call-rest-method (format nil "add-vote/~a" id)
+                    :parameters (list
+                                 (cons "user" user)
+                                 (cons "value" (format nil "~a" value))
+                                 (cons "key" *ownpt-api-key*))))
+
+
+(defmethod execute-search ((backend (eql 'own-api)) term &key search-field rdf-type lex-file word-count-pt word-count-en
+						      frame start limit)
+  (let* ((drilldown (make-drilldown :rdf-type rdf-type
+                                    :lex-file lex-file
+                                    :frame frame
+                                    :word-count-pt word-count-pt
+                                    :word-count-en word-count-en))
+	 (api "search-documents")
+	 (result (execute-search-query term
+                                       :drilldown drilldown
+                                       :api api
+                                       :start start
+                                       :limit limit))
+	 (success (request-successful? result)))
+    (if success
+	(values
+	 (get-docs result)
+	 (get-num-found result)
+	 (get-facet-fields result)
+	 nil)
+	(values nil nil nil (get-error-reason result)))))
+
+(defmethod search-activities ((backend (eql 'own-api)) term
+			      &key sum_votes num_votes type tags action status
+				doc_type provenance user start limit so sf)
+  (let* ((drilldown (make-drilldown-activity
+                     :sum_votes sum_votes
+                     :num_votes num_votes
+                     :type type
+                     :tag tags
+                     :action action
+                     :status status
+                     :doc_type doc_type
+                     :provenance provenance
+                     :user user))
+	 (api "search-activities")
+	 (result (execute-search-query (preprocess-term term)
+                                       :drilldown drilldown
+                                       :api api
+                                       :start start
+                                       :limit limit
+                                       :sort-field sf
+                                       :sort-order so))
+	 (success (request-successful? result)))
+    (if success
+	(values
+	 (get-docs result)
+	 (get-num-found result)
+	 (get-facet-fields result)
+	 nil)
+	(values nil nil nil (get-error-reason result)))))

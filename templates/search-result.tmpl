@@ -7,9 +7,10 @@
 {call header}
    {param extratitle: $term /}
    {param term: $term /}
+   {param search_field: $search_field /}
 {/call}
 
-<p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a> | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a> | <a href="search-activities">Activity</a> | <a href="stats">Stats</a>  |
+<p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a> | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a> | <a href="search-activities">Activity</a> |
   
   {if isNonnull($login)}
   <b>{$login}</b>
@@ -53,6 +54,7 @@
       <input type="hidden" name="start" value="{$start}"/>
       <input type="hidden" name="limit" value="{$limit}"/>
       <input type="hidden" name="num-pages" value="{$numpages}"/>
+      <input type="hidden" name="search_field" value="{$search_field}"/>
       {if isNonnull($facets.rdf_type)}
       <div class="facettype" onclick="toggle_visibility('rdf-type-collapsible')">RDF Type:</div>
 

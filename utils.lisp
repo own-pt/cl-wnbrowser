@@ -9,18 +9,6 @@
 (defun trim (s)
   (string-trim '(#\Space #\Return #\Tab #\Newline) s))
 
-(defun process-pairs (function list)
-  "Process LIST and applies FUNCTION to every pair, accumulating the
-results of FUNCTION via APPEND.  It is expected that FUNCTION returns
-either a list or a cons.  Example:
-
-CL-USER> (process-pairs #'cons '(1 2 3 4))
-((1 . 2) (3 . 4))"
-  (append
-   (destructuring-bind (a b . rest) list
-     (cons (funcall function a b)
-	   (when rest (process-pairs function rest))))))
-
 (defun is-synset (doc)
   (if (listp doc)
       (= 0 (count "Nominalization" doc :test #'string-equal))
@@ -30,15 +18,6 @@ CL-USER> (process-pairs #'cons '(1 2 3 4))
   "Check if TERM matches the expected behavior of a synset ID."
   (not (null (cl-ppcre:scan "^(\\d{8})-[nvar]$" 
                             (trim term)))))
-
-;;http://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Escaping Special Characters
-
-;; + - && || ! ( ) { } [ ] ^ " ~ * ? : \
-(defparameter *lucene-special-chars* "([\\!\\^\\~\\\"\\*\\?\\\\\\+\\:\\(\\)\\{\\}\\[\\]])")
-
-(defun solr-encode (string)
-  "Encode SOLR/Lucene special characters"
-  (cl-ppcre:regex-replace-all *lucene-special-chars* string '("\\" :match)))
 
 ;;; these functions are from ST-JSON, with modifications
 ;;; Copyright (c) Streamtech & Marijn Haverbeke (marijnh@gmail.com)

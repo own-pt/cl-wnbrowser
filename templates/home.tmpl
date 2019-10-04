@@ -17,8 +17,24 @@
     <img src="/wn/st/ownbw.png" alt="Open Wordnet Logo" id="logo">
 
     <form action="search" method="get">
-      <input id="search-box" class="search" type="text" name="term" placeholder="Search ..."/>
-      <input class="search" type="submit" value="Search" />
+      <div class="input-group">
+	<span>
+          <select class="search_field" id="search_field" name="search_field" title="Targeted search options">
+	    <option value="all">all
+            </option>
+	    <option value="word_en">word_en
+            </option>
+            <option value="word_pt">word_pt
+            </option>
+	    <option value="gloss_en">gloss_en
+            </option>
+	    <option value="gloss_pt">gloss_pt
+            </option>
+          </select>
+	</span>
+	<input id="search-box" class="search" type="text" name="term" placeholder="Search ..."/>
+	<input class="search" type="submit" value="Search" />
+      </div>
     </form>
 
     <h2>How to use</h2>
@@ -131,11 +147,9 @@
 
     <p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a>
       | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a>
-      | <a href="http://wnpt.brlcloud.com:10035/repositories/wn30" target="_blank">SPARQL Endpoint</a>
       | <a href="https://github.com/own-pt/openWordnet-PT/" target="_blank">Download</a>
       | <a href="search-activities">Activity</a>
-      | <a href="stats">Statistics</a>  |
-      {if isNonnull($login)}
+      | {if isNonnull($login)}
       <b>{$login}</b>
       {else}
       <a href="https://github.com/login/oauth/authorize?client_id={$githubid}">Login</a>
