@@ -66,7 +66,9 @@ returns the first entry in word_en."
 	(yason:*parse-object-key-fn* #'make-keyword)
 	(id (getf suggestion :|id|))
 	(hits (getf
-	       (getf (clesc:es/search "votes" :terms `(("suggestion_id" ,id)))
+	       (getf (clesc:es/search "votes"
+				      :terms `(("suggestion_id" ,id))
+				      :size 100)
 		     :|hits|)
 	       :|hits|))
 	(votes (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
@@ -108,7 +110,8 @@ returns the first entry in word_en."
 	 (yason:*parse-object-key-fn* #'make-keyword)
 	 (hits (getf
 		(getf (clesc:es/search "suggestion" :terms `(("doc_id" ,id)
-							     ("type" "suggestion")))
+							     ("type" "suggestion"))
+				       :size 100 :fields-order '(("date" "desc")))
 		      :|hits|)
 		:|hits|))
 	 (suggestions (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
@@ -119,7 +122,8 @@ returns the first entry in word_en."
 	 (yason:*parse-object-key-fn* #'make-keyword)
 	 (hits (getf
 		(getf (clesc:es/search "suggestion" :terms `(("doc_id" ,id)
-							     ("type" "comment")))
+							     ("type" "comment"))
+				       :size 100 :fields-order '(("date" "desc")))
 		      :|hits|)
 		:|hits|))
 	 (comments (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
@@ -140,11 +144,11 @@ returns the first entry in word_en."
 		     ("provenance" . "web")
 		     ("tags" . (get-tags params))
 		     ("id" . ,id)))))
-    (clesc:es/add "suggestion" "suggestion" comment :id id)))
+    (clesc:es/add "suggestion" "suggestion" comment :id id :refresh "wait_for")))
 
 
 (defmethod delete-comment ((backend (eql 'es)) id)
-  (clesc:es/delete "suggestion" "suggestion" id))
+  (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for"))
 
 ;; suggestions
 (defmethod add-suggestion ((backend (eql 'es)) synset-id doc-type suggestion-type params login)
@@ -161,14 +165,14 @@ returns the first entry in word_en."
 			("action" . ,suggestion-type)
 			("params" . ,params)
 			("user" . ,login)
-			("status" . "new") ;; new accepted not-accepted committed
+			("status" . "new")
 			("provenance" . ,provenance)
 			("id" . ,suggestion-id)))))
-    (clesc:es/add "suggestion" "suggestion" suggestion :id suggestion-id)
+    (clesc:es/add "suggestion" "suggestion" suggestion :id suggestion-id :refresh "wait_for")
     (register-audit db "add-suggestion" synset-id type value login provenance)))
 
 (defmethod delete-suggestion ((backend (eql 'es)) id)
-  (clesc:es/delete "suggestion" "suggestion" id))
+  (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for"))
 
 ;; audit
 (defun register-audit (db action doc-id field value user provenance)
