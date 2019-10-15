@@ -7,7 +7,7 @@
      {if isarray($synsets)}
      {foreach $s in $synsets}
        {if not isFirst($s)}, {/if}
-       <a href="synset?id={$s.id}">{$s.name}</a>
+       <a href="synset?id={$s.target_synset}">{$s.name}</a>
      {/foreach}
      {/if}  
 
@@ -238,112 +238,112 @@
 
     {call describe-relation}
       {param description: 'Hypernym of' /}
-      {param synsets: $wn30_hypernymofexpanded /}
+      {param synsets: $wn30_en_hypernymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Hyponym of' /}
-      {param synsets: $wn30_hyponymofexpanded /}
+      {param synsets: $wn30_en_hyponymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Part holonym of' /}
-      {param synsets: $wn30_partholonymofexpanded /}
+      {param synsets: $wn30_en_partholonymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Part meronym of' /}
-      {param synsets: $wn30_partmeronymofexpanded /}
+      {param synsets: $wn30_en_partmeronymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Member holonym of' /}
-      {param synsets: $wn30_memberholonymofexpanded /}
+      {param synsets: $wn30_en_memberholonymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Member meronym of' /}
-      {param synsets: $wn30_membermeronymofexpanded /}
+      {param synsets: $wn30_en_membermeronymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Substance holonym of' /}
-      {param synsets: $wn30_substanceholonymofexpanded /}
+      {param synsets: $wn30_en_substanceholonymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Substance meronym of' /}
-      {param synsets: $wn30_substancemeronymofexpanded /}
+      {param synsets: $wn30_en_substancemeronymof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Similar to' /}
-      {param synsets: $wn30_similartoexpanded /}
+      {param synsets: $wn30_en_similarto /}
     {/call}
 
     {call describe-relation}
       {param description: 'See also' /}
-      {param synsets: $wn30_seealsoexpanded /}
+      {param synsets: $wn30_en_seealso /}
     {/call}
 
     {call describe-relation}
       {param description: 'Instance of' /}
-      {param synsets: $wn30_instanceofexpanded /}
+      {param synsets: $wn30_en_instanceof /}
     {/call}
 
     {call describe-relation}
       {param description: 'Has instance' /}
-      {param synsets: $wn30_hasinstanceexpanded /}
+      {param synsets: $wn30_en_hasinstance /}
     {/call}
 
     {call describe-relation}
       {param description: 'Attribute' /}
-      {param synsets: $wn30_attributeexpanded /}
+      {param synsets: $wn30_en_attribute /}
     {/call}
 
     {call describe-relation}
       {param description: 'Causes' /}
-      {param synsets: $wn30_causesexpanded /}
+      {param synsets: $wn30_en_causes /}
     {/call}
 
     {call describe-relation}
       {param description: 'Same verb group as' /}
-      {param synsets: $wn30_sameverbgroupasexpanded /}
+      {param synsets: $wn30_en_sameverbgroupas /}
     {/call}
 
     {call describe-relation}
       {param description: 'Entails' /}
-      {param synsets: $wn30_entailsexpanded /}
+      {param synsets: $wn30_en_entails /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by region' /}
-      {param synsets: $wn30_classifiedbyregionexpanded /}
+      {param synsets: $wn30_en_classifiedbyregion /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by topic' /}
-      {param synsets: $wn30_classifiedbytopicexpanded /}
+      {param synsets: $wn30_en_classifiedbytopic /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by usage' /}
-      {param synsets: $wn30_classifiedbyusageexpanded /}
+      {param synsets: $wn30_en_classifiedbyusage /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by region' /}
-      {param synsets: $wn30_classifiesbyregionexpanded /}
+      {param synsets: $wn30_en_classifiesbyregion /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by topic' /}
-      {param synsets: $wn30_classifiesbytopicexpanded /}
+      {param synsets: $wn30_en_classifiesbytopic /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by usage' /}
-      {param synsets: $wn30_classifiesbyusageexpanded /}
+      {param synsets: $wn30_en_classifiesbyusage /}
     {/call}
 
   </ul>

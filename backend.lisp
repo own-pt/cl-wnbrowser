@@ -10,11 +10,11 @@
 
 (defgeneric add-comment (backend id doc_type text login))
 
-(defgeneric delete-comment (backend id))
+(defgeneric delete-comment (backend user id))
 
 (defgeneric add-suggestion (backend id doc_type type params login))
 
-(defgeneric delete-suggestion (backend id))
+(defgeneric delete-suggestion (backend user id))
 
 (defgeneric accept-suggestion (backend id))
 
@@ -147,8 +147,15 @@ returns the first entry in word_en."
     (clesc:es/add "suggestion" "suggestion" comment :id id :refresh "wait_for")))
 
 
-(defmethod delete-comment ((backend (eql 'es)) id)
-  (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for"))
+(defmethod delete-comment ((backend (eql 'es)) user id)
+  (let* ((db "wnproposedchanges")
+	 (provenance "web")
+	 (suggestion (gethash "_source" (clesc:es/get "suggestion" "suggestion" id)))
+	 (value (format nil "~a(~a)"
+			(gethash "action" suggestion)
+			(gethash "params" suggestion))))
+    (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for")
+    (register-audit db "delete-comment" (gethash "doc_id" suggestion) "comment" value user provenance)))
 
 ;; suggestions
 (defmethod add-suggestion ((backend (eql 'es)) synset-id doc-type suggestion-type params login)
@@ -171,8 +178,15 @@ returns the first entry in word_en."
     (clesc:es/add "suggestion" "suggestion" suggestion :id suggestion-id :refresh "wait_for")
     (register-audit db "add-suggestion" synset-id type value login provenance)))
 
-(defmethod delete-suggestion ((backend (eql 'es)) id)
-  (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for"))
+(defmethod delete-suggestion ((backend (eql 'es)) user id)
+  (let* ((db "wnproposedchanges")
+	 (provenance "web")
+	 (suggestion (gethash "_source" (clesc:es/get "suggestion" "suggestion" id)))
+	 (value (format nil "~a(~a)"
+			(gethash "action" suggestion)
+			(gethash "params" suggestion))))
+    (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for")
+    (register-audit db "delete-sugestion" (gethash "doc_id" suggestion) "suggestion" value user provenance)))
 
 ;; audit
 (defun register-audit (db action doc-id field value user provenance)

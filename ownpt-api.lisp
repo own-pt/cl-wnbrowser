@@ -200,7 +200,7 @@ long to parse the stream and the stream may be cut due to timeout."
 (defmethod get-synset ((backend (eql 'own-api)) id)
   (get-document-by-id "synset" id))
 
-(defmethod delete-suggestion ((backend (eql 'own-api)) id)
+(defmethod delete-suggestion ((backend (eql 'own-api)) user id)
   (call-rest-method
    (format nil "delete-suggestion/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
@@ -217,7 +217,7 @@ long to parse the stream and the stream may be cut due to timeout."
    :parameters (list (cons "key" *ownpt-api-key*))))
 
 
-(defmethod delete-comment ((backend (eql 'own-api)) id)
+(defmethod delete-comment ((backend (eql 'own-api)) user id)
   (call-rest-method
    (format nil "delete-comment/~a" (drakma:url-encode id :utf-8))
    :parameters (list (cons "key" *ownpt-api-key*))))
