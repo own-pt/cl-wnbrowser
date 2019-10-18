@@ -251,7 +251,7 @@
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (delete-suggestion *backend* id)
+          (delete-suggestion *backend* login id)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
@@ -296,7 +296,7 @@
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
-          (delete-comment *backend* id)
+          (delete-comment *backend* login id)
           (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
