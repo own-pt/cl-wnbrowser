@@ -246,7 +246,8 @@ returns the first entry in word_en."
 				  :string (if (equal "all" search-field) term)
 				  :size limit :terms filters :from start
 				  :facets '("rdf_type" "wn30_lexicographerFile" "wn30_frame"
-					    "word_count_pt" "word_count_en")))
+					    "word_count_pt" "word_count_en")
+				  :agg-size 100))
 	 (hits-1 (getf result :|hits|))
 	 (hits-2 (getf hits-1 :|hits|))
 	 (docs (mapcar (lambda (hit) (getf hit :|_source|)) hits-2))
@@ -284,7 +285,8 @@ returns the first entry in word_en."
 				  ; :string (if (equal "all" search-field) term)
 				  :size limit :terms filters :from start :fields-order sort
 				  :facets '("type" "action" "status" "doc_type" "user"
-					    "provenance" "tags" "sum_votes" "vote_score")))
+					    "provenance" "tags" "sum_votes" "vote_score")
+				  :agg-size 300))
 	 (hits-1 (getf result :|hits|))
 	 (hits-2 (getf hits-1 :|hits|))
 	 (docs (mapcar (lambda (hit) (getf hit :|_source|)) hits-2))
