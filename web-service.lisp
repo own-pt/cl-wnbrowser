@@ -75,7 +75,7 @@
 	     (documents num-found facets error)
           (execute-search
 	   *backend*
-           (preprocess-term term)
+           term
 	   :search-field search_field
            :rdf-type fq_rdftype
            :lex-file fq_lexfile

@@ -271,7 +271,7 @@ long to parse the stream and the stream may be cut due to timeout."
                                     :word-count-pt word-count-pt
                                     :word-count-en word-count-en))
 	 (api "search-documents")
-	 (result (execute-search-query term
+	 (result (execute-search-query (preprocess-term term)
                                        :drilldown drilldown
                                        :api api
                                        :start start
