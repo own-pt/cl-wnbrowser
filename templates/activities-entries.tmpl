@@ -5,9 +5,9 @@
 {template create-link}
 
 {if ($document.doc_type == 'synset')}
-<a href="/wn/synset?id={$document.doc_id}">{$document.doc_id}</a>
+<a href="/synset?id={$document.doc_id}">{$document.doc_id}</a>
 {else}
-<a href="/wn/nomlex?id={$document.doc_id}">{$document.doc_id}</a>
+<a href="/nomlex?id={$document.doc_id}">{$document.doc_id}</a>
 {/if}
 
 {/template}

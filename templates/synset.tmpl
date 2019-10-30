@@ -139,7 +139,7 @@
       {if insuggestions($g, $suggestions, 'remove-gloss-pt')}<strike>{/if}{$g}{if insuggestions($g, $suggestions, 'remove-gloss-pt')}</strike>{/if}
       
       {if isNonnull($login) and (not insuggestions($g, $suggestions, 'remove-gloss-pt'))}
-      [<a title="Suggest removing this gloss" href="/wn/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
+      [<a title="Suggest removing this gloss" href="/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-gloss-pt&params={$g}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -148,7 +148,7 @@
     </i>
 
     {if isNonnull($login)}
-    <form action="/wn/process-suggestion" onsubmit="return validate(this, add_gloss)">
+    <form action="/process-suggestion" onsubmit="return validate(this, add_gloss)">
       <input type="hidden" name="type" value="add-gloss-pt">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="id" value="{$doc_id}">
@@ -168,7 +168,7 @@
       {if insuggestions($e, $suggestions, 'remove-example-pt')}<strike>{/if}{$e}{if insuggestions($e, $suggestions, 'remove-example-pt')}</strike>{/if}
 
       {if isNonnull($login) and (not insuggestions($e, $suggestions, 'remove-example-pt'))}
-      [<a title="Suggest removing this example" href="/wn/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-example-pt&params={$e}&return-uri={urlencode($returnuri)}">x</a>]
+      [<a title="Suggest removing this example" href="/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-example-pt&params={$e}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
       {/foreach}
       {else}
@@ -177,7 +177,7 @@
     </i>
 
     {if isNonnull($login)}
-    <form action="/wn/process-suggestion" onsubmit="return validate(this, add_ex)">
+    <form action="/process-suggestion" onsubmit="return validate(this, add_ex)">
       <input type="hidden" name="type" value="add-example-pt">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="id" value="{$doc_id}">
@@ -197,13 +197,13 @@
       {if insuggestions($w, $suggestions, 'remove-word-pt')}<strike>{/if}{$w}{if insuggestions($w, $suggestions, 'remove-word-pt')}</strike>{/if}
 
       {if isNonnull($login) and (not insuggestions($w, $suggestions, 'remove-word-pt'))}
-      [<a title="Suggest removing this word" href="/wn/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
+      [<a title="Suggest removing this word" href="/process-suggestion?id={$doc_id}&doc_type=synset&type=remove-word-pt&params={$w}&return-uri={urlencode($returnuri)}">x</a>]
       {/if}
     </span>
     {ifempty}<i>[ empty word list ]</i>
     {/foreach}
     {if isNonnull($login)}
-    <form action="/wn/process-suggestion" onsubmit="return validate(this, add_words)">
+    <form action="/process-suggestion" onsubmit="return validate(this, add_words)">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="type" value="add-word-pt">
       <input type="hidden" name="id" value="{$doc_id}">
@@ -363,7 +363,7 @@
 
   {literal}
   <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-  <script src="/wn/st/voting.js"></script>
+  <script src="/st/voting.js"></script>
   </script>
   {/literal}
   
@@ -426,7 +426,7 @@
       <td>{$s.status}</td>
       <td>
         {if validstatus($s.status) and (isself($login, $s.user) or isauthorizedapprove($login))}
-        <a href="/wn/delete-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Delete suggestion">del</a>
+        <a href="/delete-suggestion?id={getdocid($s)}&return-uri={urlencode($returnuri)}" title="Delete suggestion">del</a>
 	{else}
 	del
         {/if}
@@ -442,13 +442,13 @@
   {foreach $c in $comments}
   <p><b>{$c.user}</b>: {$c.params} ({prettydate($c.date)})
     {if isself($login, $c.user) or isauthorizedapprove($login)}
-    [<a href="/wn/delete-comment?id={getdocid($c)}&return-uri={urlencode($returnuri)}">del</a>]
+    [<a href="/delete-comment?id={getdocid($c)}&return-uri={urlencode($returnuri)}">del</a>]
     {/if}
   </p>
   {/foreach}
   
     {if isNonnull($login)}
-    <form action="/wn/process-comment">
+    <form action="/process-comment">
       <input type="hidden" name="id" value="{$doc_id}">
       <input type="hidden" name="return-uri" value="{urlencode($returnuri)}">
       <input type="hidden" name="doc_type" value="synset">

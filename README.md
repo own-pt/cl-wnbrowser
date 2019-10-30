@@ -1,6 +1,6 @@
 # README #
 
-This is CL-WNBROWSER version 3.0.  It is currently running at http://wn.mybluemix.net/wn/
+This is CL-WNBROWSER version 3.0.  It is currently running at http://wn.mybluemix.net/
 
 See also the OpenWordnet-PT project: https://github.com/own-pt/openWordnet-PT
 

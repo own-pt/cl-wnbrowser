@@ -30,7 +30,7 @@
 
 (defun make-callback-uri (request-uri)
   (let* ((redirect-uri (format nil "http://~a~a" *base-url* request-uri))
-         (callback-uri (format nil "http://~a/wn/callback?destination=~a"
+         (callback-uri (format nil "http://~a/callback?destination=~a"
                                *base-url*
                                (hunchentoot:url-encode request-uri))))
     callback-uri))
@@ -46,9 +46,12 @@
   (cl-wnbrowser.templates:searcherror result))
 
 (hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn") ()
-  (hunchentoot:redirect "/wn/"))
+  (hunchentoot:redirect "/"))
 
-(hunchentoot:define-easy-handler (get-root-handler :uri "/wn/") ()
+(hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn/") ()
+  (hunchentoot:redirect "/"))
+
+(hunchentoot:define-easy-handler (get-root-handler :uri "/") ()
   (cl-wnbrowser.templates:home
    (append
     (get-login)
@@ -59,7 +62,7 @@
 (defun disable-caching ()
   (hunchentoot:no-cache))
  
-(hunchentoot:define-easy-handler (execute-search-handler :uri "/wn/search")
+(hunchentoot:define-easy-handler (execute-search-handler :uri "/search")
     (term search_field start debug limit num-pages
 	  (fq_frame :parameter-type 'list)
           (fq_word_count_pt :parameter-type 'list)
@@ -70,7 +73,7 @@
   (setf (hunchentoot:session-value :term) term)
   (setf (hunchentoot:session-value :search_field) search_field)
   (if (is-synset-id term)
-      (hunchentoot:redirect (format nil "/wn/synset?id=~a" term))
+      (hunchentoot:redirect (format nil "/synset?id=~a" term))
       (multiple-value-bind
 	     (documents num-found facets error)
           (execute-search
@@ -118,7 +121,7 @@
 		    (hunchentoot:delete-session-value :ids)
 		    (process-results result)))))))))
 		  
-(hunchentoot:define-easy-handler (search-activity-handler :uri "/wn/search-activities")
+(hunchentoot:define-easy-handler (search-activity-handler :uri "/search-activities")
     (term start debug sf so
           (fq_sum_votes :parameter-type 'list)
           (fq_num_votes :parameter-type 'list)
@@ -186,7 +189,7 @@
                 (cl-wnbrowser.templates:activities result)))))))
 
 (hunchentoot:define-easy-handler
-    (get-synset-handler :uri "/wn/synset") (id debug sexp)
+    (get-synset-handler :uri "/synset") (id debug sexp)
   (disable-caching)
   (let* ((synset (get-synset *backend* id))
          (suggestions (get-suggestions *backend* id))
@@ -236,7 +239,7 @@
 ;;       nomlex))))
 
 (hunchentoot:define-easy-handler
-    (process-suggestion-handler :uri "/wn/process-suggestion") (id doc_type type params return-uri)
+    (process-suggestion-handler :uri "/process-suggestion") (id doc_type type params return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
@@ -247,7 +250,7 @@
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler (delete-suggestion-handler
-				  :uri "/wn/delete-suggestion") (id return-uri)
+				  :uri "/delete-suggestion") (id return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
@@ -281,7 +284,7 @@
 
 ;; comments
 (hunchentoot:define-easy-handler
-    (process-comment-handler :uri "/wn/process-comment") (id doc_type text return-uri)
+    (process-comment-handler :uri "/process-comment") (id doc_type text return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
@@ -292,7 +295,7 @@
           (format nil "invalid login")))))
 
 (hunchentoot:define-easy-handler
-    (delete-comment-handler :uri "/wn/delete-comment") (id return-uri)
+    (delete-comment-handler :uri "/delete-comment") (id return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
         (progn
@@ -304,7 +307,7 @@
 
 ;; votes
 (hunchentoot:define-easy-handler
-    (vote-up-handler :uri "/wn/vote-up") (id)
+    (vote-up-handler :uri "/vote-up") (id)
   (let ((login (hunchentoot:session-value :login)))
     (setf (hunchentoot:content-type*) "application/json")
     (if login
@@ -314,7 +317,7 @@
           (yason:encode-plist (list :result "not-authorized") s)))))
 
 (hunchentoot:define-easy-handler
-    (vote-down-handler :uri "/wn/vote-down") (id)
+    (vote-down-handler :uri "/vote-down") (id)
   (let ((login (hunchentoot:session-value :login)))
     (setf (hunchentoot:content-type*) "application/json")
     (if login
@@ -325,7 +328,7 @@
 
 
 (hunchentoot:define-easy-handler
-    (delete-vote-handler :uri "/wn/delete-vote") (id)
+    (delete-vote-handler :uri "/delete-vote") (id)
   (let ((login (hunchentoot:session-value :login)))
     (when login
       (delete-vote *backend* id))
@@ -335,17 +338,17 @@
 
 ;; github callback
 (hunchentoot:define-easy-handler
-    (github-callback-handler :uri "/wn/callback") (code destination)
+    (github-callback-handler :uri "/callback") (code destination)
   (let ((access-token (get-access-token code))
         (request-uri (when destination (hunchentoot:url-decode destination))))
     (setf (hunchentoot:session-value :login) (get-user-login (get-user access-token)))
-    (if (cl-strings:starts-with request-uri "/wn/") 
+    (if (cl-strings:starts-with request-uri "/")
         (hunchentoot:redirect request-uri)
-        (hunchentoot:redirect "/wn/"))))
+        (hunchentoot:redirect "/"))))
 
 (defun publish-static-content (dir)
   (push (hunchentoot:create-folder-dispatcher-and-handler
-	 "/wn/st/"
+	 "/st/"
 	 (merge-pathnames #p"static/" dir))
 	hunchentoot:*dispatch-table*))
 

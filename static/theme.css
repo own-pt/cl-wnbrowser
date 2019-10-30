@@ -153,16 +153,16 @@ background-color: #EAF2D3;
 }
 
 .arrow.upmod { 
-    background-image: url(/wn/st/aupmod.png);
+    background-image: url(/st/aupmod.png);
 }
 .arrow.downmod { 
-    background-image: url(/wn/st/adownmod.png);
+    background-image: url(/st/adownmod.png);
 }
 .arrow.up { 
-    background-image: url(/wn/st/aupgray.png);
+    background-image: url(/st/aupgray.png);
 }
 .arrow.down { 
-    background-image: url(/wn/st/adowngray.png);
+    background-image: url(/st/adowngray.png);
 }
 
 .midcol {
