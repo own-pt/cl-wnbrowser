@@ -241,9 +241,12 @@ returns the first entry in word_en."
 		   (when word-count-en (mapcar (lambda (x) `("word_count_en" ,x))  word-count-en))
 		   (when frame (mapcar (lambda (x) `("wn30_frame" ,x))  frame))))
 	 (result (clesc:es/search "wn"
-				  :text (unless (equal "all" search-field) term)
+				  :text (if (equal "all" search-field)
+					    (if (emptyp term)
+						term)
+					    term)
 				  :search-field (unless (equal "all" search-field) search-field)
-				  :string (if (equal "all" search-field) term)
+				  :string (if (and (equal "all" search-field) (not (emptyp term))) term)
 				  :size limit :terms filters :from start
 				  :facets '("rdf_type" "wn30_lexicographerFile" "wn30_frame"
 					    "word_count_pt" "word_count_en")

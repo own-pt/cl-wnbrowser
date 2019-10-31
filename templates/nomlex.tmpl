@@ -21,15 +21,17 @@
    {param term: $term /}
 {/call}
 
-    <p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a> | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a> | <a href="search-activities">Activity</a> | <a href="stats">Stats</a>  |
-
-      {if isNonnull($login)}
-      <b>{$login}</b>
-      {else}
-      <a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">Login</a>
-      {/if}
-      | API version <b>{$info.version}</b>
-      ]</p>
+<p>[ <a href="https://github.com/own-pt/openWordnet-PT/wiki" target="_blank">Doc</a>
+  | <a href="/st/api-access.html" target="_blank">API</a>
+  | <a href="https://github.com/own-pt/cl-wnbrowser" target="_blank">Source</a>
+  | <a href="search-activities">Activity</a>
+  | <a href="stats">Stats</a> |
+  {if isNonnull($login)}
+  <b>{$login}</b>
+  {else}
+  <a href="https://github.com/login/oauth/authorize?client_id={$githubid}&redirect_uri={$callbackuri}">Login</a>
+  {/if}
+  ]</p>
 
 
 <div class="nomlexprops">
