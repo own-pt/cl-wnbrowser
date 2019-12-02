@@ -142,7 +142,7 @@ returns the first entry in word_en."
 		     ("params" . ,text)
 		     ("status" . "new")
 		     ("provenance" . "web")
-		     ("tags" . (get-tags params))
+		     ("tags" . ,(get-tags text))
 		     ("id" . ,id)))))
     (clesc:es/add "suggestion" "suggestion" comment :id id :refresh "wait_for")))
 
