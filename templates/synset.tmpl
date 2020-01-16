@@ -7,9 +7,9 @@
      {if isarray($synsets)}
      {foreach $s in $synsets}
        {if not isFirst($s)}, {/if}
-       <a href="synset?id={$s.target_synset}">{$s.name}</a>
+       <a href="synset?id={$s.target_synset}">{if isNonnull($s.name)} {$s.name} {else} {$s.target_word} {/if}</a>
      {/foreach}
-     {/if}  
+     {/if}
 
 {/template}
 
