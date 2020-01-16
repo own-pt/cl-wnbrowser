@@ -18,7 +18,7 @@
   (list :login (hunchentoot:session-value :login)))
 
 (defun process-synset (parameters)
-  (if (getf parameters :|error|)
+  (if (getf parameters :error)
       (cl-wnbrowser.templates:synset-invalid
        (append
         (get-login)
@@ -218,7 +218,8 @@
 		      :comments comments
 		      :suggestions suggestions
 		      :githubid *github-client-id*
-		      :synset synset)
+		      :synset synset
+		      :error (when (null synset) t))
 		     synset
 		     (list :search_field search_field)))))))
 
