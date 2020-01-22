@@ -25,6 +25,11 @@
 	 (url (car (gethash "application_uris" vcap))))
     (setf cl-wnbrowser::*base-url* (format nil "~a" url)))
 
+  (let ((root-accounts (split-sequence:split-sequence #\, (heroku-getenv "ROOT_ACCOUNTS")))
+	(vote-accounts (split-sequence:split-sequence #\, (heroku-getenv "VOTE_ACCOUNTS"))))
+    (setf cl-wnbrowser::*approve-reject-authorized-accounts* root-accounts
+	  cl-wnbrowser::*vote-authorized-accounts*           vote-accounts))
+
   (setf cl-wnbrowser::*basedir* "/home/vcap/app/")
   (setf cl-wnbrowser::*github-client-id* (heroku-getenv "GITHUB_CLIENT_ID"))
   (setf cl-wnbrowser::*github-client-secret* (heroku-getenv "GITHUB_CLIENT_SECRET"))
