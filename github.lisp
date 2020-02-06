@@ -37,7 +37,8 @@
                  *github-user-api*
                  :method :get
                  :external-format-out :utf-8
-                 :parameters (list (cons "access_token" access-token))
+		 :additional-headers (list (cons "Authorization"
+						 (format nil "token ~a" access-token)))
                  :want-stream t)))
     (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
     (let ((obj (yason:parse stream
