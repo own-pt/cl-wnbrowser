@@ -1,0 +1,76 @@
+{
+    "mappings": {
+	"suggestion": {
+	    "dynamic": false,
+	    "properties": {
+		"action": {
+		    "type": "keyword"
+		},
+		"id": {
+		    "type": "keyword"
+		},
+		"all_voters": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"date": {
+		    "type": "long"
+		},
+		"doc_id": {
+		    "type": "keyword"
+		},
+		"doc_type": {
+		    "type": "keyword"
+		},
+		"negative_voters": {
+		    "type": "keyword"
+		},
+		"negative_votes": {
+		    "type": "long"
+		},
+		"params": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"positive_voters": {
+		    "type": "keyword"
+		},
+		"positive_votes": {
+		    "type": "long"
+		},
+		"provenance": {
+		    "type": "keyword"
+		},
+		"status": {
+		    "type": "keyword"
+		},
+		"sum_votes": {
+		    "type": "long"
+		},
+		"tags": {
+		    "type": "keyword"
+		},
+		"type": {
+		    "type": "keyword"
+		},
+		"user": {
+		    "type": "keyword"
+		},
+		"vote_score": {
+		    "type": "long"
+		}
+	    }
+	}
+    }
+    
+}

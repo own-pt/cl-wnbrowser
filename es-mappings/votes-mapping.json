@@ -1,0 +1,21 @@
+{
+    "mappings": {
+	"votes": {
+	    "dynamic": false,
+	    "properties":{
+		"date":{
+		    "type": "long"
+		},
+		"suggestion_id":{
+		    "type": "keyword"
+		},
+		"user":{
+		    "type": "keyword"
+		},
+		"value": {
+		    "type": "long"
+		}
+	    }
+	}
+    }
+}

@@ -1,0 +1,2 @@
+This dir contains the mappings files to the elastisearch data used by
+this application.

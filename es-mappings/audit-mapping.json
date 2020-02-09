@@ -1,0 +1,83 @@
+{
+    "mappings": {
+	"audit": {
+	    "properties": {
+		"action": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"date": {
+		    "type": "long"
+		},
+		"db": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"doc_id": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"field": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"id": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"provenance": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"user": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"value": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		}
+	    }
+	}
+    }    
+}

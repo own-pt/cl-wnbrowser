@@ -1,0 +1,910 @@
+{
+    "mappings": {
+	"wn": {
+	    "dynamic": false,
+            "properties": {
+		"doc_id": {
+		    "type": "keyword"
+		},
+		"example_pt": {
+		    "type": "text"
+		},
+		"gloss_en": {
+		    "type": "text"
+		},
+		"gloss_pt": {
+		    "type": "text"
+		},
+		"rdf_type": {
+		    "type": "keyword"
+		},
+		"wn30_en_adjectivePertainsTo": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_adverbPertainsTo": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_agent": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_antonymOf": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_attribute": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_bodyPart": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_byMeansOf": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_causes": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_classifiedByRegion": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_classifiedByTopic": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_classifiedByUsage": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_classifiesByRegion": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_classifiesByTopic": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_classifiesByUsage": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_derivationallyRelated": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_destination": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_entails": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_event": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_hasInstance": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_hypernymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_hyponymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_instanceOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_instrument": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_location": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_material": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_memberHolonymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_memberMeronymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_partHolonymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_partMeronymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_participleOf": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_property": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_result": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_sameVerbGroupAs": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_seeAlso": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_state": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_substanceHolonymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_substanceMeronymOf": {
+		    "properties": {
+			"name": {
+			    "type": "keyword"
+			},
+			"pointer": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_undergoer": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_uses": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_en_vehicle": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_frame": {
+		    "type": "keyword"
+		},
+		"wn30_lexicographerFile": {
+		    "type": "keyword"
+		},
+		"wn30_pt_agent": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_antonymOf": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_bodyPart": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_byMeansOf": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_event": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_instrument": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_location": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_material": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_property": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_result": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_state": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_undergoer": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_uses": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_pt_vehicle": {
+		    "properties": {
+			"pointer": {
+			    "type": "keyword"
+			},
+			"source_word": {
+			    "type": "keyword"
+			},
+			"target_synset": {
+			    "type": "keyword"
+			},
+			"target_word": {
+			    "type": "keyword"
+			}
+		    }
+		},
+		"wn30_similarTo": {
+		    "type": "keyword"
+		},
+		"wn30_synsetId": {
+		    "type": "keyword"
+		},
+		"word_count_en": {
+		    "type": "long"
+		},
+		"word_count_pt": {
+		    "type": "long"
+		},
+		"word_en": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		},
+		"word_pt": {
+		    "type": "text",
+		    "fields": {
+			"keyword": {
+			    "type": "keyword",
+			    "ignore_above": 256
+			}
+		    }
+		}
+            }
+	}
+    }
+}
+
