@@ -24,6 +24,18 @@
 {/template}
 
 
+{template word-relations}
+    {if isNonnull($rels)}
+	 {foreach $r in $rels}
+	 {if isFirst($r)}({/if}
+	 {if not isFirst($r)}, {/if}
+	 <a title="{$r.pointer} {$r.target_word} {$r.target_synset}" href="synset?id={$r.target_synset}"> {$r.symbol} </a>
+	 {if isLast($r)}){/if}
+	 {/foreach}
+     {/if}
+{/template}
+
+
 {template synset}
 {call header}
 	 {param extratitle: $doc_id /}
@@ -65,6 +77,9 @@
     {foreach $w in $word_en}
     {if not isFirst($w)}{sp}&bull;{sp}{/if}
     <span class="enword">{$w}</span>
+    {call word-relations}
+      {param rels: wordrel($synset, $w) /}
+    {/call}
     {/foreach}
   </p>
 
@@ -239,112 +254,112 @@
 
     {call describe-relation}
       {param description: 'Hypernym of' /}
-      {param synsets: $wn30_en_hypernymof /}
+      {param synsets: synsetrel($wn30_en_hypernymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Hyponym of' /}
-      {param synsets: $wn30_en_hyponymof /}
+      {param synsets: synsetrel($wn30_en_hyponymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Part holonym of' /}
-      {param synsets: $wn30_en_partholonymof /}
+      {param synsets: synsetrel($wn30_en_partholonymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Part meronym of' /}
-      {param synsets: $wn30_en_partmeronymof /}
+      {param synsets: synsetrel($wn30_en_partmeronymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Member holonym of' /}
-      {param synsets: $wn30_en_memberholonymof /}
+      {param synsets: synsetrel($wn30_en_memberholonymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Member meronym of' /}
-      {param synsets: $wn30_en_membermeronymof /}
+      {param synsets: synsetrel($wn30_en_membermeronymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Substance holonym of' /}
-      {param synsets: $wn30_en_substanceholonymof /}
+      {param synsets: synsetrel($wn30_en_substanceholonymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Substance meronym of' /}
-      {param synsets: $wn30_en_substancemeronymof /}
+      {param synsets: synsetrel($wn30_en_substancemeronymof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Similar to' /}
-      {param synsets: $wn30_en_similarto /}
+      {param synsets: synsetrel($wn30_en_similarto) /}
     {/call}
 
     {call describe-relation}
       {param description: 'See also' /}
-      {param synsets: $wn30_en_seealso /}
+      {param synsets: synsetrel($wn30_en_seealso) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Instance of' /}
-      {param synsets: $wn30_en_instanceof /}
+      {param synsets: synsetrel($wn30_en_instanceof) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Has instance' /}
-      {param synsets: $wn30_en_hasinstance /}
+      {param synsets: synsetrel($wn30_en_hasinstance) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Attribute' /}
-      {param synsets: $wn30_en_attribute /}
+      {param synsets: synsetrel($wn30_en_attribute) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Causes' /}
-      {param synsets: $wn30_en_causes /}
+      {param synsets: synsetrel($wn30_en_causes) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Same verb group as' /}
-      {param synsets: $wn30_en_sameverbgroupas /}
+    {param synsets: synsetrel($wn30_en_sameverbgroupas) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Entails' /}
-      {param synsets: $wn30_en_entails /}
+    {param synsets: synsetrel($wn30_en_entails) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by region' /}
-      {param synsets: $wn30_en_classifiedbyregion /}
+      {param synsets: synsetrel($wn30_en_classifiedbyregion) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by topic' /}
-      {param synsets: $wn30_en_classifiedbytopic /}
+      {param synsets: synsetrel($wn30_en_classifiedbytopic) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classified by usage' /}
-      {param synsets: $wn30_en_classifiedbyusage /}
+      {param synsets: synsetrel($wn30_en_classifiedbyusage) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by region' /}
-      {param synsets: $wn30_en_classifiesbyregion /}
+      {param synsets: synsetrel($wn30_en_classifiesbyregion) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by topic' /}
-      {param synsets: $wn30_en_classifiesbytopic /}
+      {param synsets: synsetrel($wn30_en_classifiesbytopic) /}
     {/call}
 
     {call describe-relation}
       {param description: 'Classifies by usage' /}
-      {param synsets: $wn30_en_classifiesbyusage /}
+      {param synsets: synsetrel($wn30_en_classifiesbyusage) /}
     {/call}
 
   </ul>

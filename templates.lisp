@@ -144,6 +144,45 @@ in dealing with checkboxes."
 (defun get-sense-weight (s)
   (cadr (split-sequence #\: s)))
 
+(defun is-synset-rel (rels)
+  (remove-if (lambda (x) (getf x :|source_word|))
+	     rels))
+
+
+(defparameter *rel-symbols* (alexandria:plist-hash-table '(:|wn30_en_antonymOf|	"ant"
+						:|wn30_en_causes|	"cause"
+						:|wn30_en_classifiedByRegion|	"mr"
+						:|wn30_en_classifiedByTopic| "mt"
+						:|wn30_en_classifiedByUsage|	"mu"
+						:|wn30_en_classifiesByRegion|	"dr"
+						:|wn30_en_classifiesByTopic|	"dt"
+						:|wn30_en_classifiesByUsage|	"du"
+						:|wn30_en_derivationallyRelated|	"drf"
+						:|wn30_en_participleOf|	"pv"
+						:|wn30_en_pertainsTo|	"pe"
+						:|wn30_en_property|	"prp"
+						:|wn30_en_sameVerbGroupAs|	"vg"
+						:|wn30_en_seeAlso|	"see") :test #'equal))
+
+(defun aux-filter-sense-rel (rel links word)
+  (loop for link in links
+     when (equal (getf link :|source_word|) word)
+     collect (cons :|symbol|
+		   (cons (gethash rel *rel-symbols*)
+				   link))))
+
+(defun filter-sense-rel (synset word)
+
+  (let ((relations '(:|wn30_en_classifiedByRegion| :|wn30_en_classifiedByTopic|
+		     :|wn30_en_classifiedByUsage| :|wn30_en_classifiesByRegion|
+		     :|wn30_en_classifiesByTopic| :|wn30_en_classifiesByUsage|
+		     :|wn30_en_sameVerbGroupAs| :|wn30_en_seeAlso|
+		     :|wn30_en_derivationallyRelated| :|wn30_en_antonymOf|
+		     :|wn30_en_pertainsTo| :|wn30_en_property|
+		     :|wn30_en_participleOf| :|wn30_en_causes|)))
+    (loop for rel in relations
+       append (aux-filter-sense-rel rel (getf synset rel) word))))
+
 (defun setup-templates ()
   (closure-template:with-user-functions
       (("issynset" #'is-synset)
@@ -170,7 +209,9 @@ in dealing with checkboxes."
        ("ismember" #'is-member)
        ("synsetworden" #'get-synset-word-en)
        ("synsetword" #'get-synset-word)
-       ("synsetgloss" #'get-synset-gloss))
+       ("synsetgloss" #'get-synset-gloss)
+       ("synsetrel" #'is-synset-rel)
+       ("wordrel" #'filter-sense-rel))
     (walk-directory
      (merge-pathnames *templates-directory* *basedir*)
      (lambda (f)
