@@ -243,9 +243,10 @@
     (process-suggestion-handler :uri "/process-suggestion") (id doc_type type params return-uri)
   (let ((login (hunchentoot:session-value :login)))
     (if login
-        (progn
-          (add-suggestion *backend* id doc_type type params login)
-          (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
+        (let ((suggestion-id (add-suggestion *backend* id doc_type type params login)))
+	  (if (member login *vote-authorized-accounts* :test #'equal)
+	      (add-vote *backend* suggestion-id login 1))
+	  (hunchentoot:redirect (hunchentoot:url-decode return-uri)))
         (progn
           (setf (hunchentoot:content-type*) "text/html")
           (format nil "invalid login")))))

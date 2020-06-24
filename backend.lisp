@@ -176,7 +176,8 @@ returns the first entry in word_en."
 			("provenance" . ,provenance)
 			("id" . ,suggestion-id)))))
     (clesc:es/add "suggestion" "suggestion" suggestion :id suggestion-id :refresh "wait_for")
-    (register-audit db "add-suggestion" synset-id type value login provenance)))
+    (register-audit db "add-suggestion" synset-id type value login provenance)
+    suggestion-id))
 
 (defmethod delete-suggestion ((backend (eql 'es)) user id)
   (let* ((db "wnproposedchanges")
