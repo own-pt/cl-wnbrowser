@@ -59,9 +59,10 @@ solr no wnpt instalado em /opt/solr e iniciado como serviço Ubuntu.
   > (in-package :cl-wnbrowser)
   > (start-server 8040)
 
-* Expandir arquivo targz(base de dados) dentro do diretorio solr/server/solr
+* Expandir arquivo targz (base de dados) dentro do diretorio solr/server/solr
 
-  ??
+  ?
+
 * Testing
 
 #+BEGIN_SRC sh
