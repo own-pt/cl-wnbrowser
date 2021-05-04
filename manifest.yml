@@ -2,9 +2,9 @@
 applications:
 - name: wn
   buildpacks:
-    - https://github.com/hmuniz/heroku-buildpack-cl.git
+    - https://github.com/own-pt/heroku-buildpack-cl.git
   services:
     - elasticsearch
   env:
-    SBCL_VERSION: 1.5.6
+    SBCL_VERSION: 2.1.4
     CL_WEBSERVER: hunchentoot

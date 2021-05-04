@@ -34,7 +34,7 @@ solr no wnpt instalado em /opt/solr e iniciado como serviço Ubuntu.
 
 * Clonar o repo graph algorithms
 
-  $ git clone https://github.com/fcbr/graph-algorithms.git
+  $ git clone https://github.com/own-pt/graph-algorithms.git
 
 * Clonar o repo cl-wnbrowser
 

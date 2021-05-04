@@ -61,7 +61,7 @@ returns the first entry in word_en."
     (if gloss-pt gloss-pt gloss-en)))
 
 
-(defun sugestion+votes (suggestion)
+(defun suggestion+votes (suggestion)
   (let*((yason:*parse-object-as* :plist)
 	(yason:*parse-object-key-fn* #'make-keyword)
 	(id (getf suggestion :|id|))
@@ -115,7 +115,7 @@ returns the first entry in word_en."
 		      :|hits|)
 		:|hits|))
 	 (suggestions (mapcar (lambda (hit) (getf hit :|_source|)) hits)))
-    (mapcar #'sugestion+votes suggestions)))
+    (mapcar #'suggestion+votes suggestions)))
 
 (defmethod get-comments ((backend (eql 'es)) id)
   (let* ((yason:*parse-object-as* :plist)
@@ -187,7 +187,7 @@ returns the first entry in word_en."
 			(gethash "action" suggestion)
 			(gethash "params" suggestion))))
     (clesc:es/delete "suggestion" "suggestion" id :refresh "wait_for")
-    (register-audit db "delete-sugestion" (gethash "doc_id" suggestion) "suggestion" value user provenance)))
+    (register-audit db "delete-suggestion" (gethash "doc_id" suggestion) "suggestion" value user provenance)))
 
 ;; audit
 (defun register-audit (db action doc-id field value user provenance)
