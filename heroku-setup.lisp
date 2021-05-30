@@ -1,7 +1,6 @@
 (in-package :cl-user)
 
 (print ">>> Building system....")
-
 (load (merge-pathnames "cl-wnbrowser.asd" *build-dir*))
 
 (ql:quickload :cl-wnbrowser)

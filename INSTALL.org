@@ -1,36 +1,8 @@
 #+Title: Instalação cl-wnbrowser
 
-* Iniciar o solr
+* The ElasticSearch
 
-Instalação SOLR 7.4.0  via
-
-https://medium.com/@Alibaba_Cloud/how-to-install-apache-solr-on-ubuntu-16-04-d3cc20eae27b
-
-solr no wnpt instalado em /opt/solr e iniciado como serviço Ubuntu.
-
-* Iniciar a own-pt-api
-
-  Se nao possui o node.js deve-se antes instala-lo para rodar o
-  comando npm:
-  https://github.com/nodejs/node-v0.x-archive/wiki/Installing-Node.js-via-package-manager
-
-  para garantir que todos os pacotes requeridos para o java script
-  estao instalados: $ npm install
-
-  roda a applicacao que ira interagir com o solr:
-
-  $ export API_KEY=<algum valor>
-  $ node app.js
-
-  verificar em https://localhost:3000 deve aparecer:
-
-  #+BEGIN_EXAMPLE
-    {
-      "version": "41-solr",
-      "has_key": false,
-      "date": "2015-10-21T13:02:32.752Z"
-    }
-  #+END_EXAMPLE
+  Using the ES from IBM Cloud...
 
 * Clonar o repo graph algorithms
 
@@ -58,10 +30,6 @@ solr no wnpt instalado em /opt/solr e iniciado como serviço Ubuntu.
   > (ql:quickload :cl-wnbrowser-bluemix)
   > (in-package :cl-wnbrowser)
   > (start-server 8040)
-
-* Expandir arquivo targz (base de dados) dentro do diretorio solr/server/solr
-
-  ?
 
 * Testing
 
