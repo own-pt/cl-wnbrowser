@@ -12,13 +12,10 @@
 ;;; set to "wnpt.brlcloud.com".
 (defparameter *base-url* "<insert FQDN for website>")
 
-;;; put the same value that you used as the API_KEY environment
-;;; variable when starting the node.js application.
-(defparameter *ownpt-api-key* "<insert key for the API web services>")
-
 ;;; configure your github application with the proper URLs and put the
 ;;; appropriate values here.  The callback URL must end on
 ;;; /wn/callback.
+;;; for production: github own-pt organization > seetings > oauth app 
 (defparameter *github-client-id* "<insert github client id>")
 (defparameter *github-client-secret* "<insert github client secret>")
 
@@ -30,3 +27,11 @@
 ;;; these are the accounts that can vote.
 (defparameter *vote-authorized-accounts*
   '("githubuser3" "githubuser4" "..."))
+
+;; databases for Elasticsearch-NLP service in the IBM Cloud (RIS-BRL)
+(defparameter *password* "<PASSWORD>")
+(defparameter *user* "admin")
+(setf clesc::*es-endpoint* "<URL>")
+
+(setf clesc::*debug-query-dsl* t)
+(setf clesc::*es-authentication* (list *user* *password*))

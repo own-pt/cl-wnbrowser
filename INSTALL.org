@@ -4,19 +4,15 @@
 
   Using the ES from IBM Cloud...
 
-* Clonar o repo graph algorithms
+* install dependencies
 
-  $ git clone https://github.com/own-pt/graph-algorithms.git
+  install quicklisp see at http://quicklisp.org
 
-* Clonar o repo cl-wnbrowser
-
-  $ git clone  https://github.com/own-pt/cl-wnbrowser.git
+  $ cd ~/quicklisp/local-projects/
+  $ git clone git@github.com:own-pt/graph-algorithms.git
+  $ git clone git@github.com:own-pt/cl-wnbrowser.git
+  $ git clone git@github.com:own-pt/clesc.git
   
-* Quicklisp
-
-  $ ln -s /path/to/cloned/repo/graph-algorithms graph-algorithms
-  $ ln -s /path/to/cloned/repo/cl-wnbrowser
-
 * Copiar secrets-template.lisp para secrets.lisp no cl-wnbrowser
 
   $ mv secrets-template.lisp secrets.lisp
@@ -27,7 +23,7 @@
 
 * Load no cl-wnbrowser e inicializacao do servidor
 
-  > (ql:quickload :cl-wnbrowser-bluemix)
+  > (ql:quickload :cl-wnbrowser)
   > (in-package :cl-wnbrowser)
   > (start-server 8040)
 
