@@ -1,8 +1,10 @@
 # README #
 
-This is CL-WNBROWSER version 3.0.  It is currently running at http://wn.mybluemix.net/
+This is CL-WNBROWSER version 3.0.  It is currently running at
+http://wn.mybluemix.net/
 
-See also the OpenWordnet-PT project: https://github.com/own-pt/openWordnet-PT
+See also the OpenWordnet-PT project:
+https://github.com/own-pt/openWordnet-PT
 
 ### How do I get set up? ###
 
@@ -16,8 +18,9 @@ See the file LICENSE for details.
 ### Starting up the web server ###
 
 * This package uses [Hunchentoot](http://weitz.de/hunchentoot/).  To
-  start the server, switch to the **`CL-WNBROWSER`** package and execute
-  **`(START-SERVER port)`**.  See that function for more details.
+  start the server, switch to the **`CL-WNBROWSER`** package and
+  execute **`(START-SERVER port)`**.  See that function for more
+  details.
 
 * It is recommended that you run Hunchentoot under a proxy.
 
