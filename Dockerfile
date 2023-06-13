@@ -28,5 +28,5 @@ COPY run2.sh .
 
 EXPOSE 8080
 
-# CMD ["bash", "run2.sh"]
-CMD "./wnb --eval '(cl-wnbrowser::start-server 8080)'"
+CMD ["bash", "run2.sh"]
+# CMD "./wnb --eval '(cl-wnbrowser::start-server 8080)'"
