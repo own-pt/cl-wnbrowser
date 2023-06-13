@@ -1,0 +1,1 @@
+./wnb --eval '(cl-wnbrowser::start-server 8080)'
