@@ -48,8 +48,7 @@
 (hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn") ()
   (hunchentoot:redirect "/"))
 
-(hunchentoot:define-easy-handler (get-root-handler-redirector :uri "/wn/") ()
-  (hunchentoot:redirect "/"))
+
 
 (hunchentoot:define-easy-handler (get-root-handler :uri "/") ()
   (cl-wnbrowser.templates:home
