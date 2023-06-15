@@ -24,9 +24,8 @@ COPY . ./cl-wnbrowser
 WORKDIR /root
 COPY .sbclrc .
 RUN sbcl --eval '(ql:quickload :cl-wnbrowser)' --eval '(sb-ext:save-lisp-and-die "wnb" :executable t)' --quit
-COPY run2.sh .
+COPY run.sh .
 
 EXPOSE 8080
 
-CMD ["bash", "run2.sh"]
-# CMD "./wnb --eval '(cl-wnbrowser::start-server 8080)'"
+CMD ["bash", "run.sh"]

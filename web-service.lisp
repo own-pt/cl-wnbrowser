@@ -357,5 +357,6 @@
   (publish-static-content *basedir*)
   (hunchentoot:start
    (make-instance 'hunchentoot:easy-acceptor
+		  :address "0.0.0.0"
 		  :access-log-destination (merge-pathnames #p"wn.log" *basedir*)
 		  :port port)))
