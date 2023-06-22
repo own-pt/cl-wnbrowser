@@ -14,10 +14,14 @@ Pré-requisitos:
 
 1. Crie um projeto no Code Engine
 2. Crie um Secret no Code Engine
-   1. Adicione as `PASSWORD` como uma variável de ambiente e preencha seu valor;
-   2. Adicione as `ES_URL` como uma variável de ambiente e preencha seu valor;
-   3. Adicione as `GITHUB_CLIENT_ID` como uma variável de ambiente e preencha seu valor;
-   4. Adicione as `GITHUB_CLIENT_SECRET` como uma variável de ambiente e preencha seu valor;
+   1. Adicione `ES_PASSWORD` como uma variável de ambiente e preencha seu valor;
+   2. Adicione `ES_URL` como uma variável de ambiente e preencha seu valor;
+   3. Adicione `ES_USER` com o usuário do ES;
+   3. Adicione `GITHUB_CLIENT_ID` como uma variável de ambiente e preencha seu valor;
+   4. Adicione `GITHUB_CLIENT_SECRET` como uma variável de ambiente e preencha seu valor;
+   5. Adicione `OWNPT_BASE_URL` com seu valor
+   6. Adicione `OWNPT_ACCOUNTS_ADMIN` com valores separados por colon
+   7. Adicione `OWNPT_ACCOUNTS_VOTE` com valores separados por colon
 3. Com o Secret criado, crie uma nova aplicação
 4. Insira o endereço da sua imagem no formulário de criação.
 5. Defina pelo menos uma instância ativa
