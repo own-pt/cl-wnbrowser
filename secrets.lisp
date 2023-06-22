@@ -1,24 +1,32 @@
+;; -*- mode: common-lisp -*-
+
+;; Copyright (c) 2015,2016 The OpenWordNet-PT project
+;; This program and the accompanying materials are made available
+;; under the terms described in the LICENSE file.
+
 (in-package :cl-wnbrowser)
 
-(defparameter *base-url* "localhost:8040")
+;;; you need to update this with the base fully qualified domain name
+;;; for your website.  In the OpenWN-PT case, since the website is
+;;; available at http://wnpt.brlcloud.com/wn/, this value should be
+;;; set to "wnpt.brlcloud.com".
+(defparameter *base-url* "<insert FQDN for website>")
 
-;; for production: github own-pt organization > seetings > oauth app 
-(defparameter *github-client-id* "19ac9046042b97f88f88")
-(defparameter *github-client-secret* "ea064ffdd1c28aebddc208b40ec04cc5ee440ca7")
+;;; put the same value that you used as the API_KEY environment
+;;; variable when starting the node.js application.
+(defparameter *ownpt-api-key* "<insert key for the API web services>")
 
-;;
+;;; configure your github application with the proper URLs and put the
+;;; appropriate values here.  The callback URL must end on
+;;; /wn/callback.
+(defparameter *github-client-id* "<insert github client id>")
+(defparameter *github-client-secret* "<insert github client secret>")
+
+;;; these are accounts that are allowed to approve or reject
+;;; suggestions regardless of their vote.
 (defparameter *approve-reject-authorized-accounts*
-  '("arademaker" "githubuser2" "..."))
+  '("githubuser1" "githubuser2" "..."))
 
+;;; these are the accounts that can vote.
 (defparameter *vote-authorized-accounts*
-  '("arademaker" "githubuser2" "..."))
-
-
-;; Databases for Elasticsearch-NLP service in the IBM Cloud (RIS-BRL)
-(defparameter *password* "cff6d76ac0361bcc518cab2de7ba9b88f667458de86fbf705516")
-(defparameter *user* "admin")
-(setf clesc::*es-endpoint*
-      "https://5325493c-3489-4c1d-a81e-5db7cbaef410.8117147f814b4b2ea643610826cd2046.databases.appdomain.cloud:31366")
-
-(setf clesc::*debug-query-dsl* t)
-(setf clesc::*es-authentication* (list *user* *password*))
+  '("githubuser3" "githubuser4" "..."))
