@@ -41,8 +41,11 @@
 ;;; suggestions regardless of their vote. The var need the values
 ;;; separated by colon
 (defparameter *approve-reject-authorized-accounts*
-  (cl-strings:split (when (null (uiop:getenv "OWNPT_ACCOUNTS_ADMIN")) "") ":"))
+  (cl-strings:split (or (uiop:getenv "OWNPT_ACCOUNTS_ADMIN") "") ":"))
 
 ;;; these are the accounts that can vote.
 (defparameter *vote-authorized-accounts*
-  (cl-strings:split (when (null (uiop:getenv "OWNPT_ACCOUNTS_VOTE")) "") ":"))
+  (cl-strings:split (or (uiop:getenv "OWNPT_ACCOUNTS_VOTE") "") ":"))
+
+
+
