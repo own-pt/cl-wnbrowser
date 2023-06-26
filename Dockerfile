@@ -18,12 +18,9 @@ RUN git clone https://github.com/own-pt/clesc
 
 COPY . ./cl-wnbrowser
 
-# RUN sbcl --eval '(ql:quickload :graph-algorithms)' --quit
-
-
 WORKDIR /root
 COPY .sbclrc .
-RUN sbcl --eval '(ql:quickload :cl-wnbrowser)' --eval '(sb-ext:save-lisp-and-die "wnb" :executable t)' --quit
+RUN sbcl --eval '(ql:quickload :cl-wnbrowser)' --quit
 COPY run.sh .
 
 EXPOSE 8080
