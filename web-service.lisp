@@ -29,8 +29,8 @@
         parameters))))
 
 (defun make-callback-uri (request-uri)
-  (let* ((redirect-uri (format nil "http://~a~a" *base-url* request-uri))
-         (callback-uri (format nil "http://~a/callback?destination=~a"
+  (let* ((redirect-uri (format nil "https://~a~a" *base-url* request-uri))
+         (callback-uri (format nil "https://~a/callback%3Fdestination=~a"
                                *base-url*
                                (hunchentoot:url-encode request-uri))))
     callback-uri))
